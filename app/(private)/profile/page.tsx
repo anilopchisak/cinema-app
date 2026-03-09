@@ -1,7 +1,11 @@
+import ProfilePage from "@/_pages/ProfilePage";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Личный кабинет | CinemaApp",
+  description: "Управление вашим профилем и настройками",
+};
+
 export default async function Profile() {
-  return (
-    <div>
-      <h1>Profile</h1>
-    </div>
-  );
+  return <ProfilePage />;
 }
