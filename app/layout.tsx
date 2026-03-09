@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import MainLayout from "@/shared/ui/layout/MainLayout";
 import { Suspense } from "react";
+import QueryProvider from "./providers";
 
 const roboto = Roboto({
   weight: ["400", "500", "700"],
@@ -40,7 +41,9 @@ export default function RootLayout({
     <html lang="ru">
       <body className={roboto.variable}>
         <MainLayout>
-          <Suspense fallback={<div>Загрузка...</div>}>{children}</Suspense>
+          <QueryProvider>
+            <Suspense fallback={<div>Загрузка...</div>}>{children}</Suspense>
+          </QueryProvider>
         </MainLayout>
       </body>
     </html>

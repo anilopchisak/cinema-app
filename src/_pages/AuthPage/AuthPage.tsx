@@ -3,60 +3,28 @@
 import Text from "@/shared/ui/Text";
 import s from "./AuthPage.module.scss";
 import AuthForm from "@/features/auth/ui/AuthForm";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import {
-  LoginFormData,
-  RegisterFormData,
-} from "@/features/auth/auth-form.types";
-
-const ERROR_MESSAGE: Record<string, string> = {
-  ValidationError: "Неверный логин или пароль.",
-  defaultLogin: "Ошибка при авторизации",
-  defaultRegister: "Ошибка при регистрации",
-};
+import { authStore } from "@/entities/auth/model/auth.store";
+import { routes } from "@/shared/config/routes";
+import { observer } from "mobx-react-lite";
+import { useAuthFormLogic } from "@/features/auth/model/hooks/useAuthFormLogic";
 
 type Props = {
   mode: "login" | "register";
 };
 
-export default function AuthPage({ mode }: Props) {
-  const [errors, setErrors] = useState<string[]>([]);
+const AuthPage = observer(({ mode }: Props) => {
   const router = useRouter();
-  const isLogin = mode === "login";
+  const { isAuthenticated } = authStore;
 
-  const mapError = (errName?: string) => {
-    if (errName && ERROR_MESSAGE[errName]) return ERROR_MESSAGE[errName];
-    return isLogin ? ERROR_MESSAGE.defaultLogin : ERROR_MESSAGE.defaultRegister;
-  };
+  const { errors, handleSubmit, isLoading } = useAuthFormLogic(mode);
 
-  const handleSubmit = async (data: LoginFormData | RegisterFormData) => {
-    setErrors([]);
-
-    // const validationErrors = isLogin
-    //   ? loginDataValidator(data as LoginFormData)
-    //   : registerDataValidator(data as RegisterFormData);
-
-    // if (validationErrors.length > 0) {
-    //   setErrors(validationErrors);
-    //   return;
-    // }
-
-    // try {
-    //   if (isLogin) {
-    //     await loginUser({ identifier: data.login, password: data.password });
-    //   } else {
-    //     const regData = data as RegisterFormData;
-    //     await registerUser({
-    //       email: regData.email,
-    //       username: regData.login,
-    //       password: regData.password,
-    //     });
-    //   }
-    // } catch (err: any) {
-    //   setErrors([mapError(err?.response?.data?.error?.name)]);
-    // }
-  };
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push(routes.profile.create());
+    }
+  }, [isAuthenticated, router]);
 
   return (
     <div className={s.container}>
@@ -66,8 +34,7 @@ export default function AuthPage({ mode }: Props) {
         mode={mode}
         onLogin={handleSubmit}
         onRegister={handleSubmit}
-        // isLoading={isPendingLogin || isPendingRegister}
-        isLoading={false}
+        isLoading={isLoading}
       />
 
       {errors.length > 0 && (
@@ -81,4 +48,6 @@ export default function AuthPage({ mode }: Props) {
       )}
     </div>
   );
-}
+});
+
+export default AuthPage;

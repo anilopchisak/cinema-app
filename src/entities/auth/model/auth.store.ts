@@ -1,4 +1,5 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable, runInAction } from "mobx";
+import Cookies from "js-cookie";
 
 class AuthStore {
   token: string | null = null;
@@ -13,22 +14,26 @@ class AuthStore {
   }
 
   initialize() {
-    const token = localStorage.getItem('token');
+    const token = Cookies.get("auth_token");
 
     runInAction(() => {
-      this.token = token;
+      this.token = token || null;
       this.isInitialized = true;
     });
   }
 
   login(token: string) {
-    localStorage.setItem('token', token);
-    this.token = token;
+    runInAction(() => {
+      this.token = token;
+      Cookies.set("auth_token", token, { expires: 7, path: "/" });
+    });
   }
 
   logout() {
-    localStorage.removeItem('token');
-    this.token = null;
+    runInAction(() => {
+      this.token = null;
+      Cookies.remove("auth_token", { path: "/" });
+    });
   }
 }
 
