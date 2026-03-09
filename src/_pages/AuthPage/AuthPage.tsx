@@ -20,7 +20,7 @@ type Props = {
   mode: "login" | "register";
 };
 
-export default function AuthPage({ mode }: { mode: "login" | "register" }) {
+export default function AuthPage({ mode }: Props) {
   const [errors, setErrors] = useState<string[]>([]);
   const router = useRouter();
   const isLogin = mode === "login";

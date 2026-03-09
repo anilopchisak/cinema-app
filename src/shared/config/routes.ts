@@ -23,8 +23,8 @@ export const routes = {
     mask: "favorites",
     create: () => "/favorites",
   },
-  account: {
-    mask: "account",
-    create: () => "/account",
+  profile: {
+    mask: "profile",
+    create: () => "/profile",
   },
 };
