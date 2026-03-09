@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Учебный проект CinemaКино на Next
 
-## Getting Started
+Сервис для поиска и просмотра фильмов.
 
-First, run the development server:
+## Оглавление
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- [Возможности](#возможности)
+- [Стек технологий](#стек-технологий)
+- [Установка](#установка)
+
+## Возможности
+
+- Просмотр списка фильмов
+- Просмотр подробной информации о фильме
+- Плеер
+- Поиск фильмов
+- Сортировка фильмов по названию
+- Фильтрация фильмов по жанрам
+- Авторизация и регистрация
+- Добавление фильмов в избранное
+
+## Стек технологий
+
+- Язык: TypeScript (версия 5.9)
+
+- UI-библиотека: React (версия 19)
+
+- Next.ts
+
+- Маршрутизация: React Router (версия 7)
+
+- Стилизация:
+  - Sass — препроцессор CSS (embedded-версия)
+
+- HTTP-клиент: fetch для запросов к API
+
+- Утилиты:
+  - classnames — условное объединение классов
+  - qs — парсинг и строгификация query-строк
+
+- Линтинг и форматирование:
+  - ESLint (версия 9) — проверка кода, используется плоская конфигурация
+
+## Установка
+
+1. Клонировать репозиторий
+
+```ts
+git clone git@github.com:anilopchisak/cinema-strapi.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Перейти в папку проекта
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```ts
+сd cinema-strapi
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Установить зависимости
 
-## Learn More
+```ts
+yarn install
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Настроить переменные окружения (создать файл .env в корне проекта и добавить туда свои ключи)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```ts
+VITE_API_TOKEN = ваш_ключ;
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. Запустить проект
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```ts
+yarn dev
+```

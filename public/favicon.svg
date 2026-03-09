@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="512" width="512">
+  <rect fill="#e50914" rx="90" height="512" width="512"></rect>
+  
+  <rect fill="white" rx="20" height="192" width="256" y="160" x="128"></rect>
+  
+  <rect fill="#e50914" height="20" width="20" y="175" x="148"></rect>
+  <rect fill="#e50914" height="20" width="20" y="175" x="344"></rect>
+  <rect fill="#e50914" height="20" width="20" y="317" x="148"></rect>
+  <rect fill="#e50914" height="20" width="20" y="317" x="344"></rect>
+  
+  <polygon fill="#e50914" points="230,215 230,297 310,256"></polygon>
+</svg></svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: none; } }
+</style></svg>
