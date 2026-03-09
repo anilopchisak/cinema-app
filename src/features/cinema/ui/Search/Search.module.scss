@@ -1,0 +1,13 @@
+.searchRow {
+  display: flex;
+  gap: 1rem;
+
+  .inputWrapper {
+    flex: 1;
+  }
+
+  .searchButton {
+    width: 117px;
+    flex-shrink: 0;
+  }
+}

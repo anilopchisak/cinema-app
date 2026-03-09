@@ -1,0 +1,9 @@
+@use '@/shared/styles/variables' as *;
+
+.filter {
+  width: 300px;
+
+  @media (max-width: $breakpoint-lg) {
+    width: 100%;
+  }
+}

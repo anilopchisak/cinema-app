@@ -1,0 +1,22 @@
+.cardActions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+  
+    > * {
+      flex: 1;
+    }
+}
+
+.rating {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+}
+  
+.duration {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+  

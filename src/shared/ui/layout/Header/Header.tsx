@@ -35,6 +35,13 @@ export default async function Header() {
           >
             Один фильм
           </NavigationLink>
+          {/* <NavigationLink
+            url="/new"
+            className={s.tabLink}
+            activeClassName={s.tabLinkActive}
+          >
+            Новинки
+          </NavigationLink> */}
         </nav>
 
         <div className={s.actions}>
