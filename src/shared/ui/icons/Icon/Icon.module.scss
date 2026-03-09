@@ -1,0 +1,15 @@
+@use '@/shared/styles/variables' as *;
+
+.icon {
+  &.primary {
+    color: $text-primary;
+  }
+
+  &.secondary {
+    color: $text-secondary;
+  }
+
+  &.accent {
+    color: $text-accent;
+  }
+}

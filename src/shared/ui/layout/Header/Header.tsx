@@ -1,26 +1,60 @@
-import Link from "next/link";
 import s from "./Header.module.scss";
-import { routes } from "@/src/shared/config/routes";
+import { routes } from "@/shared/config/routes";
+import NavigationLink from "../../NavigationLink";
+import Image from "next/image";
+import BookmarkIcon from "../../icons/BookmarkIcon/BookmarkIcon";
+import UserIcon from "../../icons/UserIcon/UserIcon";
 
-const Header = () => {
+export default async function Header() {
   return (
     <header className={s.header}>
       <div className={s.content}>
-        <Link href={routes.cinema.create()}>Логотип</Link>
+        <NavigationLink url={routes.cinema.create()} className={s.logoLink}>
+          <Image
+            className={s.logo}
+            src="/logo.png"
+            alt="Логотип"
+            width={100}
+            height={50}
+            priority
+          />
+        </NavigationLink>
 
         <nav className={s.nav}>
-          <Link href={routes.cinema.create()}>Фильмы</Link>
-          <Link href={routes.cinemaDetails.create("1")}>Один фильм</Link>
+          <NavigationLink
+            url={routes.cinema.create()}
+            className={s.tabLink}
+            activeClassName={s.tabLinkActive}
+          >
+            Фильмы
+          </NavigationLink>
+          <NavigationLink
+            url={routes.cinemaDetails.create("1")}
+            className={s.tabLink}
+            activeClassName={s.tabLinkActive}
+          >
+            Один фильм
+          </NavigationLink>
         </nav>
 
         <div className={s.actions}>
-          <Link href={routes.favorites.create()}>Избранное</Link>
-          <Link href={routes.login.create()}>Логин</Link>
-          <Link href={routes.register.create()}>Регистрация</Link>
+          <NavigationLink
+            url={routes.favorites.create()}
+            className={s.iconLink}
+            activeClassName={s.iconLinkActive}
+          >
+            <BookmarkIcon />
+          </NavigationLink>
+
+          <NavigationLink
+            url={routes.login.create()}
+            className={s.iconLink}
+            activeClassName={s.iconLinkActive}
+          >
+            <UserIcon />
+          </NavigationLink>
         </div>
       </div>
     </header>
   );
-};
-
-export default Header;
+}

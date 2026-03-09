@@ -1,10 +1,10 @@
-import type { PropsWithChildren } from 'react';
-import Container from '../Container';
-import Footer from '../Footer';
-import Header from '../Header';
-import s from './MainLayout.module.scss';
+import type { PropsWithChildren } from "react";
+import Container from "../Container";
+import Footer from "../Footer";
+import Header from "../Header";
+import s from "./MainLayout.module.scss";
 
-const MainLayout = ({ children }: PropsWithChildren) => {
+export default async function MainLayout({ children }: PropsWithChildren) {
   return (
     <div className={s.wrapper}>
       <Header />
@@ -14,6 +14,4 @@ const MainLayout = ({ children }: PropsWithChildren) => {
       <Footer />
     </div>
   );
-};
-
-export default MainLayout;
+}

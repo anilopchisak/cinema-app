@@ -1,0 +1,75 @@
+.text {
+  font-family: "Roboto";
+  font-weight: 400;
+
+  &.title {
+    font-size: 44px;
+    line-height: 48px;
+    font-weight: 700;
+  }
+
+  &.button {
+    font-size: 18px;
+    line-height: 18px;
+  }
+
+  &.p-24 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  &.p-20 {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  &.p-18 {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  &.p-16 {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  &.p-14 {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  &.normal {
+    font-weight: 400;
+  }
+
+  &.medium {
+    font-weight: 500;
+  }
+
+  &.bold {
+    font-weight: 700;
+  }
+
+  &.primary {
+    color: $text-primary;
+  }
+
+  &.secondary {
+    color: $text-secondary;
+  }
+
+  &.accent {
+    color: $text-accent;
+  }
+
+  &.inherit {
+    color: inherit;
+  }
+
+  &.multiElipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+}
