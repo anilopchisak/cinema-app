@@ -1,0 +1,57 @@
+@use '@/shared/styles/variables' as *;
+
+.input {
+  --text: #{$input-text};
+  --bg: #{$input-bg};
+  --border: #{$input-border};
+
+  width: 100%;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 14px 12px;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: $border-radius;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background-color 0.3s ease;
+
+  .field {
+    flex-grow: 1;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+    background: none;
+    font-family: 'Roboto';
+    font-size: 16px;
+    color: var(--text);
+    transition: color 0.3s ease;
+
+    &::placeholder {
+      color: $input-placeholder;
+      opacity: 1;
+    }
+  }
+
+  .after {
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+
+  &:focus-within {
+    --text: #{$input-text-focus};
+    --bg: #{$input-bg-focus};
+    --border: #{$input-border-focus};
+  }
+
+  &.disabled {
+    --text: #{$input-text-disabled};
+    --bg: #{$input-bg-disabled};
+    --border: #{$input-border-disabled};
+    cursor: not-allowed;
+  }
+}

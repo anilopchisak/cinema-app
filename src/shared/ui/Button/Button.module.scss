@@ -1,0 +1,74 @@
+@use '@/shared/styles/variables' as *;
+
+.button {
+  --text: #{$button-primary-text};
+  --bg: #{$button-primary-bg};
+  max-height: 52px;
+  padding: 17px 20px;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: var(--bg);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  &.outline {
+    --bg: #{$button-outline-bg};
+    --text: #{$button-outline-text};
+    border: solid 1px #{$button-outline-border};
+  }
+
+  &.outline-secondary {
+    --bg: #{$button-outline-bg};
+    --text: #{$button-primary-text};
+    border: solid 1px #{$button-primary-text};
+  }
+
+  &.disabled {
+    pointer-events: none;
+    --bg: #{$button-primary-bg-disabled};
+  }
+
+  &.loading {
+    justify-content: center;
+  }
+
+  &:has(.loader) {
+    &:hover {
+      --bg: #{$button-primary-bg};
+      --text: #{$button-primary-text};
+    }
+
+    &:active {
+      --bg: #{$button-primary-bg};
+      --text: #{$button-primary-text};
+    }
+  }
+
+  .loader {
+    transition: color 0.3s ease;
+    color: var(--text);
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  .text {
+    transition: color 0.3s ease;
+    color: var(--text);
+  }
+
+  &:not(:has(.loader)) {
+    &:hover {
+      --text: #{$button-primary-text-hover};
+      --bg: #{$button-primary-bg-hover};
+    }
+
+    &:active {
+      --text: #{$button-primary-text-active};
+      --bg: #{$button-primary-bg-active};
+    }
+  }
+}

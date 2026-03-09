@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import MainLayout from "@/shared/ui/layout/MainLayout";
+import { Suspense } from "react";
 
 const roboto = Roboto({
   weight: ["400", "500", "700"],
@@ -38,7 +39,9 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={roboto.variable}>
-        <MainLayout>{children}</MainLayout>
+        <MainLayout>
+          <Suspense fallback={<div>Загрузка...</div>}>{children}</Suspense>
+        </MainLayout>
       </body>
     </html>
   );

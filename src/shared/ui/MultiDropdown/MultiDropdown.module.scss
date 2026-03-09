@@ -1,0 +1,47 @@
+@use '@/shared/styles/variables' as *;
+
+.multiDropdown {
+  position: relative;
+  width: 100%;
+
+  .field {
+    width: 100%;
+  }
+
+  .options {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: calc(100% + 8px);
+    background-color: $dropdown-options-bg;
+    box-shadow: $shadow;
+    border-radius: $border-radius;
+    z-index: 10;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .option {
+    cursor: pointer;
+    padding: $space-s $space-xs;
+    color: $text-primary;
+    transition: color 0.3s ease;
+    display: block;
+    appearance: none;
+    border: none;
+    outline: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+
+    &:hover {
+      color: $text-secondary;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,57 @@
+@use '@/shared/styles/variables' as *;
+
+.checkbox {
+  --bg: #{$checkbox-bg};
+  --check: #{$checkbox-check};
+  --border: #{$checkbox-border};
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+
+  .check {
+    position: absolute;
+    inset: -1px;
+    width: 40px;
+    height: 40px;
+    color: var(--check);
+    opacity: 0;
+    transition:
+      opacity 0.3s ease,
+      color 0.3s ease;
+  }
+
+  .controller {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked ~ .check {
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    --bg: #{$checkbox-bg-hover};
+    --check: #{$checkbox-check-hover};
+    --border: #{$checkbox-border-hover};
+  }
+
+  &.disabled {
+    pointer-events: none;
+    --bg: #{$checkbox-bg-disabled};
+    --check: #{$checkbox-check-disabled};
+    --border: #{$checkbox-border-disabled};
+  }
+}
