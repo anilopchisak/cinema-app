@@ -1,4 +1,4 @@
-import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { dehydrate, QueryClient, InfiniteData } from '@tanstack/react-query'; // Add InfiniteData import if missing
 import cinemaApi from '../cinema.api';
 import { CINEMA_ENDPOINTS } from '../cinema.endpoints';
 import { DEFAULT_PAGE_SIZE } from '@/shared/consts/api.consts';
@@ -12,8 +12,8 @@ export async function prefetchCinema(params?: any, initialPageCount = 1) {
   await queryClient.prefetchInfiniteQuery<
     ResponseData<Film[]>,
     Error,
-    ResponseData<Film[]>,
-    any[],
+    InfiniteData<ResponseData<Film[]>, number>,
+    typeof queryKey,
     number
   >({
     queryKey,
@@ -35,7 +35,7 @@ export async function prefetchCinema(params?: any, initialPageCount = 1) {
         },
       });
     },
-    getNextPageParam: (lastPage, allPages) => {
+    getNextPageParam: (lastPage: ResponseData<Film[]>, allPages: ResponseData<Film[]>[]) => {
       const totalFetchedItems = allPages.reduce((acc, page) => {
         const items = Array.isArray(page?.data) ? page.data.length : 0;
         return acc + items;
