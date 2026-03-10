@@ -10,12 +10,15 @@ import useFavoritesState from '@/entities/favorites/api/hooks/useFavoritesState'
 import useSyncCinemaPage from '@/entities/cinema/hooks/useSyncCinemaPage';
 import useScrollRestoration from '@/shared/hooks/useScrollRestoration';
 import CinemaFilters from '../CinemaFilters';
+import useCinemaQueryString from '@/entities/cinema/hooks/useCinemaQueryString';
 
 export default function CinemaContent({ initialParams }: { initialParams: any }) {
   const isAuthenticated = authStore.isAuthenticated;
 
   const { params, setSearch, setCategory, setSort, setPage, apiParams } =
     useCinemaParams(initialParams);
+
+  useCinemaQueryString(params);
 
   const query = useCinemaState(apiParams, params.page);
   const queryFavorites = useFavoritesState({ isAuthenticated });

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { computeApiParams } from '../lib/computeApiParams';
 import { getCinemaParams } from '../lib/getCinemaParams';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -32,85 +32,23 @@ export const useCinemaParams = (initialParams: ReturnType<typeof getCinemaParams
   const pathname = usePathname();
   const router = useRouter();
 
-  const params = useMemo(() => {
-    const urlParams = Object.fromEntries(searchParams.entries());
-    return getCinemaParams(urlParams);
-  }, [searchParams]);
+  const [params, setParams] = useState<CinemaParams>(() => initialParams);
 
-  const updateUrl = useCallback(
-    (newParams: Partial<CinemaParams>) => {
-      const nextParams = new URLSearchParams(searchParams.toString());
+  const setSearch = useCallback((search: string) => {
+    setParams((prev) => ({ ...prev, search, page: 1 }));
+  }, []);
 
-      Object.entries(newParams).forEach(([key, value]) => {
-        if (key === 'category' && Array.isArray(value)) {
-          if (value.length) {
-            nextParams.set(key, value.join(','));
-          } else {
-            nextParams.delete(key);
-          }
-          return;
-        }
+  const setCategory = useCallback((category: string[]) => {
+    setParams((prev) => ({ ...prev, category, page: 1 }));
+  }, []);
 
-        if (key === 'sort' && value === 'default') {
-          nextParams.delete('sort');
-          return;
-        }
+  const setSort = useCallback((sort: string) => {
+    setParams((prev) => ({ ...prev, sort, page: 1 }));
+  }, []);
 
-        if (key === 'page' && Number(value) === 1) {
-          nextParams.delete('page');
-          return;
-        }
-
-        if (value !== undefined && value !== null && value !== '') {
-          nextParams.set(key, value.toString());
-        } else {
-          nextParams.delete(key);
-        }
-      });
-
-      const nextQuery = nextParams.toString();
-      const currentQuery = searchParams.toString();
-
-      if (nextQuery === currentQuery) return;
-
-      const url = nextQuery ? `${pathname}?${nextQuery}` : pathname;
-
-      router.replace(url, { scroll: false });
-    },
-    [searchParams, pathname, router]
-  );
-
-  const setSearch = useCallback(
-    (search: string) => {
-      console.log('setSearch', search);
-      updateUrl({ search, page: 1 });
-    },
-    [updateUrl]
-  );
-
-  const setCategory = useCallback(
-    (category: string[]) => {
-      console.log('setCategory', category);
-      updateUrl({ category, page: 1 });
-    },
-    [updateUrl]
-  );
-
-  const setSort = useCallback(
-    (sort: string) => {
-      console.log('setSort', sort);
-      updateUrl({ sort, page: 1 });
-    },
-    [updateUrl]
-  );
-
-  const setPage = useCallback(
-    (page: number) => {
-      console.log('setPage', page);
-      updateUrl({ page });
-    },
-    [updateUrl]
-  );
+  const setPage = useCallback((page: number) => {
+    setParams((prev) => ({ ...prev, page }));
+  }, []);
 
   /** Вычисление параметров для API на основе текущих params. */
   const apiParams = useMemo(() => computeApiParams(params), [params]);

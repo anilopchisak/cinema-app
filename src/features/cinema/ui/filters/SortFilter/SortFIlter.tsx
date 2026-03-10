@@ -40,7 +40,6 @@ const SortFilter = ({ initSort, onSortChange }: CinemaFiltersProps) => {
   }, [onSortChange]);
 
   useEffect(() => {
-    if (!isInitialized.current) return;
     debouncedUpdate(selected);
     return () => {
       debouncedUpdate.cancel();
