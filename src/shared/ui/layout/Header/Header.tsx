@@ -1,9 +1,9 @@
-import s from "./Header.module.scss";
-import { routes } from "@/shared/config/routes";
-import NavigationLink from "../../NavigationLink";
-import Image from "next/image";
-import BookmarkIcon from "../../icons/BookmarkIcon/BookmarkIcon";
-import UserIcon from "../../icons/UserIcon/UserIcon";
+import s from './Header.module.scss';
+import { routes } from '@/shared/config/routes';
+import NavigationLink from '../../NavigationLink';
+import Image from 'next/image';
+import BookmarkIcon from '../../icons/BookmarkIcon/BookmarkIcon';
+import UserIcon from '../../icons/UserIcon/UserIcon';
 
 export default async function Header() {
   return (
@@ -29,19 +29,15 @@ export default async function Header() {
             Фильмы
           </NavigationLink>
           <NavigationLink
-            url={routes.cinemaDetails.create("1")}
+            url={routes.cinemaDetails.create('1')}
             className={s.tabLink}
             activeClassName={s.tabLinkActive}
           >
             Один фильм
           </NavigationLink>
-          {/* <NavigationLink
-            url="/new"
-            className={s.tabLink}
-            activeClassName={s.tabLinkActive}
-          >
+          <NavigationLink url="/new" className={s.tabLink} activeClassName={s.tabLinkActive}>
             Новинки
-          </NavigationLink> */}
+          </NavigationLink>
         </nav>
 
         <div className={s.actions}>
