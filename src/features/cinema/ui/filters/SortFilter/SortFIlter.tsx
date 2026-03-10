@@ -1,6 +1,8 @@
+'use client';
+
 import MultiDropdown, { type Option } from '@/shared/ui/MultiDropdown';
 import s from '../Filter.module.scss';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { debounce } from 'lodash';
 
 interface CinemaFiltersProps {
@@ -16,24 +18,18 @@ const SORT: Option[] = [
 
 const SortFilter = ({ initSort, onSortChange }: CinemaFiltersProps) => {
   const [selected, setSelected] = useState<Option[]>([{ key: 'default', value: 'По умолчанию' }]);
-  const isFirstRender = useRef(true);
+  const isInitialized = useRef(false);
 
   const getDropdownTitle = (selected: Option[]) => {
     if (selected.length === 0) return 'Сортировка';
     return selected.map((item) => item.value).join(', ');
   };
 
-  // useEffect(() => {
-  //   if (!isInitialized.current && initSort) {
-  //     const option = SORT.filter((item) => item.key === initSort);
-  //     setSelected(option);
-  //     isInitialized.current = true;
-  //   }
-  // }, [initSort]);
   useEffect(() => {
-    if (initSort) {
+    if (!isInitialized.current && initSort) {
       const option = SORT.filter((item) => item.key === initSort);
-      setSelected(option.length ? option : [SORT[0]]);
+      setSelected(option);
+      isInitialized.current = true;
     }
   }, [initSort]);
 
@@ -43,22 +39,9 @@ const SortFilter = ({ initSort, onSortChange }: CinemaFiltersProps) => {
     }, 300);
   }, [onSortChange]);
 
-  // useEffect(() => {
-  //   debouncedUpdate(selected);
-  //   return () => {
-  //     debouncedUpdate.cancel();
-  //   };
-  // }, [selected, debouncedUpdate]);
-
   useEffect(() => {
-    // пропускаем первый рендер
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-
+    if (!isInitialized.current) return;
     debouncedUpdate(selected);
-
     return () => {
       debouncedUpdate.cancel();
     };

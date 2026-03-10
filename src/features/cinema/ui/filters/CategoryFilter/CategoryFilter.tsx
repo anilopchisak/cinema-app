@@ -1,3 +1,5 @@
+'use client';
+
 import MultiDropdown, { type Option } from '@/shared/ui/MultiDropdown';
 import s from '../Filter.module.scss';
 import { useEffect, useMemo, useState } from 'react';

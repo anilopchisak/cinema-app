@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import Input from "@/shared/ui/Input";
-import s from "./Search.module.scss";
-import Button from "@/shared/ui/Button";
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import Input from '@/shared/ui/Input';
+import s from './Search.module.scss';
+import Button from '@/shared/ui/Button';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 
 type SearchProps = {
   /** Начальное значение при загрузке страницы */
@@ -14,11 +14,11 @@ type SearchProps = {
 
 /** Поисковая строка */
 const Search = ({ initSearch, onSearch }: SearchProps) => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const isInitialized = useRef(false);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       onSearch(search);
     }
@@ -29,7 +29,7 @@ const Search = ({ initSearch, onSearch }: SearchProps) => {
       setSearch(initSearch);
       isInitialized.current = true;
     }
-  }, [initSearch]);
+  }, [initSearch, search]);
 
   return (
     <div className={s.searchRow}>

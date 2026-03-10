@@ -32,10 +32,6 @@ export const useCinemaParams = (initialParams: ReturnType<typeof getCinemaParams
   const pathname = usePathname();
   const router = useRouter();
 
-  // const params = useMemo(() => {
-  //   return initialParams;
-  // }, [initialParams]);
-
   const params = useMemo(() => {
     const urlParams = Object.fromEntries(searchParams.entries());
     return getCinemaParams(urlParams);
