@@ -28,13 +28,13 @@ export default async function Header() {
           >
             Фильмы
           </NavigationLink>
-          <NavigationLink
+          {/* <NavigationLink
             url={routes.cinemaDetails.create('1')}
             className={s.tabLink}
             activeClassName={s.tabLinkActive}
           >
             Один фильм
-          </NavigationLink>
+          </NavigationLink> */}
           <NavigationLink url="/new" className={s.tabLink} activeClassName={s.tabLinkActive}>
             Новинки
           </NavigationLink>
