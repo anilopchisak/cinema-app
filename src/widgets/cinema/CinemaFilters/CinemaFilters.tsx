@@ -1,13 +1,19 @@
 'use client';
 
-import { useCinemaParams } from '@/entities/cinema/hooks/useCinemaParams';
 import CategoryFilter from '@/features/cinema/ui/filters/CategoryFilter';
 import SortFilter from '@/features/cinema/ui/filters/SortFilter';
 import Search from '@/features/cinema/ui/Search';
 import s from './CinemaFilters.module.scss';
 
 type Props = {
-  initialParams: any;
+  params: {
+    search: string;
+    category: string[];
+    sort: string;
+  };
+  setSearch: (search: string) => void;
+  setSort: (sort: string) => void;
+  setCategory: (category: string[]) => void;
 };
 
 /**
@@ -15,9 +21,7 @@ type Props = {
  * Содержит поле поиска, фильтр по категориям и выбор сортировки.
  * Получает текущие значения через props и уведомляет родителя об изменениях.
  */
-export default function CinemaFilters({ initialParams }: Props) {
-  const { params, setSearch, setCategory, setSort } = useCinemaParams(initialParams);
-
+export default function CinemaFilters({ params, setSearch, setSort, setCategory }: Props) {
   return (
     <div className={s.container}>
       <Search onSearch={setSearch} initSearch={params.search} />

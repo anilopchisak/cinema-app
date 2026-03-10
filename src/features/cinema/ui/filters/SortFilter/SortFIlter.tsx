@@ -1,7 +1,7 @@
-import MultiDropdown, { type Option } from "@/shared/ui/MultiDropdown";
-import s from "../Filter.module.scss";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { debounce } from "lodash";
+import MultiDropdown, { type Option } from '@/shared/ui/MultiDropdown';
+import s from '../Filter.module.scss';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { debounce } from 'lodash';
 
 interface CinemaFiltersProps {
   initSort: string | null;
@@ -9,27 +9,31 @@ interface CinemaFiltersProps {
 }
 
 const SORT: Option[] = [
-  { key: "default", value: "По умолчанию" },
-  { key: "title:asc", value: "По названию А -> Я" },
-  { key: "title:desc", value: "По названию Я -> А" },
+  { key: 'default', value: 'По умолчанию' },
+  { key: 'title:asc', value: 'По названию А -> Я' },
+  { key: 'title:desc', value: 'По названию Я -> А' },
 ];
 
 const SortFilter = ({ initSort, onSortChange }: CinemaFiltersProps) => {
-  const [selected, setSelected] = useState<Option[]>([
-    { key: "default", value: "По умолчанию" },
-  ]);
-  const isInitialized = useRef(false);
+  const [selected, setSelected] = useState<Option[]>([{ key: 'default', value: 'По умолчанию' }]);
+  const isFirstRender = useRef(true);
 
   const getDropdownTitle = (selected: Option[]) => {
-    if (selected.length === 0) return "Сортировка";
-    return selected.map((item) => item.value).join(", ");
+    if (selected.length === 0) return 'Сортировка';
+    return selected.map((item) => item.value).join(', ');
   };
 
+  // useEffect(() => {
+  //   if (!isInitialized.current && initSort) {
+  //     const option = SORT.filter((item) => item.key === initSort);
+  //     setSelected(option);
+  //     isInitialized.current = true;
+  //   }
+  // }, [initSort]);
   useEffect(() => {
-    if (!isInitialized.current && initSort) {
+    if (initSort) {
       const option = SORT.filter((item) => item.key === initSort);
-      setSelected(option);
-      isInitialized.current = true;
+      setSelected(option.length ? option : [SORT[0]]);
     }
   }, [initSort]);
 
@@ -39,8 +43,22 @@ const SortFilter = ({ initSort, onSortChange }: CinemaFiltersProps) => {
     }, 300);
   }, [onSortChange]);
 
+  // useEffect(() => {
+  //   debouncedUpdate(selected);
+  //   return () => {
+  //     debouncedUpdate.cancel();
+  //   };
+  // }, [selected, debouncedUpdate]);
+
   useEffect(() => {
+    // пропускаем первый рендер
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     debouncedUpdate(selected);
+
     return () => {
       debouncedUpdate.cancel();
     };

@@ -32,10 +32,14 @@ export const useCinemaParams = (initialParams: ReturnType<typeof getCinemaParams
   const pathname = usePathname();
   const router = useRouter();
 
-  // Вычисляем текущие параметры напрямую из URL без useState
+  // const params = useMemo(() => {
+  //   return initialParams;
+  // }, [initialParams]);
+
   const params = useMemo(() => {
-    return initialParams;
-  }, [initialParams]);
+    const urlParams = Object.fromEntries(searchParams.entries());
+    return getCinemaParams(urlParams);
+  }, [searchParams]);
 
   const updateUrl = useCallback(
     (newParams: Partial<CinemaParams>) => {
@@ -48,20 +52,41 @@ export const useCinemaParams = (initialParams: ReturnType<typeof getCinemaParams
           } else {
             nextParams.delete(key);
           }
-        } else if (value) {
+          return;
+        }
+
+        if (key === 'sort' && value === 'default') {
+          nextParams.delete('sort');
+          return;
+        }
+
+        if (key === 'page' && Number(value) === 1) {
+          nextParams.delete('page');
+          return;
+        }
+
+        if (value !== undefined && value !== null && value !== '') {
           nextParams.set(key, value.toString());
         } else {
           nextParams.delete(key);
         }
       });
 
-      router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+      const nextQuery = nextParams.toString();
+      const currentQuery = searchParams.toString();
+
+      if (nextQuery === currentQuery) return;
+
+      const url = nextQuery ? `${pathname}?${nextQuery}` : pathname;
+
+      router.replace(url, { scroll: false });
     },
     [searchParams, pathname, router]
   );
 
   const setSearch = useCallback(
     (search: string) => {
+      console.log('setSearch', search);
       updateUrl({ search, page: 1 });
     },
     [updateUrl]
@@ -69,6 +94,7 @@ export const useCinemaParams = (initialParams: ReturnType<typeof getCinemaParams
 
   const setCategory = useCallback(
     (category: string[]) => {
+      console.log('setCategory', category);
       updateUrl({ category, page: 1 });
     },
     [updateUrl]
@@ -76,6 +102,7 @@ export const useCinemaParams = (initialParams: ReturnType<typeof getCinemaParams
 
   const setSort = useCallback(
     (sort: string) => {
+      console.log('setSort', sort);
       updateUrl({ sort, page: 1 });
     },
     [updateUrl]
@@ -83,6 +110,7 @@ export const useCinemaParams = (initialParams: ReturnType<typeof getCinemaParams
 
   const setPage = useCallback(
     (page: number) => {
+      console.log('setPage', page);
       updateUrl({ page });
     },
     [updateUrl]
