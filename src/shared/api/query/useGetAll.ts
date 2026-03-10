@@ -1,6 +1,6 @@
 import { useQuery, type QueryKey } from '@tanstack/react-query';
 import type { ApiService } from '../service/api-service.types';
-import type { PaginationResponse, ResponseData } from '../api.types';
+import type { ResponseData } from '../api.types';
 import type { TransformedData } from './useGetAllInfinite';
 
 interface QueryProps<TEntity, TParams = unknown> {
@@ -17,20 +17,17 @@ export const useGetAll = <TEntity, TParams = unknown>(config: QueryProps<TEntity
     queryKey: [...queryKey, params],
     queryFn: ({ signal }) => service.getAll(signal, params),
     select: (response) => {
-      const raw: any = response.data;
-
-      if (!Array.isArray(raw)) {
-        const pagination = (raw as { meta?: { pagination?: PaginationResponse } }).meta?.pagination;
-
-        return {
-          items: raw.data ?? [],
-          pagination: pagination ?? null,
-        };
+      let items: TEntity[] = [];
+      if (Array.isArray(response)) {
+        items = response;
+      } else if (response?.data && Array.isArray(response.data)) {
+        items = response.data;
       }
+      const pagination = response?.meta?.pagination ?? null;
 
       return {
-        items: raw as TEntity[],
-        pagination: null,
+        items,
+        pagination,
       };
     },
     ...options,

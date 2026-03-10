@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export function proxy(request: NextRequest) {
-  // console.log("Middleware trigger on:", request.nextUrl.pathname);
   const authToken = request.cookies.get('auth_token')?.value;
 
   const { pathname } = request.nextUrl;

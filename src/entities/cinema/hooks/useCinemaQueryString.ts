@@ -13,7 +13,6 @@ import { useUpdateQuery } from './useUpdateQueryString';
 const useCinemaQueryString = (params: CinemaParams) => {
   const updateQuery = useUpdateQuery();
   useEffect(() => {
-    console.log('Updating query string with params:', params);
     const newParams: Record<string, string | number | string[] | undefined> = {};
     if (params.search) {
       newParams.search = params.search;

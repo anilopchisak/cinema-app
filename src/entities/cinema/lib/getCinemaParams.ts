@@ -1,7 +1,6 @@
 import { computeApiParams } from './computeApiParams';
 
 export const getCinemaParams = (searchParams: { [key: string]: string | string[] | undefined }) => {
-  console.log('getCinemaParams', searchParams);
   const search = typeof searchParams.search === 'string' ? searchParams.search : '';
 
   const sort = typeof searchParams.sort === 'string' ? searchParams.sort : 'default';

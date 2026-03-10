@@ -1,34 +1,33 @@
-import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-import "./globals.css";
-import MainLayout from "@/shared/ui/layout/MainLayout";
-import { Suspense } from "react";
-import QueryProvider from "./providers";
+import type { Metadata } from 'next';
+import { Roboto } from 'next/font/google';
+import './globals.css';
+import MainLayout from '@/shared/ui/layout/MainLayout';
+import { Suspense } from 'react';
+import QueryProvider from './query-provider';
+import { StoreProvider } from './store-provider';
 
 const roboto = Roboto({
-  weight: ["400", "500", "700"],
-  subsets: ["latin", "cyrillic"],
-  display: "swap",
-  variable: "--font-roboto",
+  weight: ['400', '500', '700'],
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+  variable: '--font-roboto',
 });
 
 export const metadata: Metadata = {
-  title: "CinemaКино",
+  title: 'CinemaКино',
   icons: {
     icon: [
-      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", type: "image/x-icon", rel: "shortcut icon" },
+      { url: '/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', type: 'image/x-icon', rel: 'shortcut icon' },
     ],
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
-  manifest: "/site.webmanifest",
+  manifest: '/site.webmanifest',
   appleWebApp: {
-    title: "CinemaКино",
+    title: 'CinemaКино',
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: 'default',
   },
 };
 
@@ -42,7 +41,9 @@ export default function RootLayout({
       <body className={roboto.variable}>
         <MainLayout>
           <QueryProvider>
-            <Suspense fallback={<div>Загрузка...</div>}>{children}</Suspense>
+            <StoreProvider>
+              <Suspense fallback={<div>Загрузка...</div>}>{children}</Suspense>
+            </StoreProvider>
           </QueryProvider>
         </MainLayout>
       </body>

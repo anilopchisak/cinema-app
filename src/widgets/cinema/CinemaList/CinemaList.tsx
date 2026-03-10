@@ -17,8 +17,6 @@ import type { FavoriteFilm } from '@/entities/favorites/types/favorites.types';
 import useFilmsWithFavorites from '@/entities/cinema/model/useFilmsWithFavorites';
 import useToggleFavorite from '@/features/favorites/hooks/useToggleFavorite';
 import { useRouter } from 'next/navigation';
-import useScrollRestoration from '@/shared/hooks/useScrollRestoration';
-import useSyncCinemaPage from '@/entities/cinema/hooks/useSyncCinemaPage';
 
 type CinemaListProps = {
   queryFilms: UseInfiniteQueryResult<TransformedData<Film>>;

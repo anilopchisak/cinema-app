@@ -5,11 +5,7 @@ import useRemoveFavorite from '@/entities/favorites/api/hooks/useRemoveFavorite'
 import React, { useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
-interface UseToggleFavorite {
-  isAuthenticated: boolean;
-}
-
-const useToggleFavorite = ({ isAuthenticated }: UseToggleFavorite) => {
+const useToggleFavorite = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   const router = useRouter();
   const { mutate: addFavorite } = useAddFavorite();
   const { mutate: removeFavorite } = useRemoveFavorite();

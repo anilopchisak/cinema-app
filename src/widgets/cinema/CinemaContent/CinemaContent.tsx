@@ -11,8 +11,9 @@ import useSyncCinemaPage from '@/entities/cinema/hooks/useSyncCinemaPage';
 import useScrollRestoration from '@/shared/hooks/useScrollRestoration';
 import CinemaFilters from '../CinemaFilters';
 import useCinemaQueryString from '@/entities/cinema/hooks/useCinemaQueryString';
+import { observer } from 'mobx-react-lite';
 
-export default function CinemaContent({ initialParams }: { initialParams: any }) {
+const CinemaContent = observer(({ initialParams }: { initialParams: any }) => {
   const isAuthenticated = authStore.isAuthenticated;
 
   const { params, setSearch, setCategory, setSort, setPage, apiParams } =
@@ -46,4 +47,6 @@ export default function CinemaContent({ initialParams }: { initialParams: any })
       </Suspense>
     </>
   );
-}
+});
+
+export default CinemaContent;
