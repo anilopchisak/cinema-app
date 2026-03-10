@@ -1,0 +1,42 @@
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 35px;
+}
+
+.filmsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 360px));
+  gap: 30px 80px;
+  justify-content: center;
+}
+
+.cardActions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.observer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.rating {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+.duration {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
