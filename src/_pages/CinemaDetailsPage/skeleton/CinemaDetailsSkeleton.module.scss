@@ -1,0 +1,70 @@
+@use '@/shared/styles/variables' as *;
+
+.backButton {
+  width: 160px;
+  height: 32px;
+  border-radius: $border-radius;
+  margin-bottom: 32px;
+  @include skeleton;
+}
+
+.video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  @include skeleton;
+
+  .videoLoader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  width: 70%;
+  height: 32px;
+  border-radius: 8px;
+  @include skeleton;
+}
+
+.rating {
+  width: 72px;
+  height: 32px;
+  border-radius: $border-radius;
+  @include skeleton;
+}
+
+.meta {
+  width: 60%;
+  height: 20px;
+  border-radius: 8px;
+  @include skeleton;
+}
+
+.description {
+  width: 100%;
+  height: 16px;
+  border-radius: 8px;
+  @include skeleton;
+
+  &:nth-child(3) {
+    width: 90%;
+  }
+
+  &:nth-child(4) {
+    width: 80%;
+  }
+}
+
