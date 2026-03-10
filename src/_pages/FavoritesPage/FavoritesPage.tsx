@@ -16,7 +16,7 @@ const FavoritesContent = observer(() => {
   const router = useRouter();
   const isAuthenticated = authStore.isAuthenticated;
 
-  const { data, isError, isLoading } = useFavoritesState();
+  const { data, isError, isLoading } = useFavoritesState({ isAuthenticated });
 
   const toggleFavorite = useToggleFavorite({ isAuthenticated });
 
