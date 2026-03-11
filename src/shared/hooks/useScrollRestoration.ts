@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 
 type ScrollRestorationProps = {
   /** Ключ, по которому в sessionStorage будет доступно положение скролла */
@@ -62,6 +62,14 @@ const useScrollRestoration = ({
     };
   }, [enabled, isReadyToRestore, storageKey]);
 
+  useLayoutEffect(() => {
+    if (!enabled) return;
+
+    return () => {
+      sessionStorage.setItem(storageKey, String(window.scrollY));
+    };
+  });
+
   /** Сохранение скролла перед уходом со страницы */
   useEffect(() => {
     if (!enabled) return;
@@ -71,9 +79,8 @@ const useScrollRestoration = ({
       sessionStorage.setItem(storageKey, String(window.scrollY));
     };
 
-    // Подписываемся на событие beforeunload — оно срабатывает при перезагрузке или закрытии страницы.
-    // [] - сейчас сохраняется даже если мы походили по разным роутам
-    // [] - доделать? сохранение только если перезагрузка или предыдущая страница /cinema/:documentId
+    // Подписываемся на событие beforeunload — оно срабатывает при
+    //  перезагрузке или закрытии страницы.
     window.addEventListener('beforeunload', saveScrollPosition);
 
     return () => {

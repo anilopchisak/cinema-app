@@ -9,7 +9,6 @@ import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
 
 interface CinemaFiltersProps {
   initCategories: string[];
-  // onCategoryChange: (categories: string[]) => void;
 }
 
 /** Фильтр по жанру фильма */
@@ -34,6 +33,23 @@ const CategoryFilter = ({ initCategories }: CinemaFiltersProps) => {
       value: item.title,
     }));
   }, [data]);
+
+  useEffect(() => {
+    if (!categoryOptions.length) return;
+    if (!initCategories.length) return;
+
+    const initSelected = categoryOptions.filter((option) =>
+      initCategories.includes(String(option.key))
+    );
+
+    setSelected((prev) => {
+      const prevKeys = prev.map((o) => o.key).join(',');
+      const nextKeys = initSelected.map((o) => o.key).join(',');
+
+      if (prevKeys === nextKeys) return prev;
+      return initSelected;
+    });
+  }, [categoryOptions, initCategories]);
 
   /**
    * Формирует заголовок дропдауна в зависимости от выбранных опций.
