@@ -19,7 +19,8 @@ const CategoryFilter = ({ initCategories }: CinemaFiltersProps) => {
   const [selected, setSelected] = useState<Option[]>([]);
 
   /* Загружаем категории с бесконечной пагинацией.
-   * Запрос выполняется только когда дропдаун открыт или уже есть выбранные категории (чтобы подгрузить их названия)
+   * Запрос выполняется только когда дропдаун открыт
+   * или уже есть выбранные категории (чтобы подгрузить их названия)
    */
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useFimCategoryState({
     enabled: isCategoryOpened || initCategories.length > 0,
@@ -77,7 +78,7 @@ const CategoryFilter = ({ initCategories }: CinemaFiltersProps) => {
     [onCategoryChange]
   );
 
-  /** Обновление параметров - ЗАКОММЕНТИРОВАТЬ ДЛЯ ТЕСТОВ */
+  /** Обновление параметров */
   useEffect(() => {
     debouncedUpdate(selected);
     return () => {

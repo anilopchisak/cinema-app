@@ -24,7 +24,6 @@ const Search = ({ initSearch }: SearchProps) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      //  - ЗАКОММЕНТИРОВАТЬ ДЛЯ ТЕСТОВ
       onSearch();
     }
   };

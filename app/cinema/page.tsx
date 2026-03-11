@@ -13,14 +13,11 @@ export default async function Cinema({ searchParams }: Props) {
 
   const params = getCinemaParams(resolvedSearchParams);
 
-  // удаление странички при изменени фильтра
-  // поймать перерендер
   const dehydratedState = await prefetchCinema(params.apiParams, params.rawParams.page);
 
   return (
     <div>
       <CinemaIntro />
-
       <HydrationBoundary state={dehydratedState}>
         <CinemaContent rawParams={params.rawParams} apiParams={params.apiParams} />
       </HydrationBoundary>

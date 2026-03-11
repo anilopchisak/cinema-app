@@ -43,7 +43,7 @@ const SortFilter = ({ initSort }: CinemaFiltersProps) => {
     [onSortChange]
   );
 
-  /** Обновление параметров - ЗАКОММЕНТИРОВАТЬ ДЛЯ ТЕСТОВ */
+  /** Обновление параметров */
   useEffect(() => {
     debouncedUpdate(selected);
     return () => {

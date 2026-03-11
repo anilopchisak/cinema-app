@@ -1,7 +1,6 @@
 'use client';
 
 import { authStore } from '@/entities/auth/model/auth.store';
-// import { useCinemaParams } from '@/entities/cinema/hooks/useCinemaParams';
 import { Suspense } from 'react';
 import CinemaListSkeleton from '../CinemaList/skeleton';
 import CinemaList from '../CinemaList/CinemaList';
@@ -10,19 +9,16 @@ import useFavoritesState from '@/entities/favorites/api/hooks/useFavoritesState'
 import useSyncCinemaPage from '@/entities/cinema/hooks/useSyncCinemaPage';
 import useScrollRestoration from '@/shared/hooks/useScrollRestoration';
 import CinemaFilters from '../CinemaFilters';
-// import useCinemaQueryString from '@/entities/cinema/hooks/useCinemaQueryString';
 import { observer } from 'mobx-react-lite';
-import useCinemaParams from '@/entities/cinema/hooks/test/useCinemaParams';
+import { getCinemaParams } from '@/entities/cinema/lib/getCinemaParams';
 
 type Props = {
-  rawParams: ReturnType<typeof useCinemaParams>['rawParams'];
-  apiParams: ReturnType<typeof useCinemaParams>['apiParams'];
+  rawParams: ReturnType<typeof getCinemaParams>['rawParams'];
+  apiParams: ReturnType<typeof getCinemaParams>['apiParams'];
 };
 
 const CinemaContent = observer(({ rawParams, apiParams }: Props) => {
   const isAuthenticated = authStore.isAuthenticated;
-
-  // const { rawParams, apiParams } = useCinemaParams();
 
   const query = useCinemaState(apiParams, rawParams.page);
   const queryFavorites = useFavoritesState({ isAuthenticated });
@@ -35,6 +31,7 @@ const CinemaContent = observer(({ rawParams, apiParams }: Props) => {
     isReadyToRestore,
   });
 
+  /** Синхронизация страницы с URL */
   useSyncCinemaPage({ data: query.data, currentPage: rawParams.page });
 
   return (

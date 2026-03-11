@@ -1,4 +1,4 @@
-import type { CinemaParams } from '../hooks/useCinemaParams';
+import { RawParams } from '../types/cinema.types';
 
 /** Словарь для преобразования параметров фильтрации к формату параметров запроса */
 const FILTER_MAP: Record<string, (val: string | string[]) => object> = {
@@ -21,12 +21,12 @@ const SORT_RULE = (val: string): string | undefined => {
 };
 
 /** Вычисляет параметры для API на основе текущих params. */
-export const computeApiParams = (params: Pick<CinemaParams, 'search' | 'category' | 'sort'>) => {
+export const computeApiParams = (params: RawParams) => {
   const filters: Record<string, any> = {};
 
   // Применяем фильтры
   Object.entries(FILTER_MAP).forEach(([key, builder]) => {
-    const value = (params as any)[key as keyof CinemaParams];
+    const value = (params as any)[key as keyof RawParams];
     if (value == null || value === '' || (Array.isArray(value) && value.length === 0)) {
       return;
     }
