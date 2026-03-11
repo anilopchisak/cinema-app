@@ -1,4 +1,4 @@
-import { CinemaRawParams, FilmParams, FilmFilters } from '../types/cinema.types';
+import { CinemaRawParams, FilmParams, FilmFilters } from '@/entities/cinema/types/cinema.types';
 
 type FilterBuilder = (val: string | string[]) => FilmFilters;
 

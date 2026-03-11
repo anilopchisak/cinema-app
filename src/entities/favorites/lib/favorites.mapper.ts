@@ -1,5 +1,5 @@
 import { TransformedData } from '@/shared/api/query/useGetAllInfinite';
-import { FavoriteFilm } from '../types/favorites.types';
+import { FavoriteFilm } from '@/entities/favorites/types/favorites.types';
 import { FilmWithFavorite } from '@/entities/cinema/types/cinema.types';
 
 export const favoritesMapper = (

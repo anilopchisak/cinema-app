@@ -1,9 +1,9 @@
 import { dehydrate, QueryClient, InfiniteData } from '@tanstack/react-query';
-import cinemaApi from '../cinema.api';
-import { CINEMA_ENDPOINTS } from '../cinema.endpoints';
+import cinemaApi from '@/entities/cinema/api/cinema.api';
+import { CINEMA_ENDPOINTS } from '@/entities/cinema/api/cinema.endpoints';
 import { DEFAULT_PAGE_SIZE } from '@/shared/consts/api.consts';
 import type { ResponseData } from '@/shared/api/api.types';
-import { Film, FilmParams } from '../../types/cinema.types';
+import { Film, FilmParams } from '@/entities/cinema/types/cinema.types';
 
 export async function prefetchCinema(params?: FilmParams, initialPageCount = 1) {
   const queryClient = new QueryClient();

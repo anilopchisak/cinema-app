@@ -5,7 +5,7 @@ import Input from "@/shared/ui/Input";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import s from "./AuthForm.module.scss";
-import type { LoginFormData, RegisterFormData } from "../../auth-form.types";
+import type { LoginFormData, RegisterFormData } from "@/features/auth/auth-form.types";
 import Link from "next/link";
 import { routes } from "@/shared/config/routes";
 

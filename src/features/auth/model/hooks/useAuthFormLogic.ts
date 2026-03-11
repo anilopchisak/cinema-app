@@ -2,11 +2,11 @@ import {
   loginDataValidator,
   registerDataValidator,
 } from "@/shared/lib/auth-validators";
-import { LoginFormData, RegisterFormData } from "../../auth-form.types";
 import { useState } from "react";
 import { useLogin } from "@/entities/auth/api/hooks/useLogin";
 import { useRegister } from "@/entities/auth/api/hooks/useRegister";
-import { isApiError } from "../types";
+import { isApiError } from "@/features/auth/model/types";
+import { LoginFormData, RegisterFormData } from "@/features/auth/auth-form.types";
 
 const ERROR_MESSAGE: Record<string, string> = {
   ValidationError: "Неверный логин или пароль.",
