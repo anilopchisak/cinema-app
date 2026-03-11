@@ -62,7 +62,7 @@ git@github.com:anilopchisak/cinema-app.git
 3. Установить зависимости
 
 ```ts
-npm ci install
+npm ci
 ```
 
 4. Настроить переменные окружения (создать файл .env в корне проекта и добавить туда свои ключи)

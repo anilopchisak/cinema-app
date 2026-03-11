@@ -3,33 +3,33 @@
 import Input from '@/shared/ui/Input';
 import s from './Search.module.scss';
 import Button from '@/shared/ui/Button';
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { useState, type KeyboardEvent } from 'react';
+import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
 
 type SearchProps = {
   /** Начальное значение при загрузке страницы */
   initSearch: string;
   /** Коллбек при изменении поиска */
-  onSearch: (val: string) => void;
+  // onSearch: (val: string) => void;
 };
 
 /** Поисковая строка */
-const Search = ({ initSearch, onSearch }: SearchProps) => {
-  const [search, setSearch] = useState('');
-  const isInitialized = useRef(false);
+const Search = ({ initSearch }: SearchProps) => {
+  const [search, setSearch] = useState(initSearch);
+
+  const updateQuery = useUpdateQuery();
+
+  const onSearch = () => {
+    updateQuery({ search });
+  };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      onSearch(search);
+      //  - ЗАКОММЕНТИРОВАТЬ ДЛЯ ТЕСТОВ
+      onSearch();
     }
   };
-
-  useEffect(() => {
-    if (!isInitialized.current && initSearch.length > 0) {
-      setSearch(initSearch);
-      isInitialized.current = true;
-    }
-  }, [initSearch, search]);
 
   return (
     <div className={s.searchRow}>
@@ -42,7 +42,7 @@ const Search = ({ initSearch, onSearch }: SearchProps) => {
           onKeyDown={handleKeyDown}
         />
       </div>
-      <Button className={s.searchButton} onClick={() => onSearch(search)}>
+      <Button className={s.searchButton} onClick={() => onSearch()}>
         Найти
       </Button>
     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { authStore } from '@/entities/auth/model/auth.store';
-import { useCinemaParams } from '@/entities/cinema/hooks/useCinemaParams';
+// import { useCinemaParams } from '@/entities/cinema/hooks/useCinemaParams';
 import { Suspense } from 'react';
 import CinemaListSkeleton from '../CinemaList/skeleton';
 import CinemaList from '../CinemaList/CinemaList';
@@ -10,18 +10,16 @@ import useFavoritesState from '@/entities/favorites/api/hooks/useFavoritesState'
 import useSyncCinemaPage from '@/entities/cinema/hooks/useSyncCinemaPage';
 import useScrollRestoration from '@/shared/hooks/useScrollRestoration';
 import CinemaFilters from '../CinemaFilters';
-import useCinemaQueryString from '@/entities/cinema/hooks/useCinemaQueryString';
+// import useCinemaQueryString from '@/entities/cinema/hooks/useCinemaQueryString';
 import { observer } from 'mobx-react-lite';
+import useCinemaParams from '@/entities/cinema/hooks/test/useCinemaParams';
 
-const CinemaContent = observer(({ initialParams }: { initialParams: any }) => {
+const CinemaContent = observer(() => {
   const isAuthenticated = authStore.isAuthenticated;
 
-  const { params, setSearch, setCategory, setSort, setPage, apiParams } =
-    useCinemaParams(initialParams);
+  const { rawParams, apiParams } = useCinemaParams();
 
-  useCinemaQueryString(params);
-
-  const query = useCinemaState(apiParams, params.page);
+  const query = useCinemaState(apiParams, rawParams.page);
   const queryFavorites = useFavoritesState({ isAuthenticated });
 
   /** Флаг готовности страницы к восстановлению скролла. */
@@ -32,16 +30,11 @@ const CinemaContent = observer(({ initialParams }: { initialParams: any }) => {
     isReadyToRestore,
   });
 
-  useSyncCinemaPage({ data: query.data, currentPage: params.page, setPage });
+  useSyncCinemaPage({ data: query.data, currentPage: rawParams.page });
 
   return (
     <>
-      <CinemaFilters
-        params={params}
-        setSearch={setSearch}
-        setCategory={setCategory}
-        setSort={setSort}
-      />
+      <CinemaFilters params={rawParams} />
       <Suspense fallback={<CinemaListSkeleton />}>
         <CinemaList queryFilms={query} queryFavorites={queryFavorites} />
       </Suspense>

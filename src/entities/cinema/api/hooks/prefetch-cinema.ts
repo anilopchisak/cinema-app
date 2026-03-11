@@ -18,35 +18,31 @@ export async function prefetchCinema(params?: any, initialPageCount = 1) {
   >({
     queryKey,
     initialPageParam: 1,
-    queryFn: ({ signal, pageParam }) => {
-      const isInitialLoad = pageParam === 1;
-
+    queryFn: ({ signal }) => {
       const targetPageSize =
-        isInitialLoad && initialPageCount
-          ? DEFAULT_PAGE_SIZE * initialPageCount
-          : DEFAULT_PAGE_SIZE;
+        initialPageCount > 1 ? DEFAULT_PAGE_SIZE * initialPageCount : DEFAULT_PAGE_SIZE;
 
       return cinemaApi.getAll(signal!, {
         ...params,
         pagination: {
-          page: isInitialLoad ? 1 : pageParam,
+          page: 1,
           pageSize: targetPageSize,
           withCount: true,
         },
       });
     },
-    getNextPageParam: (lastPage: ResponseData<Film[]>, allPages: ResponseData<Film[]>[]) => {
-      const totalFetchedItems = allPages.reduce((acc, page) => {
-        const items = Array.isArray(page?.data) ? page.data.length : 0;
-        return acc + items;
-      }, 0);
+    // getNextPageParam: (lastPage: ResponseData<Film[]>, allPages: ResponseData<Film[]>[]) => {
+    //   const totalFetchedItems = allPages.reduce((acc, page) => {
+    //     const items = Array.isArray(page?.data) ? page.data.length : 0;
+    //     return acc + items;
+    //   }, 0);
 
-      const totalItems = lastPage?.meta?.pagination?.total ?? 0;
+    //   const totalItems = lastPage?.meta?.pagination?.total ?? 0;
 
-      if (!totalItems || totalFetchedItems >= totalItems) return undefined;
+    //   if (!totalItems || totalFetchedItems >= totalItems) return undefined;
 
-      return Math.floor(totalFetchedItems / DEFAULT_PAGE_SIZE) + 1;
-    },
+    //   return Math.floor(totalFetchedItems / DEFAULT_PAGE_SIZE) + 1;
+    // },
   });
 
   return dehydrate(queryClient);

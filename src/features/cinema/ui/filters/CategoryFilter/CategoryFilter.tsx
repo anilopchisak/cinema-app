@@ -2,17 +2,18 @@
 
 import MultiDropdown, { type Option } from '@/shared/ui/MultiDropdown';
 import s from '../Filter.module.scss';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import useFimCategoryState from '@/entities/film-category/api/hooks/useFilmCategoryState';
 import { debounce } from 'lodash';
+import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
 
 interface CinemaFiltersProps {
   initCategories: string[];
-  onCategoryChange: (categories: string[]) => void;
+  // onCategoryChange: (categories: string[]) => void;
 }
 
 /** Фильтр по жанру фильма */
-const CategoryFilter = ({ initCategories, onCategoryChange }: CinemaFiltersProps) => {
+const CategoryFilter = ({ initCategories }: CinemaFiltersProps) => {
   /** Флаг открытия дропдауна — используется для включения загрузки данных только при необходимости*/
   const [isCategoryOpened, setIsCategoryOpened] = useState(false);
   /** Текущие выбранные опции в формате MultiDropdown  */
@@ -43,16 +44,14 @@ const CategoryFilter = ({ initCategories, onCategoryChange }: CinemaFiltersProps
     return selected.map((item) => item.value).join(', ');
   };
 
-  /**
-   * Эффект синхронизации внутреннего состояния selected с initCategories из пропсов.
-   * Нужен для того, чтобы при первоначальной загрузке страницы отобразить уже выбранные категории.
-   */
-  useEffect(() => {
-    if (!data || initCategories.length === 0) return;
-    if (selected.length > 0) return;
+  const updateQuery = useUpdateQuery();
 
-    setSelected(categoryOptions.filter((option) => initCategories.includes(String(option.key))));
-  }, [categoryOptions, initCategories]);
+  const onCategoryChange = useCallback(
+    (categories: string[]) => {
+      updateQuery({ category: categories });
+    },
+    [updateQuery]
+  );
 
   const debouncedUpdate = useMemo(
     () =>
@@ -62,7 +61,7 @@ const CategoryFilter = ({ initCategories, onCategoryChange }: CinemaFiltersProps
     [onCategoryChange]
   );
 
-  /** Обновление параметров */
+  /** Обновление параметров - ЗАКОММЕНТИРОВАТЬ ДЛЯ ТЕСТОВ */
   useEffect(() => {
     debouncedUpdate(selected);
     return () => {

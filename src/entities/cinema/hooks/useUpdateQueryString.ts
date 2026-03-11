@@ -9,7 +9,7 @@ export const useUpdateQuery = () => {
 
   const updateQuery = useCallback(
     (updates: Record<string, string | number | string[] | undefined>) => {
-      const newParams = new URLSearchParams();
+      const newParams = new URLSearchParams(searchParams.toString());
 
       Object.entries(updates).forEach(([key, value]) => {
         if (Array.isArray(value)) {
@@ -18,15 +18,23 @@ export const useUpdateQuery = () => {
           } else {
             newParams.delete(key);
           }
-        } else if (value !== null && value !== '') {
+        } else if (value !== null && value !== '' && value !== 'default') {
           newParams.set(key, String(value));
         } else {
           newParams.delete(key);
         }
       });
 
-      const newUrl = `${pathname}?${newParams.toString()}`;
-      router.replace(newUrl, { scroll: false });
+      const currentUrl = searchParams.toString()
+        ? `${pathname}?${searchParams.toString()}`
+        : pathname;
+
+      const nextSearch = newParams.toString();
+      const nextUrl = nextSearch ? `${pathname}?${nextSearch}` : pathname;
+
+      if (nextUrl === currentUrl) return;
+
+      router.replace(nextUrl, { scroll: false });
     },
     [pathname, router, searchParams]
   );
