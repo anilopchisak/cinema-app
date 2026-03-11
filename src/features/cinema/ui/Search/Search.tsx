@@ -9,8 +9,6 @@ import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
 type SearchProps = {
   /** Начальное значение при загрузке страницы */
   initSearch: string;
-  /** Коллбек при изменении поиска */
-  // onSearch: (val: string) => void;
 };
 
 /** Поисковая строка */
@@ -35,7 +33,6 @@ const Search = ({ initSearch }: SearchProps) => {
     <div className={s.searchRow}>
       <div className={s.inputWrapper}>
         <Input
-          autoFocus={true}
           value={search}
           onChange={setSearch}
           placeholder="Искать фильмы"

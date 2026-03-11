@@ -2,13 +2,12 @@
 
 import MultiDropdown, { type Option } from '@/shared/ui/MultiDropdown';
 import s from '../Filter.module.scss';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
 
 interface CinemaFiltersProps {
   initSort: string | null;
-  // onSortChange: (option: string) => void;
 }
 
 const SORT: Option[] = [
@@ -18,8 +17,9 @@ const SORT: Option[] = [
 ];
 
 const SortFilter = ({ initSort }: CinemaFiltersProps) => {
-  const [selected, setSelected] = useState<Option[]>([{ key: 'default', value: 'По умолчанию' }]);
-  // const isInitialized = useRef(false);
+  const [selected, setSelected] = useState<Option[]>([
+    SORT.find((option) => option.key === initSort) || SORT[0],
+  ]);
 
   const getDropdownTitle = (selected: Option[]) => {
     if (selected.length === 0) return 'Сортировка';

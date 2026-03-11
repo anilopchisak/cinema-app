@@ -17,5 +17,5 @@ export const getCinemaParams = (searchParams: { [key: string]: string | string[]
 
   const apiParams = computeApiParams({ search, sort, category: categories } as any);
 
-  return { search, sort, category: categories, page, apiParams };
+  return { rawParams: { search, sort, category: categories, page }, apiParams };
 };

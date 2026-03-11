@@ -13,19 +13,14 @@ export default async function Cinema({ searchParams }: Props) {
 
   const params = getCinemaParams(resolvedSearchParams);
 
-  const dehydratedState = await prefetchCinema(
-    {
-      ...params.apiParams,
-    },
-    params.page,
-  );
+  const dehydratedState = await prefetchCinema(params.apiParams, params.rawParams.page);
 
   return (
     <div>
       <CinemaIntro />
 
       <HydrationBoundary state={dehydratedState}>
-        <CinemaContent />
+        <CinemaContent rawParams={params.rawParams} apiParams={params.apiParams} />
       </HydrationBoundary>
     </div>
   );

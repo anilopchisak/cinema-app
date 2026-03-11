@@ -12,9 +12,6 @@ type Props = {
     category: string[];
     sort: string;
   };
-  // setSearch: (search: string) => void;
-  // setSort: (sort: string) => void;
-  // setCategory: (category: string[]) => void;
 };
 
 /**

@@ -1,12 +1,10 @@
 import { DEFAULT_PAGE_SIZE } from '@/shared/consts/api.consts';
 import { useEffect } from 'react';
 import { useUpdateQuery } from './useUpdateQueryString';
-import { useSearchParams } from 'next/navigation';
 
 type UseSyncCinemaPageParams = {
   data: { items: unknown[] } | undefined;
   currentPage: number;
-  // setPage: (page: number) => void;
 };
 
 /** Вычисление текущей страницы - используется для хранения в url */
@@ -20,7 +18,6 @@ const useSyncCinemaPage = ({ data, currentPage }: UseSyncCinemaPageParams) => {
     const calculatedPage = Math.ceil(totalFetched / DEFAULT_PAGE_SIZE);
 
     if (calculatedPage > currentPage) {
-      // setPage(calculatedPage);
       updateQuery({ page: calculatedPage });
     }
   }, [data, currentPage, updateQuery]);

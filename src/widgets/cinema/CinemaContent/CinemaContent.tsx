@@ -14,10 +14,15 @@ import CinemaFilters from '../CinemaFilters';
 import { observer } from 'mobx-react-lite';
 import useCinemaParams from '@/entities/cinema/hooks/test/useCinemaParams';
 
-const CinemaContent = observer(() => {
+type Props = {
+  rawParams: ReturnType<typeof useCinemaParams>['rawParams'];
+  apiParams: ReturnType<typeof useCinemaParams>['apiParams'];
+};
+
+const CinemaContent = observer(({ rawParams, apiParams }: Props) => {
   const isAuthenticated = authStore.isAuthenticated;
 
-  const { rawParams, apiParams } = useCinemaParams();
+  // const { rawParams, apiParams } = useCinemaParams();
 
   const query = useCinemaState(apiParams, rawParams.page);
   const queryFavorites = useFavoritesState({ isAuthenticated });
