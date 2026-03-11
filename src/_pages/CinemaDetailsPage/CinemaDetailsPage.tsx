@@ -18,31 +18,18 @@ type CinemaDetailsParams = {
 const CinemaDetailsPage = () => {
   const router = useRouter();
   const params = useParams<CinemaDetailsParams>();
-  const searchParams = useSearchParams();
 
   const documentId = params.documentId;
 
-  const from = searchParams?.get('from');
+  const { data: film, isLoading, isError } = useFilmState(documentId);
 
-  const { data: film, isLoading: loading, isError: error } = useFilmState(documentId);
+  if (isLoading) return <CinemaDetailsSkeleton />;
 
-  const handleGoBack = () => {
-    if (from === 'favorites') {
-      router.push('/favorites');
-    } else if (from === 'cinema') {
-      router.push('/cinema');
-    } else {
-      router.back();
-    }
-  };
-
-  if (loading) return <CinemaDetailsSkeleton />;
-
-  if (error || !film) return <Text>{error || 'Фильм не найден'}</Text>;
+  if (isError || !film) return <Text>Фильм не найден</Text>;
 
   return (
     <div className={s.detailsPage}>
-      <button onClick={handleGoBack} className={s.backButton}>
+      <button onClick={() => router.back()} className={s.backButton}>
         <ArrowRightIcon className={s.icon} />
         <Text view="button">Назад</Text>
       </button>
