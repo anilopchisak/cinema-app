@@ -3,50 +3,40 @@
 import { useRouter } from 'next/navigation';
 import Text from '@/shared/ui/Text';
 import useFavoritesState from '@/entities/favorites/api/hooks/useFavoritesState';
-import { observer } from 'mobx-react-lite';
-import { authStore } from '@/entities/auth/model/auth.store';
 import CinemaCard from '@/entities/cinema/ui/CinemaCard/CinemaCard';
 import { routes } from '@/shared/config/routes';
 import useToggleFavorite from '@/features/favorites/hooks/useToggleFavorite';
 import s from '@/widgets/cinema/CinemaList/CinemaList.module.scss';
 import { useMemo } from 'react';
 import CinemaListSkeleton from '@/widgets/cinema/CinemaList/skeleton';
+import { favoritesMapper } from '@/entities/favorites/lib/favorites.mapper';
 
-const FavoritesContent = observer(() => {
+const FavoritesContent = () => {
   const router = useRouter();
-  const isAuthenticated = authStore.isAuthenticated;
 
-  const { data, isError, isLoading } = useFavoritesState({ isAuthenticated });
+  const { data, isError, isLoading } = useFavoritesState({ isAuthenticated: true });
 
-  const toggleFavorite = useToggleFavorite({ isAuthenticated });
+  const toggleFavorite = useToggleFavorite({ isAuthenticated: true });
 
-  const favorites = useMemo(() => {
-    const result = data?.items?.map((item) => ({
-      ...item.film,
-      isFavorite: true,
-    }));
-    return result;
-  }, [data]);
+  const favorites = useMemo(() => favoritesMapper(data), [data]);
 
   const openDetail = (documentId: string) => {
-    router.push(`${routes.cinemaDetails.create(documentId)}?from=favorites`);
+    router.push(routes.cinemaDetails.create(documentId));
   };
 
+  if (isError) return <Text color="accent">{String(isError)}</Text>;
+  if (favorites?.length === 0) return <Text>Добавьте фильмы в избранное!</Text>;
+  if (isLoading) return <CinemaListSkeleton />;
+
   return (
-    <div>
+    <>
       <div className={s.sectionHeader}>
-        <Text tag="h1" view="title" weight="bold">
-          Избранное
+        <Text tag="h2" weight="bold">
+          Все фильмы
         </Text>
 
         <Text color="accent">{favorites?.length ?? '0'}</Text>
       </div>
-
-      {(isError || !data?.items) && <Text color="accent">{String(isError)}</Text>}
-
-      {favorites?.length === 0 && <Text>Добавьте фильмы в избранное!</Text>}
-
-      {isLoading && <CinemaListSkeleton />}
 
       {!isLoading && (
         <div className={s.filmsGrid}>
@@ -61,8 +51,8 @@ const FavoritesContent = observer(() => {
             ))}
         </div>
       )}
-    </div>
+    </>
   );
-});
+};
 
 export default FavoritesContent;

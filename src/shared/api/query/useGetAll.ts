@@ -12,9 +12,10 @@ interface QueryProps<TEntity, TParams = unknown> {
 
 export const useGetAll = <TEntity, TParams = unknown>(config: QueryProps<TEntity, TParams>) => {
   const { queryKey, service, params, options } = config;
+  const key = params ? [...queryKey, params] : queryKey;
 
   return useQuery<ResponseData<TEntity[]>, Error, TransformedData<TEntity>>({
-    queryKey: [...queryKey, params],
+    queryKey: key,
     queryFn: ({ signal }) => service.getAll(signal, params),
     select: (response) => {
       let items: TEntity[] = [];

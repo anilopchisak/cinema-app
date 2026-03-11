@@ -1,4 +1,4 @@
-import { prefetchCinema } from '@/entities/cinema/api/hooks/prefetch-cinema';
+import { prefetchCinema } from '@/entities/cinema/api/queries/prefetch-cinema';
 import { getCinemaParams } from '@/entities/cinema/lib/getCinemaParams';
 import CinemaContent from '@/widgets/cinema/CinemaContent/CinemaContent';
 import CinemaIntro from '@/widgets/cinema/CinemaIntro';

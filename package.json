@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.21",
+    "@tanstack/react-query-devtools": "^5.91.3",
     "classnames": "^2.5.1",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.23",
