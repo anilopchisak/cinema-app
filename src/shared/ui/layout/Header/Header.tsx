@@ -21,7 +21,6 @@ const Header = observer(() => {
             width={360}
             height={503}
             priority
-            quality={100}
             unoptimized
           />
         </NavigationLink>
