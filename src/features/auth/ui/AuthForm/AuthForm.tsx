@@ -118,7 +118,6 @@ export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props
         <Link
           href={isLogin ? routes.register.create() : routes.login.create()}
           className={s.button}
-          prefetch={false}
         >
           <Button styleType="outline" className={s.button}>
             {isLogin ? 'Нет аккаунта? Регистрация' : 'Есть аккаунт? Войти'}

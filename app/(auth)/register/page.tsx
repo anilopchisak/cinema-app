@@ -1,5 +1,5 @@
-import AuthPage from "@/_pages/AuthPage/AuthPage";
+import AuthPage from '@/_pages/AuthPage/AuthPage';
 
-export default async function Login() {
+export default function Login() {
   return <AuthPage mode="register" />;
 }
