@@ -4,14 +4,10 @@ import CategoryFilter from '@/features/cinema/ui/filters/CategoryFilter';
 import SortFilter from '@/features/cinema/ui/filters/SortFilter';
 import Search from '@/features/cinema/ui/Search';
 import s from './CinemaFilters.module.scss';
+import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 
 type Props = {
-  params: {
-    page: number;
-    search: string;
-    category: string[];
-    sort: string;
-  };
+  params: CinemaRawParams;
 };
 
 /**

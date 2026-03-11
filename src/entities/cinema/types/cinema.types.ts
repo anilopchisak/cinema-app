@@ -3,40 +3,46 @@ import type { PaginationParams } from '@/shared/api/api.types';
 export type FilmWithFavorite = Film & { isFavorite?: boolean };
 
 export interface CinemaParams {
-  rawParams: RawParams;
-  apiParams: FilmParams;
+  rawParams: CinemaRawParams;
+  apiParams: CinemaApiParams;
 }
 
-/** Тип структуры параметров страницы с фильмами.
- * Синхронизируются с url.
- */
-export type RawParams = {
-  /** Поиск */
-  search: string;
-  /** Фильтр Жанр */
-  category: string[];
-  /** Сортировка */
-  sort: string;
-  /** Номер страницы - вычисляется в CinemaPage, не используется в запросе */
-  page: number;
-};
+// Параметры, которые мы парсим из URL (search params)
+export interface CinemaRawParams {
+  search?: string;
+  category?: string[];
+  sort?: string;
+  page?: number;
+  releaseYear?: string;
+  isFeatured?: string;
+  minRating?: string;
+  maxRating?: string;
+  ageLimit?: string;
+  duration?: string;
+}
+
+// Структура фильтров для API (Strapi)
+export interface FilmFilters {
+  title?: { $containsi?: string };
+  category?: { id?: { $in?: string[] } | { $eq?: string } };
+  releaseYear?: { $eq?: number };
+  isFeatured?: { $eq?: boolean };
+  rating?: { $gte?: number; $lte?: number };
+  ageLimit?: { $eq?: number };
+  duration?: { $gte?: number };
+  // Позволяет добавлять дополнительные поля при необходимости
+  [key: string]: unknown;
+}
 
 export interface FilmParams {
-  sort?: 'asc' | 'desc';
+  sort?: string;
   filters?: FilmFilters;
   pagination?: PaginationParams;
   populate?: string[];
 }
 
-export interface FilmFilters {
-  title?: string;
-  category?: string;
-  releaseYear?: number;
-  isFeatured?: boolean;
-  minRating?: number;
-  maxRating?: number;
-  ageLimit?: number;
-}
+// Так как computeApiParams возвращает FilmParams, CinemaApiParams является его алиасом
+export type CinemaApiParams = FilmParams;
 
 export interface Film {
   documentId: string;
@@ -54,5 +60,5 @@ export interface Film {
   category?: {
     title: string;
   } | null;
-  gallery?: any;
+  gallery?: unknown;
 }

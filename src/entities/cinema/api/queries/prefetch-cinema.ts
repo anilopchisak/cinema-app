@@ -3,9 +3,9 @@ import cinemaApi from '../cinema.api';
 import { CINEMA_ENDPOINTS } from '../cinema.endpoints';
 import { DEFAULT_PAGE_SIZE } from '@/shared/consts/api.consts';
 import type { ResponseData } from '@/shared/api/api.types';
-import { Film } from '../../cinema.types';
+import { Film, FilmParams } from '../../types/cinema.types';
 
-export async function prefetchCinema(params?: any, initialPageCount = 1) {
+export async function prefetchCinema(params?: FilmParams, initialPageCount = 1) {
   const queryClient = new QueryClient();
   const queryKey = [CINEMA_ENDPOINTS.cinema, params];
 

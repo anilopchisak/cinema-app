@@ -1,13 +1,16 @@
-import { useQuery, type QueryKey } from '@tanstack/react-query';
 import type { ApiService } from '../service/api-service.types';
 import type { ResponseData } from '../api.types';
 import type { TransformedData } from './useGetAllInfinite';
+import { type QueryKey, type UseQueryOptions, useQuery } from '@tanstack/react-query';
 
 interface QueryProps<TEntity, TParams = unknown> {
   queryKey: QueryKey;
   service: ApiService<TEntity, TParams>;
   params?: TParams;
-  options?: any;
+  options?: Omit<
+    UseQueryOptions<ResponseData<TEntity[]>, Error, TransformedData<TEntity>, QueryKey>,
+    'queryKey' | 'queryFn' | 'select'
+  >;
 }
 
 export const useGetAll = <TEntity, TParams = unknown>(config: QueryProps<TEntity, TParams>) => {

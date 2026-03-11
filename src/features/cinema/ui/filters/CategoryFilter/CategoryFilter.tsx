@@ -6,9 +6,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import useFimCategoryState from '@/entities/film-category/api/hooks/useFilmCategoryState';
 import { debounce } from 'lodash';
 import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
+import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 
 interface CinemaFiltersProps {
-  initCategories: string[];
+  initCategories: CinemaRawParams['category'];
 }
 
 /** Фильтр по жанру фильма */
@@ -23,7 +24,7 @@ const CategoryFilter = ({ initCategories }: CinemaFiltersProps) => {
    * или уже есть выбранные категории (чтобы подгрузить их названия)
    */
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useFimCategoryState({
-    enabled: isCategoryOpened || initCategories.length > 0,
+    enabled: isCategoryOpened || (initCategories?.length ?? 0) > 0,
   });
 
   /* Преобразуем полученные с сервера категории в опции для MultiDropdown */
@@ -37,7 +38,7 @@ const CategoryFilter = ({ initCategories }: CinemaFiltersProps) => {
 
   useEffect(() => {
     if (!categoryOptions.length) return;
-    if (!initCategories.length) return;
+    if (!initCategories?.length) return;
 
     const initSelected = categoryOptions.filter((option) =>
       initCategories.includes(String(option.key))

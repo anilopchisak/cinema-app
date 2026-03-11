@@ -1,8 +1,10 @@
-import { RawParams } from '../types/cinema.types';
+import { CinemaRawParams, FilmParams, FilmFilters } from '../types/cinema.types';
+
+type FilterBuilder = (val: string | string[]) => FilmFilters;
 
 /** Словарь для преобразования параметров фильтрации к формату параметров запроса */
-const FILTER_MAP: Record<string, (val: string | string[]) => object> = {
-  search: (val) => ({ title: { $containsi: val } }),
+const FILTER_MAP: Record<string, FilterBuilder> = {
+  search: (val) => ({ title: { $containsi: Array.isArray(val) ? val[0] : String(val) } }),
   category: (val) => ({ category: { id: Array.isArray(val) ? { $in: val } : { $eq: val } } }),
   releaseYear: (val) => ({ releaseYear: { $eq: Number(val) } }),
   isFeatured: (val) => ({ isFeatured: { $eq: val === 'true' } }),
@@ -21,12 +23,12 @@ const SORT_RULE = (val: string): string | undefined => {
 };
 
 /** Вычисляет параметры для API на основе текущих params. */
-export const computeApiParams = (params: RawParams) => {
-  const filters: Record<string, any> = {};
+export const computeApiParams = (params: CinemaRawParams): FilmParams => {
+  const filters: FilmFilters = {};
 
   // Применяем фильтры
   Object.entries(FILTER_MAP).forEach(([key, builder]) => {
-    const value = (params as any)[key as keyof RawParams];
+    const value = params[key as keyof CinemaRawParams];
     if (value == null || value === '' || (Array.isArray(value) && value.length === 0)) {
       return;
     }
@@ -34,7 +36,7 @@ export const computeApiParams = (params: RawParams) => {
   });
 
   // Сортировка
-  const sort = SORT_RULE(params.sort);
+  const sort = SORT_RULE(params?.sort ?? '');
 
   return {
     filters,

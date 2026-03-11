@@ -6,7 +6,7 @@ import VideoPlayer from '@/features/cinema/ui/VideoPlayer';
 import { formatMinsToHours } from '@/shared/lib/formatMinsToHours';
 import ArrowRightIcon from '@/shared/ui/icons/ArrowRightIcon/ArrowRightIcon';
 import Text from '@/shared/ui/Text';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import s from './CinemaDetailsPage.module.scss';
 import CinemaDetailsSkeleton from './skeleton';
 import useFilmState from '@/entities/cinema/api/hooks/useFilmState';

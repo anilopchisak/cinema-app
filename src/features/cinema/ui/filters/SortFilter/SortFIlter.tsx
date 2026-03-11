@@ -5,9 +5,10 @@ import s from '../Filter.module.scss';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
+import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 
 interface CinemaFiltersProps {
-  initSort: string | null;
+  initSort: CinemaRawParams['sort'] | null;
 }
 
 const SORT: Option[] = [

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
-import type { Film, FilmWithFavorite } from '@/entities/cinema/cinema.types';
 import type { TransformedData } from '@/shared/api/query/useGetAllInfinite';
 import type { FavoriteFilm } from '@/entities/favorites/types/favorites.types';
+import { Film, FilmWithFavorite } from '../types/cinema.types';
 
 interface UseFilmsWithFavoritesProps {
   films?: TransformedData<Film>;
@@ -20,7 +20,7 @@ const useFilmsWithFavorites = ({
     if (!isAuthenticated) return films?.items;
 
     const favoriteIds = new Set(
-      favorites?.items?.map((fav: any) => fav.film?.documentId ?? fav.originalFilmId) ?? []
+      favorites?.items?.map((fav: FavoriteFilm) => fav.film?.documentId ?? fav.originalFilmId) ?? []
     );
 
     return films.items.map((film) => ({

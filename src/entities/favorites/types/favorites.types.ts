@@ -6,4 +6,5 @@ export interface FavoritesRequestData {
 
 export type FavoriteFilm = {
   film: Film;
+  originalFilmId: number | string;
 };

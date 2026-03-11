@@ -32,7 +32,7 @@ const CinemaContent = observer(({ rawParams, apiParams }: Props) => {
   });
 
   /** Синхронизация страницы с URL */
-  useSyncCinemaPage({ data: query.data, currentPage: rawParams.page });
+  useSyncCinemaPage({ data: query.data, currentPage: rawParams.page ?? 1 });
 
   return (
     <>

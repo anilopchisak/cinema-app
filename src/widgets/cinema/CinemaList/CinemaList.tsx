@@ -1,6 +1,10 @@
 'use client';
 
-import type { DefinedUseQueryResult, UseInfiniteQueryResult } from '@tanstack/react-query';
+import type {
+  DefinedUseQueryResult,
+  UseInfiniteQueryResult,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import s from './CinemaList.module.scss';
 import Text from '@/shared/ui/Text';
 import { useRef } from 'react';
@@ -20,7 +24,7 @@ import { useRouter } from 'next/navigation';
 
 type CinemaListProps = {
   queryFilms: UseInfiniteQueryResult<TransformedData<Film>>;
-  queryFavorites?: DefinedUseQueryResult<TransformedData<FavoriteFilm>, Error>;
+  queryFavorites?: UseQueryResult<TransformedData<FavoriteFilm>, Error>;
 };
 
 const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) => {

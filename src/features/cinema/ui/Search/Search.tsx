@@ -5,15 +5,16 @@ import s from './Search.module.scss';
 import Button from '@/shared/ui/Button';
 import { useState, type KeyboardEvent } from 'react';
 import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
+import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 
 type SearchProps = {
   /** Начальное значение при загрузке страницы */
-  initSearch: string;
+  initSearch: CinemaRawParams['search'];
 };
 
 /** Поисковая строка */
 const Search = ({ initSearch }: SearchProps) => {
-  const [search, setSearch] = useState(initSearch);
+  const [search, setSearch] = useState(initSearch ?? '');
 
   const updateQuery = useUpdateQuery();
 
