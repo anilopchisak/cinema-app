@@ -18,13 +18,14 @@ const AuthPage = observer(({ mode }: Props) => {
   const router = useRouter();
   const { isAuthenticated } = authStore;
 
-  const { errors, handleSubmit, isLoading } = useAuthFormLogic(mode);
+  const { errors, handleSubmit, isLoading, isSuccess } = useAuthFormLogic(mode);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.push(routes.profile.create());
+    if (isSuccess && isAuthenticated) {
+      window.location.reload();
+      // router.push(routes.profile.create());
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, isSuccess]);
 
   return (
     <div className={s.container}>

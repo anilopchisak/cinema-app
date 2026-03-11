@@ -1,26 +1,30 @@
-import {
-  loginDataValidator,
-  registerDataValidator,
-} from "@/shared/lib/auth-validators";
-import { useState } from "react";
-import { useLogin } from "@/entities/auth/api/hooks/useLogin";
-import { useRegister } from "@/entities/auth/api/hooks/useRegister";
-import { isApiError } from "@/features/auth/model/types";
-import { LoginFormData, RegisterFormData } from "@/features/auth/auth-form.types";
+import { loginDataValidator, registerDataValidator } from '@/shared/lib/auth-validators';
+import { useState } from 'react';
+import { useLogin } from '@/entities/auth/api/hooks/useLogin';
+import { useRegister } from '@/entities/auth/api/hooks/useRegister';
+import { isApiError } from '@/features/auth/model/types';
+import { LoginFormData, RegisterFormData } from '@/features/auth/auth-form.types';
 
 const ERROR_MESSAGE: Record<string, string> = {
-  ValidationError: "Неверный логин или пароль.",
-  defaultLogin: "Ошибка при авторизации",
-  defaultRegister: "Ошибка при регистрации",
+  ValidationError: 'Неверный логин или пароль.',
+  defaultLogin: 'Ошибка при авторизации',
+  defaultRegister: 'Ошибка при регистрации',
 };
 
-export const useAuthFormLogic = (mode: "login" | "register") => {
+export const useAuthFormLogic = (mode: 'login' | 'register') => {
   const [errors, setErrors] = useState<string[]>([]);
-  const isLogin = mode === "login";
+  const isLogin = mode === 'login';
 
-  const { mutateAsync: loginUser, isPending: isPendingLogin } = useLogin();
-  const { mutateAsync: registerUser, isPending: isPendingRegister } =
-    useRegister();
+  const {
+    mutateAsync: loginUser,
+    isPending: isPendingLogin,
+    isSuccess: isSuccessLogin,
+  } = useLogin();
+  const {
+    mutateAsync: registerUser,
+    isPending: isPendingRegister,
+    isSuccess: isSuccessRegister,
+  } = useRegister();
 
   const mapError = (errName?: string) => {
     if (errName && ERROR_MESSAGE[errName]) return ERROR_MESSAGE[errName];
@@ -65,5 +69,6 @@ export const useAuthFormLogic = (mode: "login" | "register") => {
     errors,
     handleSubmit,
     isLoading: isPendingLogin || isPendingRegister,
+    isSuccess: isSuccessLogin || isSuccessRegister,
   };
 };
