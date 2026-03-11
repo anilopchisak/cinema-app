@@ -1,32 +1,43 @@
 import type { ResponseData } from '@/shared/api/api.types';
 import { STRAPI_URL, getAuthHeaders, buildQueryString } from '@/shared/api/helpers';
-import type { ApiService } from './api-service.types';
+import type { ApiConfig, ApiService } from './api-service.types';
 
-const apiService = <TEntity, TParams = unknown>(endpoint: string): ApiService<TEntity, TParams> => {
+const apiService = <TEntity, TParams = unknown>(
+  endpoint: string, 
+  serviceConfig?: ApiConfig
+): ApiService<TEntity, TParams> => {
+
   const getOne = async (
     signal: AbortSignal,
-    documentId: string
+    documentId: string,
+    requestConfig?: ApiConfig 
   ): Promise<ResponseData<TEntity>> => {
+    
+    const revalidate = requestConfig?.revalidate ?? serviceConfig?.revalidate;
+
     const response = await fetch(`${STRAPI_URL}${endpoint}/${documentId}`, {
       method: 'GET',
       headers: {
         ...getAuthHeaders(),
       },
       signal,
+      next: {
+        revalidate,
+        tags: requestConfig?.tags ?? serviceConfig?.tags,
+      },
     });
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch entity');
-    }
-
+    if (!response.ok) throw new Error('Failed to fetch entity');
     return response.json();
   };
 
   const getAll = async (
     signal: AbortSignal,
-    params?: TParams
+    params?: TParams,
+    requestConfig?: ApiConfig
   ): Promise<ResponseData<TEntity[]>> => {
     const query = buildQueryString(params as Record<string, unknown>);
+    const revalidate = requestConfig?.revalidate ?? serviceConfig?.revalidate;
 
     const response = await fetch(`${STRAPI_URL}${endpoint}?${query}`, {
       method: 'GET',
@@ -34,14 +45,14 @@ const apiService = <TEntity, TParams = unknown>(endpoint: string): ApiService<TE
         ...getAuthHeaders(),
       },
       signal,
+      next: {
+        revalidate,
+        tags: requestConfig?.tags ?? serviceConfig?.tags,
+      },
     });
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch entities');
-    }
-
-    const data = await response.json();
-    return data;
+    if (!response.ok) throw new Error('Failed to fetch entities');
+    return response.json();
   };
 
   const create = async <TData>(data: TData): Promise<ResponseData<TEntity>> => {
@@ -78,12 +89,7 @@ const apiService = <TEntity, TParams = unknown>(endpoint: string): ApiService<TE
     return response.json();
   };
 
-  return {
-    getOne,
-    getAll,
-    create,
-    remove,
-  };
+  return { getOne, getAll, create, remove };
 };
 
 export default apiService;
