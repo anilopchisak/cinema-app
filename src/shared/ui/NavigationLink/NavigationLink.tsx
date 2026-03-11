@@ -1,33 +1,29 @@
-"use client";
+'use client';
 
-import cn from "classnames";
-import Text from "../Text";
-import s from "./NavigationLink.module.scss";
-import type React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import cn from 'classnames';
+import Text from '../Text';
+import s from './NavigationLink.module.scss';
+import type React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 type LinkProps = {
   url: string;
   children: React.ReactNode;
   className?: string;
   activeClassName?: string;
+  prefetch?: boolean;
 };
 
-const NavigationLink = ({
-  url,
-  children,
-  className,
-  activeClassName,
-}: LinkProps) => {
+const NavigationLink = ({ url, children, className, activeClassName, prefetch }: LinkProps) => {
   const pathname = usePathname();
   const isActive = pathname === url;
 
-  const isTextChild =
-    typeof children === "string" || typeof children === "number";
+  const isTextChild = typeof children === 'string' || typeof children === 'number';
 
   return (
     <Link
+      prefetch={prefetch ?? true}
       href={url}
       className={cn(s.link, className, isActive && activeClassName)}
     >

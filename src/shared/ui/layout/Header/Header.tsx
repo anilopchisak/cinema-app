@@ -18,8 +18,8 @@ const Header = observer(() => {
             className={s.logo}
             src="/logo.png"
             alt="Логотип"
-            width={360}
-            height={503}
+            width={100}
+            height={50}
             priority
             unoptimized
           />
@@ -33,7 +33,12 @@ const Header = observer(() => {
           >
             Фильмы
           </NavigationLink>
-          <NavigationLink url="/new" className={s.tabLink} activeClassName={s.tabLinkActive}>
+          <NavigationLink
+            prefetch={false}
+            url="/new"
+            className={s.tabLink}
+            activeClassName={s.tabLinkActive}
+          >
             Новинки
           </NavigationLink>
         </nav>

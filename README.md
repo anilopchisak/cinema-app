@@ -2,6 +2,10 @@
 
 Сервис для поиска и просмотра фильмов.
 
+Ссылка на Vercel: https://cinema-app-gold.vercel.app/cinema
+
+Ссылка на исходный репозиторий: https://github.com/anilopchisak/cinema-strapi
+
 ## Оглавление
 
 - [Возможности](#возможности)
