@@ -18,9 +18,11 @@ const Header = observer(() => {
             className={s.logo}
             src="/logo.png"
             alt="Логотип"
-            width={100}
-            height={50}
+            width={360}
+            height={503}
             priority
+            quality={100}
+            unoptimized
           />
         </NavigationLink>
 
