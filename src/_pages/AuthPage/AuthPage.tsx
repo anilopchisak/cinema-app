@@ -23,7 +23,6 @@ const AuthPage = observer(({ mode }: Props) => {
   useEffect(() => {
     if (isSuccess && isAuthenticated) {
       window.location.reload();
-      // router.push(routes.profile.create());
     }
   }, [isAuthenticated, router, isSuccess]);
 

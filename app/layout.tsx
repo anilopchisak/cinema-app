@@ -2,9 +2,7 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import './globals.css';
 import MainLayout from '@/shared/ui/layout/MainLayout';
-import { Suspense } from 'react';
-import QueryProvider from './query-provider';
-import { StoreProvider } from './store-provider';
+import { Providers } from './providers';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -40,11 +38,7 @@ export default function RootLayout({
     <html lang="ru">
       <body className={roboto.variable}>
         <MainLayout>
-          <QueryProvider>
-            <StoreProvider>
-              <Suspense fallback={<div>Загрузка...</div>}>{children}</Suspense>
-            </StoreProvider>
-          </QueryProvider>
+          <Providers>{children}</Providers>
         </MainLayout>
       </body>
     </html>
