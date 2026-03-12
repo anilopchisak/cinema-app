@@ -1,0 +1,41 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+
+  &.open {
+    opacity: 1;
+  }
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+}
+
+.content {
+  position: relative;
+  background-color: $background-dark;
+  border-radius: $border-radius;
+  overflow: hidden;
+  box-shadow: $shadow;
+
+  transform: scale(0.9);
+  opacity: 0;
+  transition:
+    transform 0.5s ease-in-out,
+    opacity 0.5s ease-in-out;
+
+  &.open {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
