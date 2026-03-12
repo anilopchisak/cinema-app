@@ -1,44 +1,50 @@
-import MultiDropdown, { type Option } from "@/shared/ui/MultiDropdown";
-import s from "../Filter.module.scss";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { debounce } from "lodash";
+'use client';
+
+import MultiDropdown, { type Option } from '@/shared/ui/MultiDropdown';
+import s from '../Filter.module.scss';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { debounce } from 'lodash';
+import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
+import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 
 interface CinemaFiltersProps {
-  initSort: string | null;
-  onSortChange: (option: string) => void;
+  initSort: CinemaRawParams['sort'] | null;
 }
 
 const SORT: Option[] = [
-  { key: "default", value: "По умолчанию" },
-  { key: "title:asc", value: "По названию А -> Я" },
-  { key: "title:desc", value: "По названию Я -> А" },
+  { key: 'default', value: 'По умолчанию' },
+  { key: 'title:asc', value: 'По названию А -> Я' },
+  { key: 'title:desc', value: 'По названию Я -> А' },
 ];
 
-const SortFilter = ({ initSort, onSortChange }: CinemaFiltersProps) => {
+const SortFilter = ({ initSort }: CinemaFiltersProps) => {
   const [selected, setSelected] = useState<Option[]>([
-    { key: "default", value: "По умолчанию" },
+    SORT.find((option) => option.key === initSort) || SORT[0],
   ]);
-  const isInitialized = useRef(false);
 
   const getDropdownTitle = (selected: Option[]) => {
-    if (selected.length === 0) return "Сортировка";
-    return selected.map((item) => item.value).join(", ");
+    if (selected.length === 0) return 'Сортировка';
+    return selected.map((item) => item.value).join(', ');
   };
 
-  useEffect(() => {
-    if (!isInitialized.current && initSort) {
-      const option = SORT.filter((item) => item.key === initSort);
-      setSelected(option);
-      isInitialized.current = true;
-    }
-  }, [initSort]);
+  const updateQuery = useUpdateQuery();
 
-  const debouncedUpdate = useMemo(() => {
-    return debounce((value: Option[]) => {
-      onSortChange(value[0].key);
-    }, 300);
-  }, [onSortChange]);
+  const onSortChange = useCallback(
+    (sort: string) => {
+      updateQuery({ sort });
+    },
+    [updateQuery]
+  );
 
+  const debouncedUpdate = useMemo(
+    () =>
+      debounce((value: Option[]) => {
+        onSortChange(value[0].key);
+      }, 700),
+    [onSortChange]
+  );
+
+  /** Обновление параметров */
   useEffect(() => {
     debouncedUpdate(selected);
     return () => {

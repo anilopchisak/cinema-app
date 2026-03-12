@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import Button from "@/shared/ui/Button";
-import Input from "@/shared/ui/Input";
-import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
-import s from "./AuthForm.module.scss";
-import type { LoginFormData, RegisterFormData } from "../../auth-form.types";
-import Link from "next/link";
-import { routes } from "@/shared/config/routes";
+import Button from '@/shared/ui/Button';
+import Input from '@/shared/ui/Input';
+import { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import s from './AuthForm.module.scss';
+import type { LoginFormData, RegisterFormData } from '@/features/auth/auth-form.types';
+import Link from 'next/link';
+import { routes } from '@/shared/config/routes';
 
 type Props = {
-  mode: "login" | "register";
+  mode: 'login' | 'register';
   onLogin: (data: LoginFormData) => void;
   onRegister: (data: RegisterFormData) => void;
   isLoading?: boolean;
@@ -18,13 +18,8 @@ type Props = {
 
 type FormValues = RegisterFormData;
 
-export default function AuthForm({
-  mode,
-  onLogin,
-  onRegister,
-  isLoading,
-}: Props) {
-  const isLogin = mode === "login";
+export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props) {
+  const isLogin = mode === 'login';
 
   const {
     control,
@@ -33,17 +28,17 @@ export default function AuthForm({
     formState: { isSubmitting },
   } = useForm<FormValues>({
     defaultValues: {
-      login: "",
-      email: "",
-      password: "",
+      login: '',
+      email: '',
+      password: '',
     },
   });
 
   useEffect(() => {
     reset({
-      login: "",
-      email: "",
-      password: "",
+      login: '',
+      email: '',
+      password: '',
     });
   }, [mode, reset]);
 
@@ -64,7 +59,7 @@ export default function AuthForm({
         rules={{ required: true }}
         render={({ field }) => (
           <Input
-            value={field.value || ""}
+            value={field.value || ''}
             onChange={field.onChange}
             placeholder="Логин"
             autoFocus
@@ -82,7 +77,7 @@ export default function AuthForm({
           rules={{ required: true }}
           render={({ field }) => (
             <Input
-              value={field.value || ""}
+              value={field.value || ''}
               onChange={field.onChange}
               placeholder="Эл. почта"
               onBlur={field.onBlur}
@@ -99,7 +94,7 @@ export default function AuthForm({
         rules={{ required: true }}
         render={({ field }) => (
           <Input
-            value={field.value || ""}
+            value={field.value || ''}
             onChange={field.onChange}
             placeholder="Пароль"
             type="password"
@@ -117,7 +112,7 @@ export default function AuthForm({
           disabled={isLoading || isSubmitting}
           loading={isLoading || isSubmitting}
         >
-          {isLogin ? "Войти" : "Зарегистрироваться"}
+          {isLogin ? 'Войти' : 'Зарегистрироваться'}
         </Button>
 
         <Link
@@ -125,7 +120,7 @@ export default function AuthForm({
           className={s.button}
         >
           <Button styleType="outline" className={s.button}>
-            {isLogin ? "Нет аккаунта? Регистрация" : "Есть аккаунт? Войти"}
+            {isLogin ? 'Нет аккаунта? Регистрация' : 'Есть аккаунт? Войти'}
           </Button>
         </Link>
       </div>

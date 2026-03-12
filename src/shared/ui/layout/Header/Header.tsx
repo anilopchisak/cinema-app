@@ -1,11 +1,15 @@
-import s from './Header.module.scss';
-import { routes } from '@/shared/config/routes';
-import NavigationLink from '../../NavigationLink';
-import Image from 'next/image';
-import BookmarkIcon from '../../icons/BookmarkIcon/BookmarkIcon';
-import UserIcon from '../../icons/UserIcon/UserIcon';
+'use client';
 
-export default async function Header() {
+import BookmarkIcon from '@/shared/ui/icons/BookmarkIcon/BookmarkIcon';
+import UserIcon from '@/shared/ui/icons/UserIcon/UserIcon';
+import NavigationLink from '@/shared/ui/NavigationLink';
+import s from './Header.module.scss';
+import { authStore } from '@/entities/auth/model/auth.store';
+import { observer } from 'mobx-react-lite';
+import { routes } from '@/shared/config/routes';
+import Image from 'next/image';
+
+const Header = observer(() => {
   return (
     <header className={s.header}>
       <div className={s.content}>
@@ -17,6 +21,7 @@ export default async function Header() {
             width={100}
             height={50}
             priority
+            unoptimized
           />
         </NavigationLink>
 
@@ -28,14 +33,12 @@ export default async function Header() {
           >
             Фильмы
           </NavigationLink>
-          {/* <NavigationLink
-            url={routes.cinemaDetails.create('1')}
+          <NavigationLink
+            prefetch={false}
+            url="/new"
             className={s.tabLink}
             activeClassName={s.tabLinkActive}
           >
-            Один фильм
-          </NavigationLink> */}
-          <NavigationLink url="/new" className={s.tabLink} activeClassName={s.tabLinkActive}>
             Новинки
           </NavigationLink>
         </nav>
@@ -50,7 +53,7 @@ export default async function Header() {
           </NavigationLink>
 
           <NavigationLink
-            url={routes.login.create()}
+            url={authStore.isAuthenticated ? routes.profile.create() : routes.login.create()}
             className={s.iconLink}
             activeClassName={s.iconLinkActive}
           >
@@ -60,4 +63,6 @@ export default async function Header() {
       </div>
     </header>
   );
-}
+});
+
+export default Header;

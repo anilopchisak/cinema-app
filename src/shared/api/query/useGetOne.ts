@@ -11,7 +11,7 @@ export const useGetOne = <TEntity, TParams>(
     queryKey: [...queryKey, documentId],
     queryFn: ({ signal }) => {
       if (!documentId) throw new Error('Попытка запроса эксемпляра сущности с пустым id');
-      return service.getOne(signal, documentId);
+      return service.getOne(signal, documentId, { revalidate: 60 });
     },
     enabled: !!documentId,
     select: ({ data }) => data,

@@ -1,0 +1,44 @@
+.detailsPage {
+  .backButton {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: $text-primary;
+
+    .icon {
+      transform: rotate(180deg);
+    }
+  }
+
+  .film {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    @media (min-width: $breakpoint-lg) {
+      flex-direction: row;
+      gap: 48px;
+    }
+
+    .body {
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+
+      @media (min-width: $breakpoint-lg) {
+        max-width: 390px;
+      }
+
+      .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  }
+}

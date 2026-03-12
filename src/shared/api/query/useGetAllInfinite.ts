@@ -1,4 +1,4 @@
-import { useInfiniteQuery, type QueryKey } from '@tanstack/react-query';
+import { useInfiniteQuery, UseInfiniteQueryOptions, type QueryKey } from '@tanstack/react-query';
 import type { ApiService } from '../service/api-service.types';
 import type { PaginationResponse, ResponseData } from '../api.types';
 import { DEFAULT_PAGE_SIZE } from '@/shared/consts/api.consts';
@@ -13,7 +13,10 @@ interface InfiniteQueryProps<TEntity, TParams = unknown> {
   service: ApiService<TEntity, TParams>;
   params: TParams;
   initialPageCount?: number;
-  options?: any;
+  options?: Omit<
+    UseInfiniteQueryOptions<ResponseData<TEntity[]>, Error, TransformedData<TEntity>>,
+    'queryKey' | 'queryFn' | 'select' | 'getNextPageParam' | 'initialPageParam'
+  >;
 }
 
 export const useGetAllInfinite = <TEntity, TParams = unknown>(
@@ -21,11 +24,7 @@ export const useGetAllInfinite = <TEntity, TParams = unknown>(
 ) => {
   const { queryKey, service, params, initialPageCount, options } = config;
 
-  const query = useInfiniteQuery<
-    ResponseData<TEntity[]>,
-    Error,
-    TransformedData<TEntity>
-  >({
+  const query = useInfiniteQuery<ResponseData<TEntity[]>, Error, TransformedData<TEntity>>({
     queryKey: [...queryKey, params],
     queryFn: ({ signal, pageParam }) => {
       const isInitialLoad = pageParam === 1;

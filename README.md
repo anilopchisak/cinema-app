@@ -2,6 +2,10 @@
 
 Сервис для поиска и просмотра фильмов.
 
+Ссылка на Vercel: https://cinema-app-gold.vercel.app/cinema
+
+Ссылка на исходный репозиторий: https://github.com/anilopchisak/cinema-strapi
+
 ## Оглавление
 
 - [Возможности](#возможности)
@@ -34,6 +38,10 @@
 
 - HTTP-клиент: fetch для запросов к API
 
+- Tanstack Query
+
+- MobX
+
 - Утилиты:
   - classnames — условное объединение классов
   - qs — парсинг и строгификация query-строк
@@ -46,29 +54,29 @@
 1. Клонировать репозиторий
 
 ```ts
-git clone git@github.com:anilopchisak/cinema-strapi.git
+git@github.com:anilopchisak/cinema-app.git
 ```
 
 2. Перейти в папку проекта
 
 ```ts
-сd cinema-strapi
+сd cinema-app
 ```
 
 3. Установить зависимости
 
 ```ts
-yarn install
+npm ci
 ```
 
 4. Настроить переменные окружения (создать файл .env в корне проекта и добавить туда свои ключи)
 
 ```ts
-VITE_API_TOKEN = ваш_ключ;
+NEXT_PUBLIC_STRAPI_BASE_URL = url;
 ```
 
 5. Запустить проект
 
 ```ts
-yarn dev
+npm run dev
 ```

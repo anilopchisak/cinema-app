@@ -1,15 +1,16 @@
 import { dehydrate, QueryClient } from '@tanstack/react-query';
-import cinemaApi from '../cinema.api';
 import { CINEMA_ENDPOINTS } from '../cinema.endpoints';
+import cinemaApi from '../cinema.api';
 
-export async function prefetchCinema(params?: any) {
+export async function prefetchFilm(documentId: string) {
   const queryClient = new QueryClient();
-
-  const queryKey = [CINEMA_ENDPOINTS.cinema, params];
+  const queryKey = [CINEMA_ENDPOINTS.cinema, documentId];
 
   await queryClient.prefetchQuery({
     queryKey,
-    queryFn: ({ signal }) => cinemaApi.getAll(signal!, params),
+    queryFn: async ({ signal }) => {
+      return cinemaApi.getOne(signal, documentId);
+    },
   });
 
   return dehydrate(queryClient);

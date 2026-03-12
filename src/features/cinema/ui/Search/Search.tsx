@@ -1,48 +1,45 @@
-"use client";
+'use client';
 
-import Input from "@/shared/ui/Input";
-import s from "./Search.module.scss";
-import Button from "@/shared/ui/Button";
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import Input from '@/shared/ui/Input';
+import s from './Search.module.scss';
+import Button from '@/shared/ui/Button';
+import { useState, type KeyboardEvent } from 'react';
+import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
+import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 
 type SearchProps = {
   /** Начальное значение при загрузке страницы */
-  initSearch: string;
-  /** Коллбек при изменении поиска */
-  onSearch: (val: string) => void;
+  initSearch: CinemaRawParams['search'];
 };
 
 /** Поисковая строка */
-const Search = ({ initSearch, onSearch }: SearchProps) => {
-  const [search, setSearch] = useState("");
-  const isInitialized = useRef(false);
+const Search = ({ initSearch }: SearchProps) => {
+  const [search, setSearch] = useState(initSearch ?? '');
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      onSearch(search);
-    }
+  const updateQuery = useUpdateQuery();
+
+  const onSearch = () => {
+    updateQuery({ search });
   };
 
-  useEffect(() => {
-    if (!isInitialized.current && initSearch.length > 0) {
-      setSearch(initSearch);
-      isInitialized.current = true;
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      onSearch();
     }
-  }, [initSearch]);
+  };
 
   return (
     <div className={s.searchRow}>
       <div className={s.inputWrapper}>
         <Input
-          autoFocus={true}
           value={search}
           onChange={setSearch}
           placeholder="Искать фильмы"
           onKeyDown={handleKeyDown}
         />
       </div>
-      <Button className={s.searchButton} onClick={() => onSearch(search)}>
+      <Button className={s.searchButton} onClick={() => onSearch()}>
         Найти
       </Button>
     </div>

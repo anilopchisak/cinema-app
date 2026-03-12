@@ -1,6 +1,6 @@
 import { useCreate } from '@/shared/api/query/useCreate';
-import favoritesApi from '../favorites.api';
-import { FAVORITES_ENDPOINTS } from '../favorites.endpoints';
+import favoritesApi from '@/entities/favorites/api/favorites.api';
+import { FAVORITES_ENDPOINTS } from '@/entities/favorites/api/favorites.endpoints';
 
 const useAddFavorite = () => {
   return useCreate({

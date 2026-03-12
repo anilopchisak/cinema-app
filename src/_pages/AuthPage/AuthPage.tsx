@@ -1,34 +1,35 @@
-"use client";
+'use client';
 
-import Text from "@/shared/ui/Text";
-import s from "./AuthPage.module.scss";
-import AuthForm from "@/features/auth/ui/AuthForm";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { authStore } from "@/entities/auth/model/auth.store";
-import { routes } from "@/shared/config/routes";
-import { observer } from "mobx-react-lite";
-import { useAuthFormLogic } from "@/features/auth/model/hooks/useAuthFormLogic";
+import Text from '@/shared/ui/Text';
+import s from './AuthPage.module.scss';
+import AuthForm from '@/features/auth/ui/AuthForm';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { authStore } from '@/entities/auth/model/auth.store';
+import { routes } from '@/shared/config/routes';
+import { observer } from 'mobx-react-lite';
+import { useAuthFormLogic } from '@/features/auth/model/hooks/useAuthFormLogic';
 
 type Props = {
-  mode: "login" | "register";
+  mode: 'login' | 'register';
 };
 
 const AuthPage = observer(({ mode }: Props) => {
   const router = useRouter();
   const { isAuthenticated } = authStore;
 
-  const { errors, handleSubmit, isLoading } = useAuthFormLogic(mode);
+  const { errors, handleSubmit, isLoading, isSuccess } = useAuthFormLogic(mode);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.push(routes.profile.create());
+    if (isSuccess && isAuthenticated) {
+      window.location.reload();
+      // router.push(routes.profile.create());
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, isSuccess]);
 
   return (
     <div className={s.container}>
-      <Text view="title">{mode === "login" ? "Войти" : "Регистрация"}</Text>
+      <Text view="title">{mode === 'login' ? 'Войти' : 'Регистрация'}</Text>
 
       <AuthForm
         mode={mode}

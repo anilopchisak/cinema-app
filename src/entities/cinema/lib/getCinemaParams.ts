@@ -1,3 +1,4 @@
+import { CinemaRawParams } from '../types/cinema.types';
 import { computeApiParams } from './computeApiParams';
 
 export const getCinemaParams = (searchParams: { [key: string]: string | string[] | undefined }) => {
@@ -15,7 +16,20 @@ export const getCinemaParams = (searchParams: { [key: string]: string | string[]
 
   const page = parseInt((searchParams.page as string) || '1', 10);
 
-  const apiParams = computeApiParams({ search, sort, category: categories } as any);
+  const rawParams: CinemaRawParams = {
+    search,
+    sort,
+    category: categories.length > 0 ? categories : undefined,
+    page,
+    releaseYear: searchParams.releaseYear as string | undefined,
+    isFeatured: searchParams.isFeatured as string | undefined,
+    minRating: searchParams.minRating as string | undefined,
+    maxRating: searchParams.maxRating as string | undefined,
+    ageLimit: searchParams.ageLimit as string | undefined,
+    duration: searchParams.duration as string | undefined,
+  };
 
-  return { search, sort, category: categories, page, apiParams };
+  const apiParams = computeApiParams({ search, sort, category: categories });
+
+  return { rawParams, apiParams };
 };
