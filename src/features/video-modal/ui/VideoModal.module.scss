@@ -1,0 +1,12 @@
+.container {
+  & > :not(:last-child) {
+    margin: 1rem;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}

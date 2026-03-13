@@ -38,6 +38,7 @@ export interface FilmParams {
   sort?: string;
   filters?: FilmFilters;
   pagination?: PaginationParams;
+  fields?: string[];
   populate?: string[];
 }
 

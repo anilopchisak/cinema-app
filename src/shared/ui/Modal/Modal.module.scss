@@ -22,9 +22,10 @@
 }
 
 .content {
+  padding: 1rem;
   position: relative;
   background-color: $background-dark;
-  border-radius: $border-radius;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: $shadow;
 

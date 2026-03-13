@@ -8,6 +8,7 @@ import { authStore } from '@/entities/auth/model/auth.store';
 import { observer } from 'mobx-react-lite';
 import { routes } from '@/shared/config/routes';
 import Image from 'next/image';
+import RandomVideoButton from '@/features/random-video/ui/RandomVideoButton';
 
 const Header = observer(() => {
   return (
@@ -33,15 +34,11 @@ const Header = observer(() => {
           >
             Фильмы
           </NavigationLink>
-          <NavigationLink
-            prefetch={false}
-            url="/new"
-            className={s.tabLink}
-            activeClassName={s.tabLinkActive}
-          >
-            Новинки
-          </NavigationLink>
         </nav>
+
+        <div>
+          <RandomVideoButton />
+        </div>
 
         <div className={s.actions}>
           <NavigationLink
