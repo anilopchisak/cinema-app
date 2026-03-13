@@ -45,6 +45,24 @@ export interface FilmParams {
 // Так как computeApiParams возвращает FilmParams, CinemaApiParams является его алиасом
 export type CinemaApiParams = FilmParams;
 
+export interface GalleryImage {
+  id: number;
+  documentId: string;
+  name: string;
+  alternativeText: string | null;
+  caption: string | null;
+  width: number;
+  height: number;
+  formats: {
+    large?: {
+      url: string;
+      width: number;
+      height: number;
+    };
+  };
+  url: string;
+}
+
 export interface Film {
   documentId: string;
   title: string;
@@ -61,5 +79,5 @@ export interface Film {
   category?: {
     title: string;
   } | null;
-  gallery?: unknown;
+  gallery?: GalleryImage[];
 }

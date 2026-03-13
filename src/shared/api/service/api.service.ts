@@ -3,19 +3,19 @@ import { STRAPI_URL, getAuthHeaders, buildQueryString } from '@/shared/api/helpe
 import type { ApiConfig, ApiService } from './api-service.types';
 
 const apiService = <TEntity, TParams = unknown>(
-  endpoint: string, 
+  endpoint: string,
   serviceConfig?: ApiConfig
 ): ApiService<TEntity, TParams> => {
-
   const getOne = async (
     signal: AbortSignal,
     documentId: string,
-    requestConfig?: ApiConfig 
+    params?: TParams,
+    requestConfig?: ApiConfig
   ): Promise<ResponseData<TEntity>> => {
-    
+    const query = buildQueryString(params as Record<string, unknown>);
     const revalidate = requestConfig?.revalidate ?? serviceConfig?.revalidate;
 
-    const response = await fetch(`${STRAPI_URL}${endpoint}/${documentId}`, {
+    const response = await fetch(`${STRAPI_URL}${endpoint}/${documentId}?${query}`, {
       method: 'GET',
       headers: {
         ...getAuthHeaders(),

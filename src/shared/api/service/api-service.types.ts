@@ -1,4 +1,4 @@
-import type { ResponseData } from "@/shared/api/api.types";
+import type { ResponseData } from '@/shared/api/api.types';
 
 export interface ApiConfig {
   revalidate?: number | false;
@@ -9,13 +9,14 @@ export interface ApiService<TEntity, TParams> {
   getOne: (
     signal: AbortSignal,
     documentId: string,
-    config?: ApiConfig,
+    params?: TParams,
+    config?: ApiConfig
   ) => Promise<ResponseData<TEntity>>;
 
   getAll: (
     signal: AbortSignal,
     params?: TParams,
-    config?: ApiConfig,
+    config?: ApiConfig
   ) => Promise<ResponseData<TEntity[]>>;
 
   create: <TData>(data: TData) => Promise<ResponseData<TEntity>>;
