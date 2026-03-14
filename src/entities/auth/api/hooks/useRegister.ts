@@ -13,7 +13,7 @@ export const useRegister = () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     onError: (error) => {
-      throw new Error(`Ошибка регистрации: ${error}`);
+      // throw new Error(`Ошибка регистрации: ${error}`);
     },
   });
 };

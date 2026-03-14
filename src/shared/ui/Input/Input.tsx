@@ -1,13 +1,10 @@
-"use client";
+'use client';
 
-import cn from "classnames";
-import React from "react";
-import s from "./Input.module.scss";
+import cn from 'classnames';
+import React from 'react';
+import s from './Input.module.scss';
 
-export type InputProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "onChange" | "value"
-> & {
+export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> & {
   /** Значение поля */
   value: string;
   /** Callback, вызываемый при вводе данных в поле */
@@ -18,6 +15,8 @@ export type InputProps = Omit<
   disabled?: boolean;
   /** Заглушка для поля ввода */
   placeholder: string;
+  /** Сообщение об ошибке */
+  error?: string;
   ref?: React.Ref<HTMLInputElement>;
 };
 
@@ -28,6 +27,7 @@ export default function Input({
   afterSlot,
   disabled,
   placeholder,
+  error,
   ref,
   ...rest
 }: InputProps) {
@@ -36,19 +36,23 @@ export default function Input({
   };
 
   return (
-    <label className={cn(s.input, disabled && s.disabled, className)}>
-      <input
-        ref={ref}
-        type="text"
-        value={value}
-        onChange={handleChange}
-        placeholder={placeholder}
-        className={s.field}
-        disabled={disabled}
-        {...rest}
-      />
+    <div className={cn(s.wrapper, className)}>
+      <label className={cn(s.input, disabled && s.disabled, error && s.error, className)}>
+        <input
+          ref={ref}
+          type="text"
+          value={value}
+          onChange={handleChange}
+          placeholder={placeholder}
+          className={s.field}
+          disabled={disabled}
+          {...rest}
+        />
 
-      {afterSlot && <div className={s.after}>{afterSlot}</div>}
-    </label>
+        {afterSlot && <div className={s.after}>{afterSlot}</div>}
+      </label>
+
+      <span className={cn(s.errorMessage, error && s.errorVisible)}>{error || '\u00A0'}</span>
+    </div>
   );
 }

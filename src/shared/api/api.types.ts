@@ -17,3 +17,8 @@ export interface ResponseData<T> {
     pagination: PaginationResponse;
   };
 }
+
+export type ApiError = {
+  status: number;
+  message?: string;
+};

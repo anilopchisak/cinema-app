@@ -38,12 +38,12 @@ const CinemaDetailsPage = () => {
         <FilmInfo film={film} />
       </div>
 
-      {/* <Gallery
+      <Gallery
         gallery={film.gallery ?? []}
         autoPlay={true}
         autoPlayInterval={3000}
         altPrefix="Кадр из фильма"
-      /> */}
+      />
     </div>
   );
 };

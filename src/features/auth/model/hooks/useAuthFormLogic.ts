@@ -1,18 +1,16 @@
-import { loginDataValidator, registerDataValidator } from '@/shared/lib/auth-validators';
 import { useState } from 'react';
 import { useLogin } from '@/entities/auth/api/hooks/useLogin';
 import { useRegister } from '@/entities/auth/api/hooks/useRegister';
-import { isApiError } from '@/features/auth/model/types';
-import { LoginFormData, RegisterFormData } from '@/features/auth/auth-form.types';
-
-const ERROR_MESSAGE: Record<string, string> = {
-  ValidationError: 'Неверный логин или пароль.',
-  defaultLogin: 'Ошибка при авторизации',
-  defaultRegister: 'Ошибка при регистрации',
-};
+import { LoginFormValues, RegisterFormValues } from '@/features/auth/types/auth-form.types';
+import {
+  DEFAULT_LOGIN_ERROR,
+  DEFAULT_REGISTER_ERROR,
+  ERROR_MESSAGE,
+} from '@/shared/consts/api.consts';
+import { ApiError } from '@/shared/api/api.types';
 
 export const useAuthFormLogic = (mode: 'login' | 'register') => {
-  const [errors, setErrors] = useState<string[]>([]);
+  const [error, setError] = useState<string>('');
   const isLogin = mode === 'login';
 
   const {
@@ -26,28 +24,21 @@ export const useAuthFormLogic = (mode: 'login' | 'register') => {
     isSuccess: isSuccessRegister,
   } = useRegister();
 
-  const mapError = (errName?: string) => {
-    if (errName && ERROR_MESSAGE[errName]) return ERROR_MESSAGE[errName];
-    return isLogin ? ERROR_MESSAGE.defaultLogin : ERROR_MESSAGE.defaultRegister;
+  const findError = (status?: number) => {
+    if (status && ERROR_MESSAGE[status]) {
+      return ERROR_MESSAGE[status];
+    }
+    return isLogin ? DEFAULT_LOGIN_ERROR : DEFAULT_REGISTER_ERROR;
   };
 
-  const handleSubmit = async (data: LoginFormData | RegisterFormData) => {
-    setErrors([]);
-
-    const validationErrors = isLogin
-      ? loginDataValidator(data as LoginFormData)
-      : registerDataValidator(data as RegisterFormData);
-
-    if (validationErrors.length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+  const handleSubmit = async (data: LoginFormValues | RegisterFormValues) => {
+    setError('');
 
     try {
       if (isLogin) {
         await loginUser({ identifier: data.login, password: data.password });
       } else {
-        const regData = data as RegisterFormData;
+        const regData = data as RegisterFormValues;
         await registerUser({
           email: regData.email,
           username: regData.login,
@@ -55,20 +46,19 @@ export const useAuthFormLogic = (mode: 'login' | 'register') => {
         });
       }
     } catch (err: unknown) {
-      let errorName: string | undefined;
-
-      if (isApiError(err)) {
-        errorName = err.response?.data?.error?.name;
-      }
-
-      setErrors([mapError(errorName)]);
+      const apiError = err as ApiError;
+      setError(findError(apiError.status));
     }
   };
 
+  const clearError = () => setError('');
+
   return {
-    errors,
+    error,
     handleSubmit,
     isLoading: isPendingLogin || isPendingRegister,
     isSuccess: isSuccessLogin || isSuccessRegister,
+    isError: Boolean(error),
+    clearError,
   };
 };

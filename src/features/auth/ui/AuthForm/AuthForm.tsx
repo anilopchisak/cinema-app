@@ -2,31 +2,36 @@
 
 import Button from '@/shared/ui/Button';
 import Input from '@/shared/ui/Input';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import s from './AuthForm.module.scss';
-import type { LoginFormData, RegisterFormData } from '@/features/auth/auth-form.types';
+import type { LoginFormValues, RegisterFormValues } from '@/features/auth/types/auth-form.types';
 import Link from 'next/link';
 import { routes } from '@/shared/config/routes';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema, registerSchema } from '../../zod/auth.schema';
 
 type Props = {
   mode: 'login' | 'register';
-  onLogin: (data: LoginFormData) => void;
-  onRegister: (data: RegisterFormData) => void;
+  onSubmit: (data: LoginFormValues | RegisterFormValues) => void;
   isLoading?: boolean;
+  isError?: boolean;
+  onFieldChange?: () => void;
 };
 
-type FormValues = RegisterFormData;
-
-export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props) {
+export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldChange }: Props) {
   const isLogin = mode === 'login';
+
+  const schema = useMemo(() => (isLogin ? loginSchema : registerSchema), [isLogin]);
 
   const {
     control,
     handleSubmit,
     reset,
     formState: { isSubmitting },
-  } = useForm<FormValues>({
+  } = useForm<LoginFormValues | RegisterFormValues>({
+    resolver: zodResolver(schema),
+    mode: 'onBlur',
     defaultValues: {
       login: '',
       email: '',
@@ -42,27 +47,29 @@ export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props
     });
   }, [mode, reset]);
 
-  const onSubmit = (values: FormValues) => {
+  const submit = (values: LoginFormValues | RegisterFormValues) => {
     if (isLogin) {
-      const { login, password } = values;
-      onLogin({ login, password });
+      onSubmit({ login: values.login, password: values.password });
     } else {
-      onRegister(values);
+      onSubmit(values as RegisterFormValues);
     }
   };
 
   return (
-    <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
+    <form className={s.form} onSubmit={handleSubmit(submit)}>
       <Controller
         control={control}
         name="login"
-        rules={{ required: true }}
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <Input
-            value={field.value || ''}
-            onChange={field.onChange}
-            placeholder="Логин"
             autoFocus
+            value={field.value || ''}
+            onChange={(v) => {
+              field.onChange(v);
+              onFieldChange?.();
+            }}
+            placeholder="Логин"
+            error={fieldState.error?.message || (isError ? ' ' : undefined)}
             onBlur={field.onBlur}
             name={field.name}
             ref={field.ref}
@@ -74,12 +81,15 @@ export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props
         <Controller
           control={control}
           name="email"
-          rules={{ required: true }}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Input
               value={field.value || ''}
-              onChange={field.onChange}
+              onChange={(v) => {
+                field.onChange(v);
+                onFieldChange?.();
+              }}
               placeholder="Эл. почта"
+              error={fieldState.error?.message || (isError ? ' ' : undefined)}
               onBlur={field.onBlur}
               name={field.name}
               ref={field.ref}
@@ -91,13 +101,16 @@ export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props
       <Controller
         control={control}
         name="password"
-        rules={{ required: true }}
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <Input
             value={field.value || ''}
-            onChange={field.onChange}
+            onChange={(v) => {
+              field.onChange(v);
+              onFieldChange?.();
+            }}
             placeholder="Пароль"
             type="password"
+            error={fieldState.error?.message || (isError ? ' ' : undefined)}
             onBlur={field.onBlur}
             name={field.name}
             ref={field.ref}

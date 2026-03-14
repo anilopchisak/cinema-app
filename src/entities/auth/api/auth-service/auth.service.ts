@@ -1,45 +1,52 @@
-import type {
-  AuthResponse,
-  LoginPayload,
-  RegisterPayload,
-} from "./auth-service.types";
-import { STRAPI_URL, getAuthHeaders } from "@/shared/api/helpers";
+import { ApiError } from 'next/dist/server/api-utils';
+import type { AuthResponse, LoginPayload, RegisterPayload } from './auth-service.types';
+import { STRAPI_URL, getAuthHeaders } from '@/shared/api/helpers';
 
 const authService = {
   register: async (payload: RegisterPayload): Promise<AuthResponse> => {
     const response = await fetch(`${STRAPI_URL}/auth/local/register`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...getAuthHeaders(),
       },
       body: JSON.stringify(payload),
-      cache: "no-store",
+      cache: 'no-store',
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      throw new Error("Register request failed");
+      throw {
+        status: response.status,
+        message: data?.error?.message,
+      };
     }
 
-    return response.json();
+    return data;
   },
 
   login: async (payload: LoginPayload): Promise<AuthResponse> => {
     const response = await fetch(`${STRAPI_URL}/auth/local`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...getAuthHeaders(),
       },
       body: JSON.stringify(payload),
-      cache: "no-store",
+      cache: 'no-store',
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      throw new Error("Login request failed");
+      throw {
+        status: response.status,
+        message: data?.error?.message,
+      };
     }
 
-    return response.json();
+    return data;
   },
 };
 

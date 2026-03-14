@@ -13,7 +13,7 @@ export const useLogin = () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     onError: (error) => {
-      throw new Error(`Ошибка авторизации: ${error}`);
+      // throw new Error(`Ошибка авторизации: ${error}`);
     },
   });
 };
