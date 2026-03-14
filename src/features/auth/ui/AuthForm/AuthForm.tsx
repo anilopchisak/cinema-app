@@ -69,6 +69,7 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
               onFieldChange?.();
             }}
             placeholder="Логин"
+            showErrorMessage={true}
             error={fieldState.error?.message || (isError ? ' ' : undefined)}
             onBlur={field.onBlur}
             name={field.name}
@@ -89,6 +90,7 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
                 onFieldChange?.();
               }}
               placeholder="Эл. почта"
+              showErrorMessage={true}
               error={fieldState.error?.message || (isError ? ' ' : undefined)}
               onBlur={field.onBlur}
               name={field.name}
@@ -110,6 +112,7 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
             }}
             placeholder="Пароль"
             type="password"
+            showErrorMessage={true}
             error={fieldState.error?.message || (isError ? ' ' : undefined)}
             onBlur={field.onBlur}
             name={field.name}

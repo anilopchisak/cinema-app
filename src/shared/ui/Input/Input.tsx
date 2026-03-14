@@ -15,6 +15,8 @@ export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCh
   disabled?: boolean;
   /** Заглушка для поля ввода */
   placeholder: string;
+  /** Флаг - показывать ли блок с сообщением об ошибке */
+  showErrorMessage?: boolean;
   /** Сообщение об ошибке */
   error?: string;
   ref?: React.Ref<HTMLInputElement>;
@@ -27,6 +29,7 @@ export default function Input({
   afterSlot,
   disabled,
   placeholder,
+  showErrorMessage = false,
   error,
   ref,
   ...rest
@@ -52,7 +55,9 @@ export default function Input({
         {afterSlot && <div className={s.after}>{afterSlot}</div>}
       </label>
 
-      <span className={cn(s.errorMessage, error && s.errorVisible)}>{error || '\u00A0'}</span>
+      {showErrorMessage && (
+        <span className={cn(s.errorMessage, error && s.errorVisible)}>{error || 'Ошибка'}</span>
+      )}
     </div>
   );
 }
