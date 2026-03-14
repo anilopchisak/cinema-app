@@ -13,8 +13,22 @@ interface CinemaFiltersProps {
 
 const SORT: Option[] = [
   { key: 'default', value: 'По умолчанию' },
-  { key: 'title:asc', value: 'По названию А -> Я' },
-  { key: 'title:desc', value: 'По названию Я -> А' },
+
+  // Название
+  { key: 'title:asc', value: 'По названию (А → Я)' },
+  { key: 'title:desc', value: 'По названию (Я → А)' },
+
+  // Год выпуска
+  { key: 'releaseYear:asc', value: 'По году выпуска (от старых к новым)' },
+  { key: 'releaseYear:desc', value: 'По году выпуска (от новых к старым)' },
+
+  // Длительность
+  { key: 'duration:asc', value: 'По длительности (от коротких к длинным)' },
+  { key: 'duration:desc', value: 'По длительности (от длинных к коротким)' },
+
+  // Рейтинг
+  { key: 'rating:asc', value: 'По рейтингу (от низкого к высокому)' },
+  { key: 'rating:desc', value: 'По рейтингу (от высокого к низкому)' },
 ];
 
 const SortFilter = ({ initSort }: CinemaFiltersProps) => {
