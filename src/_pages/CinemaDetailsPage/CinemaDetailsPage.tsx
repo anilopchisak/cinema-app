@@ -9,6 +9,8 @@ import CinemaDetailsSkeleton from './skeleton';
 import useFilmState from '@/entities/cinema/api/hooks/useFilmState';
 import Gallery from '@/shared/ui/Gallery';
 import FilmInfo from '@/widgets/cinema-details/FilmInfo';
+import { useMediaQuery } from 'react-responsive';
+import CinemaDetailsMobile from './mobile';
 
 type CinemaDetailsParams = {
   documentId: string;
@@ -22,9 +24,15 @@ const CinemaDetailsPage = () => {
 
   const { data: film, isLoading, isError } = useFilmState(documentId);
 
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+
   if (isLoading) return <CinemaDetailsSkeleton />;
 
   if (isError || !film) return <Text>Фильм не найден</Text>;
+
+  if (isMobile) {
+    return <CinemaDetailsMobile film={film} />;
+  }
 
   return (
     <div className={s.detailsPage}>
@@ -35,21 +43,47 @@ const CinemaDetailsPage = () => {
         </button>
       </div>
 
-      <div className={s.film}>
-        {film?.trailerUrl && <VideoPlayer videoUrl={film.trailerUrl} />}
-        <FilmInfo film={film} />
+      <div className={s.hero}>
+        <Gallery
+          gallery={film.gallery ?? []}
+          autoPlay={true}
+          autoPlayInterval={3000}
+          altPrefix="Кадр из фильма"
+          disableButtons={true}
+          pauseOnHover={false}
+        />
+        <div className={s.overlay} />
+        <div className={s.filmInfoWrapper}>
+          <FilmInfo film={film} />
+        </div>
       </div>
 
-      <Gallery
-        className={s.gallery}
-        gallery={film.gallery ?? []}
-        autoPlay={true}
-        autoPlayInterval={3000}
-        altPrefix="Кадр из фильма"
-        disableButtons={true}
-      />
+      {film?.trailerUrl && <VideoPlayer videoUrl={film.trailerUrl} />}
     </div>
   );
 };
 
 export default CinemaDetailsPage;
+
+// <div className={s.detailsPage}>
+//   <div>
+//     <button onClick={() => router.back()} className={s.backButton}>
+//       <ArrowRightIcon className={s.icon} />
+//       <Text view="button">Назад</Text>
+//     </button>
+//   </div>
+
+//   <div className={s.film}>
+//     {film?.trailerUrl && <VideoPlayer videoUrl={film.trailerUrl} />}
+//     <FilmInfo film={film} />
+//   </div>
+
+//   <Gallery
+//     className={s.gallery}
+//     gallery={film.gallery ?? []}
+//     autoPlay={true}
+//     autoPlayInterval={3000}
+//     altPrefix="Кадр из фильма"
+//     disableButtons={true}
+//   />
+// </div>

@@ -1,9 +1,9 @@
 .wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9; // Стандарт для кино-кадров
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 5px;
   background-color: #000;
 }
 
@@ -37,7 +37,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 15%; // Зона наведения
+  width: 15%;
   border: none;
   background: transparent;
   cursor: pointer;

@@ -14,6 +14,7 @@ interface GalleryProps {
   autoPlayInterval?: number;
   className?: string;
   disableButtons?: boolean;
+  pauseOnHover?: boolean;
 }
 
 const Gallery = ({
@@ -23,6 +24,7 @@ const Gallery = ({
   autoPlay = false,
   autoPlayInterval = 4000,
   disableButtons = false,
+  pauseOnHover = true,
 }: GalleryProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -50,8 +52,12 @@ const Gallery = ({
   return (
     <div
       className={cn(s.wrapper, className)}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      {...(pauseOnHover
+        ? {
+            onMouseEnter: () => setIsPaused(true),
+            onMouseLeave: () => setIsPaused(false),
+          }
+        : {})}
     >
       <div className={s.container}>
         {gallery.map((img, index) => (

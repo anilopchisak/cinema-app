@@ -78,7 +78,7 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
   });
 
   const openDetail = (documentId: string) => {
-    router.push(routes.cinemaDetails.create(documentId));
+    router.push(routes.cinemaDetails.create(documentId), { scroll: true });
   };
 
   if (isLoading) return <CinemaListSkeleton />;
