@@ -1,12 +1,38 @@
-.container {
-  & > :not(:last-child) {
-    margin: 1rem;
-  }
+.modal {
+  max-width: 800px;
+  width: 100%;
+  margin: 2rem;
+  padding: 1rem;
 }
 
 .header {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.content {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
+  justify-content: center;
+}
+
+.title {
+  max-width: 725px;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  box-shadow: none;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+
+  .text {
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $text-accent;
+    }
+  }
 }

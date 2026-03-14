@@ -3,6 +3,7 @@
 import s from './Modal.module.scss';
 import { ReactNode, useEffect, useState } from 'react';
 import cn from 'classnames';
+import { IoCloseOutline } from 'react-icons/io5';
 
 type ModalProps = {
   isOpen: boolean;
@@ -39,6 +40,9 @@ const Modal = ({ isOpen, onClose, children, className = '' }: ModalProps) => {
         className={cn(s.content, { [s.open]: animate }, className)}
         onClick={(e) => e.stopPropagation()}
       >
+        <button className={s.closeButton} onClick={onClose} aria-label="Закрыть">
+          <IoCloseOutline />
+        </button>
         {children}
       </div>
     </div>

@@ -5,6 +5,7 @@ import s from './Gallery.module.scss';
 import Image from 'next/image';
 import ArrowRightIcon from '../icons/ArrowRightIcon/ArrowRightIcon';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import cn from 'classnames';
 
 interface GalleryProps {
   gallery: GalleryImage[];
@@ -12,6 +13,7 @@ interface GalleryProps {
   autoPlay?: boolean;
   autoPlayInterval?: number;
   className?: string;
+  disableButtons?: boolean;
 }
 
 const Gallery = ({
@@ -20,6 +22,7 @@ const Gallery = ({
   className = '',
   autoPlay = false,
   autoPlayInterval = 4000,
+  disableButtons = false,
 }: GalleryProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -46,7 +49,7 @@ const Gallery = ({
 
   return (
     <div
-      className={s.wrapper}
+      className={cn(s.wrapper, className)}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -67,13 +70,21 @@ const Gallery = ({
           </div>
         ))}
 
-        <button className={`${s.navBtn} ${s.prev}`} onClick={prevSlide} aria-label="Previous slide">
-          <ArrowRightIcon className={s.iconPrev} />
-        </button>
+        {!disableButtons && (
+          <button
+            className={`${s.navBtn} ${s.prev}`}
+            onClick={prevSlide}
+            aria-label="Previous slide"
+          >
+            <ArrowRightIcon className={s.iconPrev} />
+          </button>
+        )}
 
-        <button className={`${s.navBtn} ${s.next}`} onClick={nextSlide} aria-label="Next slide">
-          <ArrowRightIcon className={s.iconNext} />
-        </button>
+        {!disableButtons && (
+          <button className={`${s.navBtn} ${s.next}`} onClick={nextSlide} aria-label="Next slide">
+            <ArrowRightIcon className={s.iconNext} />
+          </button>
+        )}
       </div>
     </div>
   );

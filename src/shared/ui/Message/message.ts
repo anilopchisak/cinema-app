@@ -15,7 +15,7 @@ export const message = ({ type, title, autoClose = 3000 }: Props) => {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: 'light',
+    theme: 'dark',
     transition: Bounce,
   };
 

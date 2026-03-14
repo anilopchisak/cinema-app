@@ -1,11 +1,15 @@
 .detailsPage {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3rem;
 }
 
 .backButton {
   display: flex;
   align-items: center;
   gap: 25px;
-  margin-bottom: 32px;
+  // margin-bottom: 32px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -21,10 +25,14 @@
   flex-direction: column;
   gap: 32px;
 
-  margin-bottom: 4rem;
+  // margin-bottom: 4rem;
 
   @media (min-width: $breakpoint-lg) {
     flex-direction: row;
     gap: 48px;
   }
+}
+
+.gallery {
+  max-width: 800px;
 }

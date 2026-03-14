@@ -1,6 +1,6 @@
 .container {
   position: relative;
-  aspect-ratio: 16 / 9;
+  width: 100%;
   background-color: #000;
   @media (min-width: $breakpoint-lg) {
     width: 800px;

@@ -5,7 +5,6 @@ import VideoPlayer from '@/features/cinema/ui/VideoPlayer';
 import Text from '@/shared/ui/Text';
 import { routes } from '@/shared/config/routes';
 import s from './VideoModal.module.scss';
-import Button from '@/shared/ui/Button';
 import { useRouter } from 'next/navigation';
 
 const VideoModal = observer(() => {
@@ -18,15 +17,16 @@ const VideoModal = observer(() => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={close}>
-      <div className={s.container}>
-        <div className={s.header}>
-          <Text view="title">{filmTitle}</Text>
-          <Button styleType="outline" onClick={openDetails}>
-            Перейти к странице фильма
-          </Button>
-        </div>
+    <Modal className={s.modal} isOpen={isOpen} onClose={close}>
+      <div className={s.header}>
+        <button className={s.title} onClick={openDetails}>
+          <Text className={s.text} view="title">
+            {filmTitle}
+          </Text>
+        </button>
+      </div>
 
+      <div className={s.content}>
         <VideoPlayer videoUrl={videoUrl ?? ''} />
       </div>
     </Modal>

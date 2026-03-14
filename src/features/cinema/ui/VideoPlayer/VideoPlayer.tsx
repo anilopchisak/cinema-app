@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import s from './VideoPlayer.module.scss';
-import Loader from '@/shared/ui/Loader';
-import cn from 'classnames';
 
 type VideoPlayerProps = {
   videoUrl: string | null;

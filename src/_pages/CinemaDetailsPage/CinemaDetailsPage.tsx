@@ -28,10 +28,12 @@ const CinemaDetailsPage = () => {
 
   return (
     <div className={s.detailsPage}>
-      <button onClick={() => router.back()} className={s.backButton}>
-        <ArrowRightIcon className={s.icon} />
-        <Text view="button">Назад</Text>
-      </button>
+      <div>
+        <button onClick={() => router.back()} className={s.backButton}>
+          <ArrowRightIcon className={s.icon} />
+          <Text view="button">Назад</Text>
+        </button>
+      </div>
 
       <div className={s.film}>
         {film?.trailerUrl && <VideoPlayer videoUrl={film.trailerUrl} />}
@@ -39,10 +41,12 @@ const CinemaDetailsPage = () => {
       </div>
 
       <Gallery
+        className={s.gallery}
         gallery={film.gallery ?? []}
         autoPlay={true}
         autoPlayInterval={3000}
         altPrefix="Кадр из фильма"
+        disableButtons={true}
       />
     </div>
   );
