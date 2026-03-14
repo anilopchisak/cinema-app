@@ -4,6 +4,7 @@ import useAddFavorite from '@/entities/favorites/api/hooks/useAddFavorite';
 import useRemoveFavorite from '@/entities/favorites/api/hooks/useRemoveFavorite';
 import React, { useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { message } from '@/shared/ui/Message/message';
 
 const useToggleFavorite = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   const router = useRouter();
@@ -21,7 +22,7 @@ const useToggleFavorite = ({ isAuthenticated }: { isAuthenticated: boolean }) =>
       e.stopPropagation();
 
       if (!isAuthenticated) {
-        router.push('/login');
+        message({ type: 'info', title: 'Войдите в аккаунт, чтобы добавить в избранное' });
         return;
       }
 

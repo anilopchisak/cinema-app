@@ -1,8 +1,8 @@
-import type { PropsWithChildren } from "react";
-import Container from "../Container";
-import Footer from "../Footer";
-import Header from "../Header";
-import s from "./MainLayout.module.scss";
+import type { PropsWithChildren } from 'react';
+import Container from '../Container';
+import Footer from '../Footer';
+import Header from '../Header';
+import s from './MainLayout.module.scss';
 
 export default async function MainLayout({ children }: PropsWithChildren) {
   return (

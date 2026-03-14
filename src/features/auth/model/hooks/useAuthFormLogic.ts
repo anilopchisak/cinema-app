@@ -8,6 +8,7 @@ import {
   ERROR_MESSAGE,
 } from '@/shared/consts/api.consts';
 import { ApiError } from '@/shared/api/api.types';
+import { message } from '@/shared/ui/Message/message';
 
 export const useAuthFormLogic = (mode: 'login' | 'register') => {
   const [error, setError] = useState<string>('');
@@ -47,6 +48,7 @@ export const useAuthFormLogic = (mode: 'login' | 'register') => {
       }
     } catch (err: unknown) {
       const apiError = err as ApiError;
+      message({ type: 'error', title: findError(apiError.status) });
       setError(findError(apiError.status));
     }
   };

@@ -1,10 +1,6 @@
 'use client';
 
-import type {
-  DefinedUseQueryResult,
-  UseInfiniteQueryResult,
-  UseQueryResult,
-} from '@tanstack/react-query';
+import type { UseInfiniteQueryResult, UseQueryResult } from '@tanstack/react-query';
 import s from './CinemaList.module.scss';
 import Text from '@/shared/ui/Text';
 import { useCallback, useMemo, useRef } from 'react';
@@ -63,13 +59,8 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
     if (isFetchingNextPage || !hasNextPage || !films) return;
 
     const totalFetched = films.items.length;
-    const calculatedPage = Math.ceil(totalFetched / DEFAULT_PAGE_SIZE);
-
-    const currentPage = calculatedPage;
-    const nextPage = calculatedPage + 1;
-
-    console.log('curPage: ', currentPage);
-    console.log('nextPage: ', nextPage);
+    const currentPage = Math.ceil(totalFetched / DEFAULT_PAGE_SIZE);
+    const nextPage = currentPage + 1;
     try {
       await fetchNextPage?.();
       debouncedUpdatePage(nextPage);
@@ -83,7 +74,6 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
     enabled: !isLoading,
     hasNextPage: hasNextPage,
     isFetching: isFetchingNextPage,
-    // onLoadMore: fetchNextPage,
     onLoadMore: handleLoadMore,
   });
 

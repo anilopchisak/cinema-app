@@ -23,6 +23,15 @@ interface CinemaCardProps {
 const CinemaCard = observer(({ film, onOpenDetail, onToggleFavorite }: CinemaCardProps) => {
   const { open } = videoModalStore;
 
+  const handleToggleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onToggleFavorite(e, film.documentId, film.isFavorite);
+  };
+
+  const handleWatchFilm = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    open(film.documentId, film.trailerUrl ?? '', film.title);
+  };
+
   return (
     <Card
       key={film.documentId}
@@ -41,19 +50,12 @@ const CinemaCard = observer(({ film, onOpenDetail, onToggleFavorite }: CinemaCar
       actionSlot={
         <div className={s.cardActions}>
           <Button
-            onClick={(e) => onToggleFavorite(e, film.documentId, film.isFavorite)}
+            onClick={handleToggleFavorite}
             styleType={film.isFavorite ? 'outline' : 'outline-secondary'}
           >
             {film.isFavorite ? 'В избранном' : 'В избранное'}
           </Button>
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              open(film.documentId, film.trailerUrl ?? '');
-            }}
-          >
-            Смотреть
-          </Button>
+          <Button onClick={handleWatchFilm}>Смотреть</Button>
         </div>
       }
       onClick={() => onOpenDetail(film.documentId)}

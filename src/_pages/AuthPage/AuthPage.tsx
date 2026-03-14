@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { authStore } from '@/entities/auth/model/auth.store';
 import { observer } from 'mobx-react-lite';
 import { useAuthFormLogic } from '@/features/auth/model/hooks/useAuthFormLogic';
+import { message } from '@/shared/ui/Message/message';
 
 type Props = {
   mode: 'login' | 'register';
@@ -17,11 +18,18 @@ const AuthPage = observer(({ mode }: Props) => {
   const router = useRouter();
   const { isAuthenticated } = authStore;
 
-  const { error, handleSubmit, isLoading, isSuccess, isError, clearError } = useAuthFormLogic(mode);
+  const { handleSubmit, isLoading, isSuccess, isError, clearError } = useAuthFormLogic(mode);
 
   useEffect(() => {
     if (isSuccess && isAuthenticated) {
-      window.location.reload();
+      const timeout = 1500;
+      message({ type: 'success', title: 'Успешный вход', autoClose: timeout });
+
+      const reloadTimeout = setTimeout(() => {
+        window.location.reload();
+      }, timeout);
+
+      return () => clearTimeout(reloadTimeout);
     }
   }, [isAuthenticated, router, isSuccess]);
 
@@ -36,12 +44,6 @@ const AuthPage = observer(({ mode }: Props) => {
         isError={isError}
         onFieldChange={clearError}
       />
-
-      <div className={s.errorsWrapper}>
-        <Text view="p-18" color="primary">
-          {error}
-        </Text>
-      </div>
     </div>
   );
 });
