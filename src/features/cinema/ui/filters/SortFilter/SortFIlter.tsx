@@ -4,8 +4,8 @@ import MultiDropdown, { type Option } from '@/shared/ui/MultiDropdown';
 import s from '../Filter.module.scss';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
-import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
 import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
+import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
 
 interface CinemaFiltersProps {
   initSort: CinemaRawParams['sort'] | null;
@@ -41,37 +41,44 @@ const SortFilter = ({ initSort }: CinemaFiltersProps) => {
     return selected.map((item) => item.value).join(', ');
   };
 
-  const updateQuery = useUpdateQuery();
+  const updateFilters = useUpdateFilters();
 
   const onSortChange = useCallback(
     (sort: string) => {
-      updateQuery({ sort });
+      updateFilters({ sort });
     },
-    [updateQuery]
+    [updateFilters]
   );
 
   const debouncedUpdate = useMemo(
     () =>
       debounce((value: Option[]) => {
-        onSortChange(value[0].key);
+        const sortKey = value[0]?.key ?? 'default';
+        onSortChange(sortKey);
       }, 700),
     [onSortChange]
   );
 
-  /** Обновление параметров */
   useEffect(() => {
-    debouncedUpdate(selected);
     return () => {
       debouncedUpdate.cancel();
     };
-  }, [selected, debouncedUpdate]);
+  }, [debouncedUpdate]);
+
+  const handleChange = useCallback(
+    (newSelected: Option[]) => {
+      setSelected(newSelected);
+      debouncedUpdate(newSelected);
+    },
+    [debouncedUpdate]
+  );
 
   return (
     <MultiDropdown
       className={s.filter}
       options={SORT}
       value={selected}
-      onChange={setSelected}
+      onChange={handleChange}
       getTitle={getDropdownTitle}
       isMultiple={false}
     />

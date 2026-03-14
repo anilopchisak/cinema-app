@@ -18,7 +18,7 @@ export const useUpdateQuery = () => {
           } else {
             newParams.delete(key);
           }
-        } else if (value !== null && value !== '' && value !== 'default') {
+        } else if (value !== null && value !== undefined && value !== '' && value !== 'default') {
           newParams.set(key, String(value));
         } else {
           newParams.delete(key);

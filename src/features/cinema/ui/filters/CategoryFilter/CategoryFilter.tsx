@@ -5,8 +5,8 @@ import s from '../Filter.module.scss';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import useFimCategoryState from '@/entities/film-category/api/hooks/useFilmCategoryState';
 import { debounce } from 'lodash';
-import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
 import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
+import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
 
 interface CinemaFiltersProps {
   initCategories: CinemaRawParams['category'];
@@ -62,13 +62,13 @@ const CategoryFilter = ({ initCategories }: CinemaFiltersProps) => {
     return selected.map((item) => item.value).join(', ');
   };
 
-  const updateQuery = useUpdateQuery();
+  const updateFilters = useUpdateFilters();
 
   const onCategoryChange = useCallback(
     (categories: string[]) => {
-      updateQuery({ category: categories });
+      updateFilters({ category: categories });
     },
-    [updateQuery]
+    [updateFilters]
   );
 
   const debouncedUpdate = useMemo(
@@ -79,20 +79,26 @@ const CategoryFilter = ({ initCategories }: CinemaFiltersProps) => {
     [onCategoryChange]
   );
 
-  /** Обновление параметров */
   useEffect(() => {
-    debouncedUpdate(selected);
     return () => {
       debouncedUpdate.cancel();
     };
-  }, [selected, debouncedUpdate]);
+  }, [debouncedUpdate]);
+
+  const handleChange = useCallback(
+    (newSelected: Option[]) => {
+      setSelected(newSelected);
+      debouncedUpdate(newSelected);
+    },
+    [debouncedUpdate]
+  );
 
   return (
     <MultiDropdown
       className={s.filter}
       options={categoryOptions}
       value={selected}
-      onChange={setSelected}
+      onChange={handleChange}
       getTitle={getDropdownTitle}
       isMultiple={true}
       onOpen={() => setIsCategoryOpened(true)}

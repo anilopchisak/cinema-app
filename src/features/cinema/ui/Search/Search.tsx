@@ -4,8 +4,8 @@ import Input from '@/shared/ui/Input';
 import s from './Search.module.scss';
 import Button from '@/shared/ui/Button';
 import { useState, type KeyboardEvent } from 'react';
-import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
 import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
+import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
 
 type SearchProps = {
   /** Начальное значение при загрузке страницы */
@@ -16,10 +16,10 @@ type SearchProps = {
 const Search = ({ initSearch }: SearchProps) => {
   const [search, setSearch] = useState(initSearch ?? '');
 
-  const updateQuery = useUpdateQuery();
+  const updateFilters = useUpdateFilters();
 
   const onSearch = () => {
-    updateQuery({ search });
+    updateFilters({ search });
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

@@ -6,7 +6,6 @@ import CinemaListSkeleton from '../CinemaList/skeleton';
 import CinemaList from '../CinemaList/CinemaList';
 import useCinemaState from '@/entities/cinema/api/hooks/useCinemaState';
 import useFavoritesState from '@/entities/favorites/api/hooks/useFavoritesState';
-import useSyncCinemaPage from '@/entities/cinema/hooks/useSyncCinemaPage';
 import useScrollRestoration from '@/shared/hooks/useScrollRestoration';
 import CinemaFilters from '../CinemaFilters';
 import { observer } from 'mobx-react-lite';
@@ -30,9 +29,6 @@ const CinemaContent = observer(({ rawParams, apiParams }: Props) => {
     storageKey: 'cinema-scroll',
     isReadyToRestore,
   });
-
-  /** Синхронизация страницы с URL */
-  useSyncCinemaPage({ data: query.data, currentPage: rawParams.page ?? 1 });
 
   return (
     <>
