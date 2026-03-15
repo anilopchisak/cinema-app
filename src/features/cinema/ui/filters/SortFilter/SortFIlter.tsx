@@ -4,14 +4,13 @@ import { type Option } from '@/shared/ui/MultiDropdown';
 import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
 import FilterDropdown from '@/shared/ui/FilterDropdown';
+import { useMemo } from 'react';
 
 interface CinemaFiltersProps {
   initSort: CinemaRawParams['sort'] | null;
 }
 
 const SORT: Option[] = [
-  { key: 'default', value: 'По умолчанию' },
-
   // Название
   { key: 'title:asc', value: 'По названию (А → Я)' },
   { key: 'title:desc', value: 'По названию (Я → А)' },
@@ -24,7 +23,13 @@ const SORT: Option[] = [
 const SortFilter = ({ initSort }: CinemaFiltersProps) => {
   const updateFilters = useUpdateFilters();
 
-  const initialSelected = [SORT.find((option) => option.key === initSort) || SORT[0]];
+  const initialSelected = useMemo(() => {
+    if (!initSort) return [];
+
+    const option = SORT.find((o) => o.key === initSort);
+
+    return option ? [option] : [];
+  }, [initSort]);
 
   const handleChange = (selected: Option[]) => {
     const sortKey = selected[0]?.key ?? 'default';

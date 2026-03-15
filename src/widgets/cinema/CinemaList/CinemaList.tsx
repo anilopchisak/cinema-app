@@ -65,7 +65,7 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
       await fetchNextPage?.();
       debouncedUpdatePage(nextPage);
     } catch (err) {
-      console.error('Ошибка подгрузки страницы', err);
+      throw new Error(`Ошибка подгрузки фильмов: ${err}`);
     }
   }, [films, fetchNextPage, isFetchingNextPage, hasNextPage, debouncedUpdatePage]);
 

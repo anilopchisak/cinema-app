@@ -24,7 +24,6 @@ const SORT_RULE = (val: string): string | undefined => {
 
 /** Вычисляет параметры для API на основе текущих params. */
 export const computeApiParams = (params: CinemaRawParams): FilmParams => {
-  console.log(params);
   const filters: FilmFilters = {};
 
   // Применяем фильтры

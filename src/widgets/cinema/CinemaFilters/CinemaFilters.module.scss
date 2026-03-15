@@ -8,4 +8,10 @@
 .filters {
   display: flex;
   gap: 1rem;
+  flex-direction: row;
+
+  @media (max-width: $breakpoint-md) {
+    width: 100%;
+    flex-direction: column;
+  }
 }
