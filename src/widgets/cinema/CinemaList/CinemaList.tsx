@@ -3,12 +3,11 @@
 import type { UseInfiniteQueryResult, UseQueryResult } from '@tanstack/react-query';
 import s from './CinemaList.module.scss';
 import Text from '@/shared/ui/Text';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { routes } from '@/shared/config/routes';
 import Loader from '@/shared/ui/Loader';
 import type { Film } from '@/entities/cinema/types/cinema.types';
 import type { TransformedData } from '@/shared/api/query/useGetAllInfinite';
-import CinemaListSkeleton from './skeleton';
 import useInfiniteScroll from '@/shared/hooks/useInfiniteScroll';
 import CinemaCard from '@/entities/cinema/ui/CinemaCard/CinemaCard';
 import { observer } from 'mobx-react-lite';
@@ -17,9 +16,9 @@ import type { FavoriteFilm } from '@/entities/favorites/types/favorites.types';
 import useFilmsWithFavorites from '@/entities/cinema/model/useFilmsWithFavorites';
 import useToggleFavorite from '@/features/favorites/hooks/useToggleFavorite';
 import { useRouter } from 'next/navigation';
-import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
-import { debounce } from 'lodash';
 import { DEFAULT_PAGE_SIZE } from '@/shared/consts/api.consts';
+import { motion } from 'framer-motion';
+import { useUpdatePageInQueryClient } from '@/entities/cinema/hooks/useUpdatePageInQueryClient';
 
 type CinemaListProps = {
   queryFilms: UseInfiniteQueryResult<TransformedData<Film>>;
@@ -30,7 +29,7 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
   const observerRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const isAuthenticated = authStore.isAuthenticated;
-  const updateQuery = useUpdateQuery();
+  const updatePageInQueryClient = useUpdatePageInQueryClient();
 
   const {
     data: films,
@@ -47,14 +46,6 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
 
   const toggleFavorite = useToggleFavorite({ isAuthenticated });
 
-  const debouncedUpdatePage = useMemo(
-    () =>
-      debounce((page: number) => {
-        updateQuery({ page: page.toString() });
-      }, 350),
-    [updateQuery]
-  );
-
   const handleLoadMore = useCallback(async () => {
     if (isFetchingNextPage || !hasNextPage || !films) return;
 
@@ -63,11 +54,11 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
     const nextPage = currentPage + 1;
     try {
       await fetchNextPage?.();
-      debouncedUpdatePage(nextPage);
+      updatePageInQueryClient(nextPage);
     } catch (err) {
       throw new Error(`Ошибка подгрузки фильмов: ${err}`);
     }
-  }, [films, fetchNextPage, isFetchingNextPage, hasNextPage, debouncedUpdatePage]);
+  }, [films, fetchNextPage, isFetchingNextPage, hasNextPage, updatePageInQueryClient]);
 
   useInfiniteScroll({
     targetRef: observerRef,
@@ -96,12 +87,19 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
       <div className={s.filmsGrid}>
         {filmsWithFavorite &&
           filmsWithFavorite.map((item) => (
-            <CinemaCard
+            <motion.div
               key={item.documentId}
-              film={item}
-              onOpenDetail={openDetail}
-              onToggleFavorite={toggleFavorite}
-            />
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+            >
+              <CinemaCard
+                key={item.documentId}
+                film={item}
+                onOpenDetail={openDetail}
+                onToggleFavorite={toggleFavorite}
+              />
+            </motion.div>
           ))}
       </div>
 
