@@ -1,8 +1,6 @@
 'use client';
 
 import { authStore } from '@/entities/auth/model/auth.store';
-import { Suspense } from 'react';
-import CinemaListSkeleton from '../CinemaList/skeleton';
 import CinemaList from '../CinemaList/CinemaList';
 import useCinemaState from '@/entities/cinema/api/hooks/useCinemaState';
 import useFavoritesState from '@/entities/favorites/api/hooks/useFavoritesState';
@@ -10,6 +8,8 @@ import useScrollRestoration from '@/shared/hooks/useScrollRestoration';
 import CinemaFilters from '../CinemaFilters';
 import { observer } from 'mobx-react-lite';
 import { getCinemaParams } from '@/entities/cinema/lib/getCinemaParams';
+import CinemaListSkeleton from '../CinemaList/skeleton';
+import ComponentTransition from '@/shared/ui/ComponentTransition';
 
 type Props = {
   rawParams: ReturnType<typeof getCinemaParams>['rawParams'];
@@ -33,7 +33,13 @@ const CinemaContent = observer(({ rawParams, apiParams }: Props) => {
   return (
     <>
       <CinemaFilters params={rawParams} />
-      <CinemaList queryFilms={query} queryFavorites={queryFavorites} />
+
+      <ComponentTransition
+        isLoading={query.isLoading || queryFavorites.isLoading}
+        skeleton={<CinemaListSkeleton />}
+      >
+        <CinemaList queryFilms={query} queryFavorites={queryFavorites} />
+      </ComponentTransition>
     </>
   );
 });

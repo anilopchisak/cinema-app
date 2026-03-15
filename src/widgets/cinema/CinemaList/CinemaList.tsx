@@ -81,8 +81,6 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
     router.push(routes.cinemaDetails.create(documentId), { scroll: true });
   };
 
-  if (isLoading) return <CinemaListSkeleton />;
-
   return (
     <>
       <div className={s.sectionHeader}>
