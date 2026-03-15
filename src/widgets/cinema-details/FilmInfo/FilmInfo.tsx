@@ -34,7 +34,7 @@ const FilmInfo = ({ film, onWatch }: Props) => {
         }}
       />
 
-      <Text color="secondary" view="p-20">
+      <Text className={s.descriptionContainer} color="secondary" view="p-20" tag="div">
         {film.description}
       </Text>
 

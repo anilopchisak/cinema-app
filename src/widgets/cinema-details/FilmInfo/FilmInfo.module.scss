@@ -19,6 +19,20 @@
   }
 }
 
+.descriptionContainer {
+  @media (min-width: $breakpoint-md) {
+    max-height: 300px;
+    overflow-y: auto;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+}
+
+.descriptionContainer::-webkit-scrollbar {
+  display: none;
+}
+
 .button {
   max-width: 100%;
   width: 100%;

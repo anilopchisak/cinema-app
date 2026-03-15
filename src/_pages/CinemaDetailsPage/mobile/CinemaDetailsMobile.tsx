@@ -7,6 +7,7 @@ import FilmInfo from '@/widgets/cinema-details/FilmInfo';
 import ArrowRightIcon from '@/shared/ui/icons/ArrowRightIcon/ArrowRightIcon';
 import { useRouter } from 'next/navigation';
 import s from './CinemaDetailsMobile.module.scss';
+import Transition from '@/shared/ui/Transition';
 
 type Props = {
   film: Film;
@@ -23,18 +24,22 @@ const CinemaDetailsMobile = ({ film, onWatch }: Props) => {
         <Text view="button">Назад</Text>
       </button>
 
-      <Gallery
-        gallery={film.gallery ?? []}
-        autoPlay={true}
-        autoPlayInterval={3000}
-        altPrefix="Кадр из фильма"
-        disableButtons={true}
-        pauseOnHover={false}
-      />
+      <Transition>
+        <div className={s.mobilePage}>
+          <Gallery
+            gallery={film.gallery ?? []}
+            autoPlay={true}
+            autoPlayInterval={3000}
+            altPrefix="Кадр из фильма"
+            disableButtons={true}
+            pauseOnHover={false}
+          />
 
-      <div className={s.filmInfoContainer}>
-        <FilmInfo film={film} onWatch={onWatch} />
-      </div>
+          <div className={s.filmInfoContainer}>
+            <FilmInfo film={film} onWatch={onWatch} />
+          </div>
+        </div>
+      </Transition>
     </div>
   );
 };
