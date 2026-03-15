@@ -13,9 +13,17 @@ type LinkProps = {
   className?: string;
   activeClassName?: string;
   prefetch?: boolean;
+  onClick?: () => void;
 };
 
-const NavigationLink = ({ url, children, className, activeClassName, prefetch }: LinkProps) => {
+const NavigationLink = ({
+  url,
+  children,
+  className,
+  activeClassName,
+  prefetch,
+  onClick,
+}: LinkProps) => {
   const pathname = usePathname();
   const isActive = pathname === url;
 
@@ -26,6 +34,7 @@ const NavigationLink = ({ url, children, className, activeClassName, prefetch }:
       prefetch={prefetch ?? true}
       href={url}
       className={cn(s.link, className, isActive && activeClassName)}
+      onClick={onClick}
     >
       {isTextChild ? <Text color="inherit">{children}</Text> : children}
     </Link>
