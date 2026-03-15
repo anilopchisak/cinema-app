@@ -1,6 +1,5 @@
 import Icon from '@/shared/ui/icons/Icon';
 import type { IconProps } from '@/shared/ui/icons/Icon/Icon.types';
-import * as React from 'react';
 
 const ArrowRightIcon = (props: IconProps) => {
   return (

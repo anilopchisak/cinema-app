@@ -1,1 +1,1 @@
-export { default } from './VideoModal';
+export { default } from './VideoModalProvider';

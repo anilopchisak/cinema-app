@@ -1,6 +1,6 @@
 'use client';
 
-import VideoPlayer from '@/features/cinema/ui/VideoPlayer';
+import VideoPlayer from '@/shared/ui/VideoPlayer';
 import ArrowRightIcon from '@/shared/ui/icons/ArrowRightIcon/ArrowRightIcon';
 import Text from '@/shared/ui/Text';
 import { useParams, useRouter } from 'next/navigation';
@@ -11,6 +11,7 @@ import Gallery from '@/shared/ui/Gallery';
 import FilmInfo from '@/widgets/cinema-details/FilmInfo';
 import { useMediaQuery } from 'react-responsive';
 import CinemaDetailsMobile from './mobile';
+import { videoModalStore } from '@/features/video-modal/model/video-modal.store';
 
 type CinemaDetailsParams = {
   documentId: string;
@@ -19,10 +20,16 @@ type CinemaDetailsParams = {
 const CinemaDetailsPage = () => {
   const router = useRouter();
   const params = useParams<CinemaDetailsParams>();
+  const { open } = videoModalStore;
 
   const documentId = params.documentId;
 
   const { data: film, isLoading, isError } = useFilmState(documentId);
+
+  const handleWatchFilm = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (film) open(film.documentId, film.trailerUrl ?? '', film.title);
+  };
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
@@ -31,7 +38,7 @@ const CinemaDetailsPage = () => {
   if (isError || !film) return <Text>Фильм не найден</Text>;
 
   if (isMobile) {
-    return <CinemaDetailsMobile film={film} />;
+    return <CinemaDetailsMobile film={film} onWatch={handleWatchFilm} />;
   }
 
   return (
@@ -54,36 +61,11 @@ const CinemaDetailsPage = () => {
         />
         <div className={s.overlay} />
         <div className={s.filmInfoWrapper}>
-          <FilmInfo film={film} />
+          <FilmInfo film={film} onWatch={handleWatchFilm} />
         </div>
       </div>
-
-      {film?.trailerUrl && <VideoPlayer videoUrl={film.trailerUrl} />}
     </div>
   );
 };
 
 export default CinemaDetailsPage;
-
-// <div className={s.detailsPage}>
-//   <div>
-//     <button onClick={() => router.back()} className={s.backButton}>
-//       <ArrowRightIcon className={s.icon} />
-//       <Text view="button">Назад</Text>
-//     </button>
-//   </div>
-
-//   <div className={s.film}>
-//     {film?.trailerUrl && <VideoPlayer videoUrl={film.trailerUrl} />}
-//     <FilmInfo film={film} />
-//   </div>
-
-//   <Gallery
-//     className={s.gallery}
-//     gallery={film.gallery ?? []}
-//     autoPlay={true}
-//     autoPlayInterval={3000}
-//     altPrefix="Кадр из фильма"
-//     disableButtons={true}
-//   />
-// </div>

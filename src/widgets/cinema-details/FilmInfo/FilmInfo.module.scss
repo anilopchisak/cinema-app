@@ -18,3 +18,12 @@
     align-items: center;
   }
 }
+
+.button {
+  max-width: 100%;
+  width: 100%;
+
+  @media (min-width: $breakpoint-md) {
+    max-width: 200px;
+  }
+}

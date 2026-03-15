@@ -5,9 +5,10 @@ import s from './VideoPlayer.module.scss';
 
 type VideoPlayerProps = {
   videoUrl: string | null;
+  videoTitle: string | null;
 };
 
-const VideoPlayer = ({ videoUrl }: VideoPlayerProps) => {
+const VideoPlayer = ({ videoUrl, videoTitle }: VideoPlayerProps) => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setIsLoading(true);
@@ -30,9 +31,9 @@ const VideoPlayer = ({ videoUrl }: VideoPlayerProps) => {
           onError={handleError}
           className={s.player}
           src={videoUrl}
-          allow="autoplay; fullscreen; screen-wake-lock"
+          allow="autoplay; fullscreen;"
           allowFullScreen
-          title="video player"
+          title={videoTitle ?? 'player'}
         />
       )}
     </div>

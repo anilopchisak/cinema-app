@@ -4,12 +4,14 @@ import FilmStat from '@/entities/cinema/ui/FilmStat';
 import { formatMinsToHours } from '@/shared/lib/formatMinsToHours';
 import Text from '@/shared/ui/Text';
 import s from './FilmInfo.module.scss';
+import Button from '@/shared/ui/Button';
 
 type Props = {
   film: Film;
+  onWatch: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-const FilmInfo = ({ film }: Props) => {
+const FilmInfo = ({ film, onWatch }: Props) => {
   return (
     <div className={s.body}>
       <div className={s.title}>
@@ -35,6 +37,10 @@ const FilmInfo = ({ film }: Props) => {
       <Text color="secondary" view="p-20">
         {film.description}
       </Text>
+
+      <Button className={s.button} onClick={onWatch}>
+        Смотреть
+      </Button>
     </div>
   );
 };

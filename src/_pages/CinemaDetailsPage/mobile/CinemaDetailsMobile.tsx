@@ -1,7 +1,6 @@
 'use client';
 
 import { Film } from '@/entities/cinema/types/cinema.types';
-import VideoPlayer from '@/features/cinema/ui/VideoPlayer';
 import Gallery from '@/shared/ui/Gallery';
 import Text from '@/shared/ui/Text';
 import FilmInfo from '@/widgets/cinema-details/FilmInfo';
@@ -11,9 +10,10 @@ import s from './CinemaDetailsMobile.module.scss';
 
 type Props = {
   film: Film;
+  onWatch: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-const CinemaDetailsMobile = ({ film }: Props) => {
+const CinemaDetailsMobile = ({ film, onWatch }: Props) => {
   const router = useRouter();
 
   return (
@@ -33,10 +33,8 @@ const CinemaDetailsMobile = ({ film }: Props) => {
       />
 
       <div className={s.filmInfoContainer}>
-        <FilmInfo film={film} />
+        <FilmInfo film={film} onWatch={onWatch} />
       </div>
-
-      {film?.trailerUrl && <VideoPlayer videoUrl={film.trailerUrl} />}
     </div>
   );
 };
