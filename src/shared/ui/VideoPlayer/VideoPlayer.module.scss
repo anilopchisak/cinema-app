@@ -2,9 +2,6 @@
   position: relative;
   width: 100%;
   background-color: #000;
-  @media (min-width: $breakpoint-lg) {
-    // width: 800px;
-  }
 }
 
 .player {
@@ -20,6 +17,5 @@
   width: 100%;
   height: 100%;
   background-size: 200% 100%;
-  z-index: 300;
   @include skeleton;
 }
