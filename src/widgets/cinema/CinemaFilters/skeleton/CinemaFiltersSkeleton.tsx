@@ -2,7 +2,7 @@
 
 import sOriginal from '../CinemaFilters.module.scss';
 import sSearch from '@/features/cinema/ui/Search/Search.module.scss';
-import sFilter from '@/features/cinema/ui/filters/Filter.module.scss';
+import sFilter from '@/shared/ui/FilterDropdown/FilterDropdown.module.scss';
 import s from './CinemaFiltersSkeleton.module.scss';
 
 const CinemaFiltersSkeleton = () => {

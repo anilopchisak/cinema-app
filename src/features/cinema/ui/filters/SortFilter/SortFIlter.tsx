@@ -1,11 +1,9 @@
 'use client';
 
-import MultiDropdown, { type Option } from '@/shared/ui/MultiDropdown';
-import s from '../Filter.module.scss';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { debounce } from 'lodash';
+import { type Option } from '@/shared/ui/MultiDropdown';
 import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
+import FilterDropdown from '@/shared/ui/FilterDropdown';
 
 interface CinemaFiltersProps {
   initSort: CinemaRawParams['sort'] | null;
@@ -24,55 +22,24 @@ const SORT: Option[] = [
 ];
 
 const SortFilter = ({ initSort }: CinemaFiltersProps) => {
-  const [selected, setSelected] = useState<Option[]>([
-    SORT.find((option) => option.key === initSort) || SORT[0],
-  ]);
-
-  const getDropdownTitle = (selected: Option[]) => {
-    if (selected.length === 0) return 'Сортировка';
-    return selected.map((item) => item.value).join(', ');
-  };
-
   const updateFilters = useUpdateFilters();
 
-  const onSortChange = useCallback(
-    (sort: string) => {
-      updateFilters({ sort });
-    },
-    [updateFilters]
-  );
+  const initialSelected = [SORT.find((option) => option.key === initSort) || SORT[0]];
 
-  const debouncedUpdate = useMemo(
-    () =>
-      debounce((value: Option[]) => {
-        const sortKey = value[0]?.key ?? 'default';
-        onSortChange(sortKey);
-      }, 700),
-    [onSortChange]
-  );
+  const handleChange = (selected: Option[]) => {
+    const sortKey = selected[0]?.key ?? 'default';
 
-  useEffect(() => {
-    return () => {
-      debouncedUpdate.cancel();
-    };
-  }, [debouncedUpdate]);
-
-  const handleChange = useCallback(
-    (newSelected: Option[]) => {
-      setSelected(newSelected);
-      debouncedUpdate(newSelected);
-    },
-    [debouncedUpdate]
-  );
+    updateFilters({
+      sort: sortKey,
+    });
+  };
 
   return (
-    <MultiDropdown
-      className={s.filter}
+    <FilterDropdown
       options={SORT}
-      value={selected}
-      onChange={handleChange}
-      getTitle={getDropdownTitle}
-      isMultiple={false}
+      initialSelected={initialSelected}
+      placeholder="Сортировка"
+      onChangeFilter={handleChange}
     />
   );
 };

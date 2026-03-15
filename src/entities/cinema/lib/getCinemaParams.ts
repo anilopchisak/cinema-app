@@ -6,6 +6,11 @@ export const getCinemaParams = (searchParams: { [key: string]: string | string[]
 
   const sort = typeof searchParams.sort === 'string' ? searchParams.sort : 'default';
 
+  const releaseYear = typeof searchParams.releaseYear === 'string' ? searchParams.releaseYear : '';
+
+  const ageLimit = typeof searchParams.ageLimit === 'string' ? searchParams.ageLimit : '';
+  const duration = typeof searchParams.duration === 'string' ? searchParams.duration : '';
+
   const categoryStr = Array.isArray(searchParams.category)
     ? searchParams.category.join(',')
     : (searchParams.category as string) || '';
@@ -21,15 +26,21 @@ export const getCinemaParams = (searchParams: { [key: string]: string | string[]
     sort,
     category: categories.length > 0 ? categories : undefined,
     page,
-    releaseYear: searchParams.releaseYear as string | undefined,
-    isFeatured: searchParams.isFeatured as string | undefined,
+    releaseYear: releaseYear,
     minRating: searchParams.minRating as string | undefined,
     maxRating: searchParams.maxRating as string | undefined,
-    ageLimit: searchParams.ageLimit as string | undefined,
-    duration: searchParams.duration as string | undefined,
+    ageLimit: ageLimit,
+    duration: duration,
   };
 
-  const apiParams = computeApiParams({ search, sort, category: categories });
+  const apiParams = computeApiParams({
+    search,
+    sort,
+    releaseYear,
+    ageLimit,
+    duration,
+    category: categories,
+  });
 
   return { rawParams, apiParams };
 };
