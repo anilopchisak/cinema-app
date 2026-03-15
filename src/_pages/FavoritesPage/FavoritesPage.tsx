@@ -25,7 +25,7 @@ const FavoritesContent = () => {
   };
 
   if (isError) return <Text color="accent">{String(isError)}</Text>;
-  if (favorites?.length === 0) return <Text>Добавьте фильмы в избранное!</Text>;
+  if (!isLoading && favorites?.length === 0) return <Text>Добавьте фильмы в избранное!</Text>;
   if (isLoading) return <CinemaListSkeleton />;
 
   return (

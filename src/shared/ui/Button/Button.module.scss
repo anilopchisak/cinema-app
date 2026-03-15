@@ -1,5 +1,3 @@
-@use '@/shared/styles/variables' as *;
-
 .button {
   --text: #{$button-primary-text};
   --bg: #{$button-primary-bg};

@@ -1,11 +1,11 @@
-@use '@/shared/styles/variables' as *;
-
 .card {
   cursor: pointer;
   width: 100%;
   max-width: 360px;
   background-color: $card-bg;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition:
+    transform 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
   border-radius: $border-radius;
   overflow: hidden;
   padding-bottom: $space-xl;

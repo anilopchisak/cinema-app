@@ -33,9 +33,7 @@ const CinemaContent = observer(({ rawParams, apiParams }: Props) => {
   return (
     <>
       <CinemaFilters params={rawParams} />
-      <Suspense fallback={<CinemaListSkeleton />}>
-        <CinemaList queryFilms={query} queryFavorites={queryFavorites} />
-      </Suspense>
+      <CinemaList queryFilms={query} queryFavorites={queryFavorites} />
     </>
   );
 });

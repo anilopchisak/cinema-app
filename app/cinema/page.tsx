@@ -5,6 +5,9 @@ import CinemaContent from '@/widgets/cinema/CinemaContent/CinemaContent';
 import CinemaIntro from '@/widgets/cinema/CinemaIntro';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { cookies } from 'next/headers';
+import { Suspense } from 'react';
+import CinemaFiltersSkeleton from '@/widgets/cinema/CinemaFilters/skeleton/CinemaFiltersSkeleton';
+import CinemaListSkeleton from '@/widgets/cinema/CinemaList/skeleton';
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -36,11 +39,21 @@ export default async function Cinema({ searchParams }: Props) {
   }
 
   return (
-    <div>
-      <CinemaIntro />
-      <HydrationBoundary state={dehydratedState}>
-        <CinemaContent rawParams={params.rawParams} apiParams={params.apiParams} />
-      </HydrationBoundary>
-    </div>
+    <Suspense
+      fallback={
+        <>
+          <CinemaIntro />
+          <CinemaFiltersSkeleton />
+          <CinemaListSkeleton />
+        </>
+      }
+    >
+      <div>
+        <CinemaIntro />
+        <HydrationBoundary state={dehydratedState}>
+          <CinemaContent rawParams={params.rawParams} apiParams={params.apiParams} />
+        </HydrationBoundary>
+      </div>
+    </Suspense>
   );
 }
