@@ -10,6 +10,7 @@ import s from '@/widgets/cinema/CinemaList/CinemaList.module.scss';
 import { useMemo } from 'react';
 import CinemaListSkeleton from '@/widgets/cinema/CinemaList/skeleton';
 import { favoritesMapper } from '@/entities/favorites/lib/favorites.mapper';
+import Transition from '@/shared/ui/Transition';
 
 const FavoritesContent = () => {
   const router = useRouter();
@@ -38,19 +39,21 @@ const FavoritesContent = () => {
         <Text color="accent">{favorites?.length ?? '0'}</Text>
       </div>
 
-      {!isLoading && (
-        <div className={s.filmsGrid}>
-          {favorites?.length > 0 &&
-            favorites.map((item) => (
-              <CinemaCard
-                key={item.documentId}
-                film={item}
-                onOpenDetail={openDetail}
-                onToggleFavorite={toggleFavorite}
-              />
-            ))}
-        </div>
-      )}
+      <Transition>
+        {!isLoading && (
+          <div className={s.filmsGrid}>
+            {favorites?.length > 0 &&
+              favorites.map((item) => (
+                <CinemaCard
+                  key={item.documentId}
+                  film={item}
+                  onOpenDetail={openDetail}
+                  onToggleFavorite={toggleFavorite}
+                />
+              ))}
+          </div>
+        )}
+      </Transition>
     </>
   );
 };

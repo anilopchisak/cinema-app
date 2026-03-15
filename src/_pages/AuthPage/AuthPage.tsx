@@ -9,6 +9,7 @@ import { authStore } from '@/entities/auth/model/auth.store';
 import { observer } from 'mobx-react-lite';
 import { useAuthFormLogic } from '@/features/auth/model/hooks/useAuthFormLogic';
 import { message } from '@/shared/ui/Message/message';
+import Transition from '@/shared/ui/Transition';
 
 type Props = {
   mode: 'login' | 'register';
@@ -36,14 +37,15 @@ const AuthPage = observer(({ mode }: Props) => {
   return (
     <div className={s.container}>
       <Text view="title">{mode === 'login' ? 'Войти' : 'Регистрация'}</Text>
-
-      <AuthForm
-        mode={mode}
-        onSubmit={handleSubmit}
-        isLoading={isLoading}
-        isError={isError}
-        onFieldChange={clearError}
-      />
+      <Transition>
+        <AuthForm
+          mode={mode}
+          onSubmit={handleSubmit}
+          isLoading={isLoading}
+          isError={isError}
+          onFieldChange={clearError}
+        />
+      </Transition>
     </div>
   );
 });

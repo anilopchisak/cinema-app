@@ -35,7 +35,7 @@ const CinemaContent = observer(({ rawParams, apiParams }: Props) => {
       <CinemaFilters params={rawParams} />
 
       <ComponentTransition
-        isLoading={query.isLoading || queryFavorites.isLoading}
+        isLoading={query.isLoading && !query.isFetchingNextPage}
         skeleton={<CinemaListSkeleton />}
       >
         <CinemaList queryFilms={query} queryFavorites={queryFavorites} />
