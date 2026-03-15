@@ -5,7 +5,7 @@ import { Bounce, ToastContainer } from 'react-toastify';
 const Message = () => {
   return (
     <ToastContainer
-      position="bottom-right"
+      position="bottom-left"
       autoClose={3000}
       hideProgressBar={false}
       newestOnTop

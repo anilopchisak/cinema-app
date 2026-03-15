@@ -23,7 +23,7 @@ const AuthPage = observer(({ mode }: Props) => {
 
   useEffect(() => {
     if (isSuccess && isAuthenticated) {
-      const timeout = 1500;
+      const timeout = 1000;
       message({ type: 'success', title: 'Успешный вход', autoClose: timeout });
 
       const reloadTimeout = setTimeout(() => {
@@ -35,9 +35,10 @@ const AuthPage = observer(({ mode }: Props) => {
   }, [isAuthenticated, router, isSuccess]);
 
   return (
-    <div className={s.container}>
-      <Text view="title">{mode === 'login' ? 'Войти' : 'Регистрация'}</Text>
-      <Transition>
+    <Transition>
+      <div className={s.container}>
+        <Text view="title">{mode === 'login' ? 'Войти' : 'Регистрация'}</Text>
+
         <AuthForm
           mode={mode}
           onSubmit={handleSubmit}
@@ -45,8 +46,8 @@ const AuthPage = observer(({ mode }: Props) => {
           isError={isError}
           onFieldChange={clearError}
         />
-      </Transition>
-    </div>
+      </div>
+    </Transition>
   );
 });
 

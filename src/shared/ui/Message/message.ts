@@ -8,7 +8,7 @@ type Props = {
 
 export const message = ({ type, title, autoClose = 3000 }: Props) => {
   const DEFAULT_OPTIONS: ToastOptions = {
-    position: 'bottom-right',
+    position: 'bottom-left',
     autoClose: autoClose,
     hideProgressBar: false,
     closeOnClick: false,
