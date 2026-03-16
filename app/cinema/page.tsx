@@ -44,12 +44,36 @@ export default async function Cinema({ searchParams }: Props) {
     dehydratedState = await prefetchCinema(params.apiParams, params.rawParams.page);
   }
 
+  const hasFilters = Boolean(
+    params.rawParams.category?.length ||
+    params.rawParams.releaseYear ||
+    (params.rawParams.sort && params.rawParams.sort !== 'default') ||
+    params.rawParams.search
+  );
+
+  const noindex = hasFilters || (params?.rawParams?.page ?? 1) > 1;
+
+  // Канонический URL:
+  // - при фильтрах → /cinema (без параметров)
+  // - при чистой пагинации (page > 1) → /cinema?page=N
+  // - для первой страницы без фильтров → /cinema
+  let canonicalUrl: string | undefined;
+  if (hasFilters) {
+    canonicalUrl = '/cinema';
+  } else if ((params?.rawParams?.page ?? 1) > 1) {
+    canonicalUrl = `/cinema?page=${params.rawParams.page}`;
+  } else {
+    canonicalUrl = '/cinema';
+  }
+
   return (
     <>
       <Seo
         title="Все фильмы"
         description="Огромный выбор фильмов с удобной фильтрацией и сортировкой. Смотрите онлайн бесплатно. А если искать не хочется, попробуйте рандомайзер."
         keywords="рандомный фильм, рандомайзер, фильмы, по рейтингу, по алфавиту"
+        noindex={noindex}
+        canonical={canonicalUrl}
       />
 
       <CinemaIntro />
