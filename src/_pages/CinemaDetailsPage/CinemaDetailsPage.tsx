@@ -13,6 +13,7 @@ import { useMediaQuery } from 'react-responsive';
 import CinemaDetailsMobile from './mobile';
 import { videoModalStore } from '@/features/video-modal/model/video-modal.store';
 import Transition from '@/shared/ui/Transition';
+import Seo from '@/shared/ui/Seo';
 
 type CinemaDetailsParams = {
   documentId: string;
@@ -43,31 +44,35 @@ const CinemaDetailsPage = () => {
   }
 
   return (
-    <div className={s.detailsPage}>
-      <div>
-        <button onClick={() => router.back()} className={s.backButton}>
-          <ArrowRightIcon className={s.icon} />
-          <Text view="button">Назад</Text>
-        </button>
-      </div>
+    <>
+      <Seo title={film.title} description={film.description} keywords={film.title} />
 
-      <Transition>
-        <div className={s.hero}>
-          <Gallery
-            gallery={film.gallery ?? []}
-            autoPlay={true}
-            autoPlayInterval={3000}
-            altPrefix="Кадр из фильма"
-            disableButtons={true}
-            pauseOnHover={false}
-          />
-          <div className={s.overlay} />
-          <div className={s.filmInfoWrapper}>
-            <FilmInfo film={film} onWatch={handleWatchFilm} />
-          </div>
+      <div className={s.detailsPage}>
+        <div>
+          <button onClick={() => router.back()} className={s.backButton}>
+            <ArrowRightIcon className={s.icon} />
+            <Text view="button">Назад</Text>
+          </button>
         </div>
-      </Transition>
-    </div>
+
+        <Transition>
+          <div className={s.hero}>
+            <Gallery
+              gallery={film.gallery ?? []}
+              autoPlay={true}
+              autoPlayInterval={3000}
+              altPrefix="Кадр из фильма"
+              disableButtons={true}
+              pauseOnHover={false}
+            />
+            <div className={s.overlay} />
+            <div className={s.filmInfoWrapper}>
+              <FilmInfo film={film} onWatch={handleWatchFilm} />
+            </div>
+          </div>
+        </Transition>
+      </div>
+    </>
   );
 };
 

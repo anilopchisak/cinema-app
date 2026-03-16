@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation';
 import s from '@/widgets/cinema/CinemaList/CinemaList.module.scss';
 import { Suspense } from 'react';
 import CinemaListSkeleton from '@/widgets/cinema/CinemaList/skeleton';
+import Seo from '@/shared/ui/Seo';
 
 export default async function Favorites() {
   const cookieStore = await cookies();
@@ -20,29 +21,36 @@ export default async function Favorites() {
   const dehydratedState = await prefetchFavorites();
 
   return (
-    <Suspense
-      fallback={
-        <>
+    <>
+      <Seo
+        title="Избранные фильмы"
+        description="Ваш личный список избранных фильмов. Сохраняйте понравившиеся и смотрите позже."
+        keywords="избранное, закладки, сохраненные фильмы"
+      />
+      <Suspense
+        fallback={
+          <>
+            <div className={s.sectionHeader}>
+              <Text tag="h1" view="title" weight="bold">
+                Избранное
+              </Text>
+            </div>
+            <CinemaListSkeleton />
+          </>
+        }
+      >
+        <div>
           <div className={s.sectionHeader}>
             <Text tag="h1" view="title" weight="bold">
               Избранное
             </Text>
           </div>
-          <CinemaListSkeleton />
-        </>
-      }
-    >
-      <div>
-        <div className={s.sectionHeader}>
-          <Text tag="h1" view="title" weight="bold">
-            Избранное
-          </Text>
-        </div>
 
-        <HydrationBoundary state={dehydratedState}>
-          <FavoritesPage />
-        </HydrationBoundary>
-      </div>
-    </Suspense>
+          <HydrationBoundary state={dehydratedState}>
+            <FavoritesPage />
+          </HydrationBoundary>
+        </div>
+      </Suspense>
+    </>
   );
 }

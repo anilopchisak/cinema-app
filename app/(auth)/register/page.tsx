@@ -1,5 +1,15 @@
 import AuthPage from '@/_pages/AuthPage/AuthPage';
+import Seo from '@/shared/ui/Seo';
 
 export default function Login() {
-  return <AuthPage mode="register" />;
+  return (
+    <>
+      <Seo
+        title="Регистрация"
+        description="Войдите или зарегистрируйтесь, чтобы добавлять фильмы в избранное и получать персональные рекомендации."
+        noindex
+      />
+      <AuthPage mode="register" />
+    </>
+  );
 }

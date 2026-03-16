@@ -14,10 +14,12 @@ export default async function CinemaDetails({ searchParams }: Props) {
   const dehydratedState = await prefetchFilm(documentId);
 
   return (
-    <Suspense fallback={<CinemaDetailsSkeleton />}>
-      <HydrationBoundary state={dehydratedState}>
-        <CinemaDetailsPage />
-      </HydrationBoundary>
-    </Suspense>
+    <>
+      <Suspense fallback={<CinemaDetailsSkeleton />}>
+        <HydrationBoundary state={dehydratedState}>
+          <CinemaDetailsPage />
+        </HydrationBoundary>
+      </Suspense>
+    </>
   );
 }

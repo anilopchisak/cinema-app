@@ -8,6 +8,7 @@ import { cookies } from 'next/headers';
 import { Suspense } from 'react';
 import CinemaFiltersSkeleton from '@/widgets/cinema/CinemaFilters/skeleton/CinemaFiltersSkeleton';
 import CinemaListSkeleton from '@/widgets/cinema/CinemaList/skeleton';
+import Seo from '@/shared/ui/Seo';
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -39,21 +40,28 @@ export default async function Cinema({ searchParams }: Props) {
   }
 
   return (
-    <Suspense
-      fallback={
-        <>
+    <>
+      <Seo
+        title="Все фильмы"
+        description="Огромный выбор фильмов с удобной фильтрацией и сортировкой. Смотрите онлайн бесплатно. А если искать не хочется, попробуйте рандомайзер."
+        keywords="рандомный фильм, рандомайзер, фильмы, по рейтингу, по алфавиту"
+      />
+      <Suspense
+        fallback={
+          <>
+            <CinemaIntro />
+            <CinemaFiltersSkeleton />
+            <CinemaListSkeleton />
+          </>
+        }
+      >
+        <div>
           <CinemaIntro />
-          <CinemaFiltersSkeleton />
-          <CinemaListSkeleton />
-        </>
-      }
-    >
-      <div>
-        <CinemaIntro />
-        <HydrationBoundary state={dehydratedState}>
-          <CinemaContent rawParams={params.rawParams} apiParams={params.apiParams} />
-        </HydrationBoundary>
-      </div>
-    </Suspense>
+          <HydrationBoundary state={dehydratedState}>
+            <CinemaContent rawParams={params.rawParams} apiParams={params.apiParams} />
+          </HydrationBoundary>
+        </div>
+      </Suspense>
+    </>
   );
 }
