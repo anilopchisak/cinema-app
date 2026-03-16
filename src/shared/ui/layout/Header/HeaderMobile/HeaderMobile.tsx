@@ -4,6 +4,7 @@ import { routes } from '@/shared/config/routes';
 import Image from 'next/image';
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoCloseOutline } from 'react-icons/io5';
 import AuthButton from '@/features/auth/ui/AuthButton';
@@ -17,6 +18,7 @@ type Props = {
  * При открытии блокирует прокрутку body.
  */
 const HeaderMobile = ({ isAuthenticated }: Props) => {
+  const { t } = useTranslation('common');
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => setIsOpen(true);
@@ -78,7 +80,7 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
               className={s.tabLink}
               activeClassName={s.tabLinkActive}
             >
-              Фильмы
+              {t('nav.films')}
             </NavigationLink>
 
             {isAuthenticated && (
@@ -88,7 +90,7 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
                 className={s.iconLink}
                 activeClassName={s.iconLinkActive}
               >
-                Избранное
+                {t('nav.favorites')}
               </NavigationLink>
             )}
 

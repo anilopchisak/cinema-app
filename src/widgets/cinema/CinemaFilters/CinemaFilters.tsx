@@ -9,6 +9,7 @@ import ReleaseYearFilter from '@/features/cinema/ui/filters/ReleaseYaerFilter/Re
 import Button from '@/shared/ui/Button';
 import { useResetFilters } from '@/entities/cinema/hooks/useResetFilters';
 import RandomVideoButton from '@/features/random-video/ui';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   params: CinemaRawParams;
@@ -17,6 +18,7 @@ type Props = {
 /** Блок фильтров на странице с фильмами */
 export default function CinemaFilters({ params }: Props) {
   const resetFilters = useResetFilters();
+  const { t } = useTranslation('common');
 
   return (
     <div className={s.container}>
@@ -31,7 +33,7 @@ export default function CinemaFilters({ params }: Props) {
         <SortFilter initSort={params.sort === 'default' ? null : params.sort} />
 
         <Button className={s.button} onClick={resetFilters} styleType="outline">
-          Очистить
+          {t('buttons.clear')}
         </Button>
       </div>
     </div>

@@ -7,9 +7,11 @@ import { routes } from '@/shared/config/routes';
 import Image from 'next/image';
 import { useMediaQuery } from 'react-responsive';
 import HeaderMobile from './HeaderMobile';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import AuthButton from '@/features/auth/ui/AuthButton';
 import { breakpoints } from '@/shared/consts/breakpoints.consts';
+import MultiDropdown, { type Option } from '@/shared/ui/MultiDropdown';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   /** Флаг, авторизован ли пользователь */
@@ -23,14 +25,34 @@ type Props = {
  * чтобы избежать несоответствия серверного/клиентского рендера.
  */
 const Header = ({ isAuthenticated }: Props) => {
+  const { t, i18n } = useTranslation('common');
+
   const mediaIsMobile = useMediaQuery({ maxWidth: breakpoints.tablet });
+  const isMobile = mediaIsMobile;
 
-  const [isMounted, setIsMounted] = useState(false);
-  const isMobile = isMounted ? mediaIsMobile : false;
+  const languageOptions: Option[] = useMemo(
+    () => [
+      { key: 'ru', value: 'Русский' },
+      { key: 'en', value: 'English' },
+    ],
+    []
+  );
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const [selectedLanguage, setSelectedLanguage] = useState<Option[]>(() => {
+    const current = i18n.language?.split('-')[0] || 'ru';
+    const found = languageOptions.find((o) => o.key === current);
+    return found ? [found] : [languageOptions[0]];
+  });
+
+  const handleChangeLanguage = (value: Option[]) => {
+    setSelectedLanguage(value);
+    const nextLocale = value[0]?.key;
+
+    if (!nextLocale) return;
+
+    document.cookie = `NEXT_LOCALE=${nextLocale}; path=/; max-age=${60 * 60 * 24 * 30}`;
+    void i18n.changeLanguage(nextLocale);
+  };
 
   if (isMobile) {
     return <HeaderMobile isAuthenticated={isAuthenticated} />;
@@ -57,7 +79,7 @@ const Header = ({ isAuthenticated }: Props) => {
             className={s.tabLink}
             activeClassName={s.tabLinkActive}
           >
-            Фильмы
+            {t('nav.films')}
           </NavigationLink>
         </nav>
 
@@ -71,6 +93,14 @@ const Header = ({ isAuthenticated }: Props) => {
               <BookmarkIcon />
             </NavigationLink>
           )}
+
+          <MultiDropdown
+            options={languageOptions}
+            value={selectedLanguage}
+            onChange={handleChangeLanguage}
+            getTitle={(value) => value[0]?.value ?? 'Язык'}
+            isMultiple={false}
+          />
 
           <AuthButton isAuthenticated={isAuthenticated} />
         </div>

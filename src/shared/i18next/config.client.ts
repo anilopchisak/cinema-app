@@ -6,13 +6,9 @@ export const createI18nClientInstance = (language: string) => {
   const instance = createInstance();
 
   instance.use(initReactI18next).use(
-    resourcesToBackend(async (lng: string, namespace: string) => {
-      const res = await fetch(`/locales/${lng}/${namespace}.json`);
-      if (!res.ok) {
-        throw new Error(`Failed to load i18n resource: ${lng}/${namespace} (${res.status})`);
-      }
-      return res.json();
-    })
+    resourcesToBackend((lng: string, namespace: string) =>
+      import(`./locales/${lng}/${namespace}.json`).then((m) => m.default ?? m)
+    )
   );
 
   void instance.init({

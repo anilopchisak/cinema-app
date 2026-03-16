@@ -6,6 +6,7 @@ import useFimCategoryState from '@/entities/film-category/api/hooks/useFilmCateg
 import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
 import FilterDropdown from '@/shared/ui/FilterDropdown';
+import { useTranslation } from 'react-i18next';
 
 interface CinemaFiltersProps {
   /** Начальные выбранные категории */
@@ -15,6 +16,7 @@ interface CinemaFiltersProps {
 /** Фильтр по жанру фильма */
 const CategoryFilter = ({ initCategories }: CinemaFiltersProps) => {
   const [isCategoryOpened, setIsCategoryOpened] = useState(false);
+  const { t } = useTranslation('common');
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useFimCategoryState({
     enabled: isCategoryOpened || (initCategories?.length ?? 0) > 0,
@@ -47,7 +49,7 @@ const CategoryFilter = ({ initCategories }: CinemaFiltersProps) => {
     <FilterDropdown
       options={categoryOptions}
       initialSelected={initialSelected}
-      placeholder="Жанр"
+      placeholder={t('filters.genre')}
       isMultiple
       onChangeFilter={handleChange}
       onOpen={() => setIsCategoryOpened(true)}

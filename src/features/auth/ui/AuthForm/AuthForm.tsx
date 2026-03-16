@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { routes } from '@/shared/config/routes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, registerSchema } from '../../zod/auth.schema';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   /** Режим формы: 'login' для входа, 'register' для регистрации */
@@ -27,6 +28,7 @@ type Props = {
 /** Форма аутентификации (вход/регистрация) с валидацией через react-hook-form + zod */
 export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldChange }: Props) {
   const isLogin = mode === 'login';
+  const { t } = useTranslation('common');
 
   /** Выбор схемы валидации в зависимости от режима (мемоизация для избежания лишних ререндеров) */
   const schema = useMemo(() => (isLogin ? loginSchema : registerSchema), [isLogin]);
@@ -77,7 +79,7 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
               field.onChange(v);
               onFieldChange?.();
             }}
-            placeholder="Логин"
+            placeholder={t('auth.login')}
             showErrorMessage={true}
             error={fieldState.error?.message || (isError ? ' ' : undefined)}
             onBlur={field.onBlur}
@@ -98,7 +100,7 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
                 field.onChange(v);
                 onFieldChange?.();
               }}
-              placeholder="Эл. почта"
+              placeholder="Email"
               showErrorMessage={true}
               error={fieldState.error?.message || (isError ? ' ' : undefined)}
               onBlur={field.onBlur}
@@ -119,7 +121,7 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
               field.onChange(v);
               onFieldChange?.();
             }}
-            placeholder="Пароль"
+            placeholder="Password"
             type="password"
             showErrorMessage={true}
             error={fieldState.error?.message || (isError ? ' ' : undefined)}
@@ -137,7 +139,7 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
           disabled={isLoading || isSubmitting}
           loading={isLoading || isSubmitting}
         >
-          {isLogin ? 'Войти' : 'Зарегистрироваться'}
+          {isLogin ? t('auth.login') : t('auth.register')}
         </Button>
 
         <Link
