@@ -1,8 +1,8 @@
-import Text from "@/shared/ui/Text";
-import cn from "classnames";
-import React from "react";
-import s from "./Card.module.scss";
-import Image from "next/image";
+import Text from '@/shared/ui/Text';
+import cn from 'classnames';
+import React from 'react';
+import s from './Card.module.scss';
+import Image from 'next/image';
 
 export type CardProps = {
   /** Дополнительный classname */
@@ -53,33 +53,16 @@ const Card = ({
       <div className={s.body}>
         <div>
           {captionSlot && (
-            <Text
-              className={s.caption}
-              tag="div"
-              view="p-16"
-              weight="medium"
-              color="primary"
-            >
+            <Text className={s.caption} tag="div" view="p-16" weight="medium" color="primary">
               {captionSlot}
             </Text>
           )}
 
-          <Text
-            maxLines={2}
-            tag="h4"
-            view="p-20"
-            weight="medium"
-            color="primary"
-          >
+          <Text maxLines={1} tag="h4" view="p-20" weight="medium" color="primary">
             {title}
           </Text>
 
-          <Text
-            maxLines={2}
-            className={s.subtitle}
-            view="p-16"
-            color="secondary"
-          >
+          <Text maxLines={2} className={s.subtitle} view="p-16" color="secondary">
             {subtitle}
           </Text>
         </div>
