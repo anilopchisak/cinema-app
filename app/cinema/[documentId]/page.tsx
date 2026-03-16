@@ -16,12 +16,7 @@ export default async function CinemaDetails({ params }: Props) {
 
   return (
     <>
-      <Seo
-        title={film.data.title}
-        description={film.data.description}
-        keywords={film.data.title}
-        ogImage={film.data.poster.url}
-      />
+      <Seo title={film.data.title} description={film.data.description} keywords={film.data.title} />
       <CinemaDetailsPage film={film.data} />
     </>
   );
