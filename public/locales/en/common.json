@@ -1,0 +1,50 @@
+{
+  "app": {
+    "name": "Cinema"
+  },
+  "nav": {
+    "films": "Movies",
+    "favorites": "Favorites"
+  },
+  "auth": {
+    "login": "Sign in",
+    "logout": "Sign out",
+    "register": "Sign up",
+    "successLogin": "Signed in successfully"
+  },
+  "buttons": {
+    "clear": "Clear",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "loadMore": "Load more"
+  },
+  "search": {
+    "placeholder": "Search movies"
+  },
+  "filters": {
+    "genre": "Genre",
+    "releaseYear": "Release year",
+    "sort": "Sort",
+    "rating": "Rating",
+    "duration": "Duration",
+    "ageLimit": "Age rating"
+  },
+  "sort": {
+    "titleAsc": "By title (A → Z)",
+    "titleDesc": "By title (Z → A)",
+    "ratingAsc": "By rating (low → high)",
+    "ratingDesc": "By rating (high → low)"
+  },
+  "toast": {
+    "added": "Added!",
+    "removed": "Removed!",
+    "errorGeneric": "Something went wrong. Please try again later.",
+    "loginToFavorite": "Sign in to add to favorites"
+  },
+  "states": {
+    "loading": "Loading...",
+    "notFound": "Page not found",
+    "error": "Something went wrong"
+  }
+}

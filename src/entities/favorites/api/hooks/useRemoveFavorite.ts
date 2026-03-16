@@ -1,7 +1,7 @@
 import { useRemove } from '@/shared/api/query/useRemove';
 import favoritesApi from '../favorites.api';
 import { FAVORITES_ENDPOINTS } from '../favorites.endpoints';
-import { message } from '@/shared/ui/Message/message';
+import { message } from '@/shared/ui/Message';
 
 /** Хук для удаления фильма из избранного.
  * Использует мутацию useRemove с предустановленным сервисом favoritesApi.

@@ -1,7 +1,7 @@
 import { useCreate } from '@/shared/api/query/useCreate';
 import favoritesApi from '@/entities/favorites/api/favorites.api';
 import { FAVORITES_ENDPOINTS } from '@/entities/favorites/api/favorites.endpoints';
-import { message } from '@/shared/ui/Message/message';
+import { message } from '@/shared/ui/Message';
 
 /** Хук для добавления фильма в избранное.
  * Использует мутацию useCreate с предустановленным сервисом favoritesApi.

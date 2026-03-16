@@ -1,26 +1,12 @@
-'use client';
-
-import QueryProvider from './query-provider';
-import { StoreProvider } from './store-provider';
-import Message from '@/shared/ui/Message';
-import ScrollToTopButton from '@/features/cinema/ui/ScrollToTopButton/ScrollToTopButton';
-import VideoModalProvider from '@/features/video-modal/ui';
+import { cookies } from 'next/headers';
+import { defaultLocale } from '@/shared/lib/proxy/locale.proxy';
+import { ProvidersClient } from './providersClient';
 
 /** Провайдер, объединяющий все глобальные провайдеры
  * и UI-компоненты приложения */
-export function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <QueryProvider>
-        <StoreProvider>
-          <>
-            {children}
-            <VideoModalProvider />
-            <Message />
-            <ScrollToTopButton />
-          </>
-        </StoreProvider>
-      </QueryProvider>
-    </>
-  );
+export async function Providers({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies();
+  const locale = cookieStore.get('NEXT_LOCALE')?.value || defaultLocale;
+
+  return <ProvidersClient locale={locale}>{children}</ProvidersClient>;
 }

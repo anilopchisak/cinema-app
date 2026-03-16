@@ -3,7 +3,7 @@
 import useAddFavorite from '@/entities/favorites/api/hooks/useAddFavorite';
 import useRemoveFavorite from '@/entities/favorites/api/hooks/useRemoveFavorite';
 import React, { useCallback, useRef } from 'react';
-import { message } from '@/shared/ui/Message/message';
+import { message } from '@/shared/ui/Message';
 
 /**
  * Хук для переключения фильма в избранное и обратно.

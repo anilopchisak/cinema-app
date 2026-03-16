@@ -9,15 +9,10 @@ type Props = {
   autoClose?: number;
 };
 
-/**
- * Универсальная функция для показа всплывающих уведомлений.
- * Использует react-toastify с предустановленными настройками.
- * @param props - объект с параметрами уведомления
- */
 export const message = ({ type, title, autoClose = 3000 }: Props) => {
   const DEFAULT_OPTIONS: ToastOptions = {
     position: 'bottom-left',
-    autoClose: autoClose,
+    autoClose,
     hideProgressBar: false,
     closeOnClick: false,
     pauseOnHover: true,
@@ -28,25 +23,19 @@ export const message = ({ type, title, autoClose = 3000 }: Props) => {
   };
 
   switch (type) {
-    case 'error': {
+    case 'error':
       toast.error(title, DEFAULT_OPTIONS);
       break;
-    }
-    case 'warning': {
+    case 'warning':
       toast.warn(title, DEFAULT_OPTIONS);
       break;
-    }
-    case 'success': {
+    case 'success':
       toast.success(title, DEFAULT_OPTIONS);
       break;
-    }
-    case 'info': {
+    case 'info':
       toast.info(title, DEFAULT_OPTIONS);
       break;
-    }
-    default: {
+    default:
       toast(title, DEFAULT_OPTIONS);
-      break;
-    }
   }
 };

@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { authStore } from '@/entities/auth/model/auth.store';
 import { observer } from 'mobx-react-lite';
 import { useAuthFormLogic } from '@/features/auth/model/hooks/useAuthFormLogic';
-import { message } from '@/shared/ui/Message/message';
+import { message } from '@/shared/ui/Message';
 import Transition from '@/shared/ui/Transition';
 
 type Props = {

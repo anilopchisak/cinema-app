@@ -9,7 +9,7 @@ import {
   ERROR_MESSAGE_REGISTER,
 } from '@/shared/consts/api.consts';
 import { ApiError } from '@/shared/api/api.types';
-import { message } from '@/shared/ui/Message/message';
+import { message } from '@/shared/ui/Message';
 
 /**
  * Хук, управляющий логикой формы аутентификации (вход/регистрация).
