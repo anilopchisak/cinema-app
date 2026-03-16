@@ -33,7 +33,7 @@ export default function Button({
   return (
     <button className={buttonClasses} disabled={disabled || loading} {...props}>
       {loading && <Loader size="s" className={s.loader} />}
-      <Text tag="span" view="button" className={s.text}>
+      <Text tag="span" view="button" color="inherit" className={s.text}>
         {children}
       </Text>
     </button>
