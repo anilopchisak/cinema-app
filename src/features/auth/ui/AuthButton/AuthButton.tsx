@@ -7,7 +7,6 @@ import { RxEnter } from 'react-icons/rx';
 import s from './AuthButton.module.scss';
 import { RxExit } from 'react-icons/rx';
 import { authStore } from '@/entities/auth/model/auth.store';
-import { observer } from 'mobx-react-lite';
 
 type Props = {
   /** Флаг, авторизован ли пользователь */
@@ -20,7 +19,7 @@ type Props = {
  * При клике на "Выйти" вызывает logout из стора и перезагружает страницу.
  * Обёрнут в observer для реактивности на изменения authStore.
  */
-const AuthButton = observer(({ isAuthenticated, onClick }: Props) => {
+const AuthButton = ({ isAuthenticated, onClick }: Props) => {
   const onLogout = () => {
     authStore.logout();
     window.location.reload();
@@ -46,6 +45,6 @@ const AuthButton = observer(({ isAuthenticated, onClick }: Props) => {
       </Button>
     </NavigationLink>
   );
-});
+};
 
 export default AuthButton;

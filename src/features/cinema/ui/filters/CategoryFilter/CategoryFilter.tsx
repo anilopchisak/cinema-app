@@ -31,8 +31,9 @@ const CategoryFilter = ({ initCategories }: CinemaFiltersProps) => {
 
   const initialSelected = useMemo(() => {
     if (!initCategories) return [];
-
-    return categoryOptions.filter((option) => initCategories.includes(String(option.key)));
+    const result = categoryOptions.filter((option) => initCategories.includes(String(option.key)));
+    console.log(result);
+    return result;
   }, [initCategories, categoryOptions]);
 
   const updateFilters = useUpdateFilters();
