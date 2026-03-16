@@ -14,6 +14,7 @@ export default function ProfilePage() {
   const onLogout = () => {
     authStore.logout();
     router.replace(routes.cinema.create());
+    window.location.reload();
   };
 
   return (
