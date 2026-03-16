@@ -1,13 +1,17 @@
 .container {
   position: relative;
   width: 100%;
+  aspect-ratio: 16/9;
   background-color: #000;
+  display: flex;
+  align-items: center;
 }
 
 .player {
   width: 100%;
   aspect-ratio: 16/9;
   border: none;
+  max-height: 100vh;
 }
 
 .skeleton {
