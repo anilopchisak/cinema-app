@@ -8,7 +8,6 @@ import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 import ReleaseYearFilter from '@/features/cinema/ui/filters/ReleaseYaerFilter/ReleaseYearFilter';
 import Button from '@/shared/ui/Button';
 import { useResetFilters } from '@/entities/cinema/hooks/useResetFilters';
-import sFilter from '@/shared/ui/FilterDropdown/FilterDropdown.module.scss';
 
 type Props = {
   params: CinemaRawParams;

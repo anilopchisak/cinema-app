@@ -1,8 +1,6 @@
 import CinemaDetailsPage from '@/_pages/CinemaDetailsPage/CinemaDetailsPage';
-import CinemaDetailsSkeleton from '@/_pages/CinemaDetailsPage/skeleton';
 import { prefetchFilm } from '@/entities/cinema/api/queries/prefetch-film';
 import { HydrationBoundary } from '@tanstack/react-query';
-import { Suspense } from 'react';
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -15,11 +13,10 @@ export default async function CinemaDetails({ searchParams }: Props) {
 
   return (
     <>
-      <Suspense fallback={<CinemaDetailsSkeleton />}>
-        <HydrationBoundary state={dehydratedState}>
-          <CinemaDetailsPage />
-        </HydrationBoundary>
-      </Suspense>
+      {/* <Seo title={film.title} description={film.description} keywords={film.title} /> */}
+      <HydrationBoundary state={dehydratedState}>
+        <CinemaDetailsPage />
+      </HydrationBoundary>
     </>
   );
 }

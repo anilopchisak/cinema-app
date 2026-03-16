@@ -1,19 +1,23 @@
 'use client';
 
-import VideoPlayer from '@/shared/ui/VideoPlayer';
 import ArrowRightIcon from '@/shared/ui/icons/ArrowRightIcon/ArrowRightIcon';
 import Text from '@/shared/ui/Text';
 import { useParams, useRouter } from 'next/navigation';
 import s from './CinemaDetailsPage.module.scss';
 import CinemaDetailsSkeleton from './skeleton';
 import useFilmState from '@/entities/cinema/api/hooks/useFilmState';
-import Gallery from '@/shared/ui/Gallery';
 import FilmInfo from '@/widgets/cinema-details/FilmInfo';
 import { useMediaQuery } from 'react-responsive';
-import CinemaDetailsMobile from './mobile';
 import { videoModalStore } from '@/features/video-modal/model/video-modal.store';
 import Transition from '@/shared/ui/Transition';
-import Seo from '@/shared/ui/Seo';
+import dynamic from 'next/dynamic';
+
+const Gallery = dynamic(() => import('@/shared/ui/Gallery'), {
+  ssr: false,
+  loading: () => <CinemaDetailsSkeleton />,
+});
+
+const CinemaDetailsMobile = dynamic(() => import('./mobile'), { ssr: false });
 
 type CinemaDetailsParams = {
   documentId: string;
@@ -45,8 +49,6 @@ const CinemaDetailsPage = () => {
 
   return (
     <>
-      <Seo title={film.title} description={film.description} keywords={film.title} />
-
       <div className={s.detailsPage}>
         <div>
           <button onClick={() => router.back()} className={s.backButton}>

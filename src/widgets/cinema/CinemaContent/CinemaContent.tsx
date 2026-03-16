@@ -5,7 +5,6 @@ import CinemaList from '../CinemaList/CinemaList';
 import useCinemaState from '@/entities/cinema/api/hooks/useCinemaState';
 import useFavoritesState from '@/entities/favorites/api/hooks/useFavoritesState';
 import useScrollRestoration from '@/shared/hooks/useScrollRestoration';
-import CinemaFilters from '../CinemaFilters';
 import { observer } from 'mobx-react-lite';
 import { getCinemaParams } from '@/entities/cinema/lib/getCinemaParams';
 import CinemaListSkeleton from '../CinemaList/skeleton';
@@ -32,8 +31,6 @@ const CinemaContent = observer(({ rawParams, apiParams }: Props) => {
 
   return (
     <>
-      <CinemaFilters params={rawParams} />
-
       <ComponentTransition
         isLoading={query.isLoading && !query.isFetchingNextPage}
         skeleton={<CinemaListSkeleton />}

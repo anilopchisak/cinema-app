@@ -1,14 +1,19 @@
 import { prefetchCinema } from '@/entities/cinema/api/queries/prefetch-cinema';
 import { prefetchFavorites } from '@/entities/favorites/api/queries/prefetch-favorites';
 import { getCinemaParams } from '@/entities/cinema/lib/getCinemaParams';
-import CinemaContent from '@/widgets/cinema/CinemaContent/CinemaContent';
 import CinemaIntro from '@/widgets/cinema/CinemaIntro';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { cookies } from 'next/headers';
 import { Suspense } from 'react';
-import CinemaFiltersSkeleton from '@/widgets/cinema/CinemaFilters/skeleton/CinemaFiltersSkeleton';
 import CinemaListSkeleton from '@/widgets/cinema/CinemaList/skeleton';
 import Seo from '@/shared/ui/Seo';
+import CinemaFilters from '@/widgets/cinema/CinemaFilters';
+import dynamic from 'next/dynamic';
+
+const CinemaContent = dynamic(() => import('@/widgets/cinema/CinemaContent/CinemaContent'), {
+  ssr: true,
+  loading: () => <CinemaListSkeleton />,
+});
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -46,21 +51,14 @@ export default async function Cinema({ searchParams }: Props) {
         description="Огромный выбор фильмов с удобной фильтрацией и сортировкой. Смотрите онлайн бесплатно. А если искать не хочется, попробуйте рандомайзер."
         keywords="рандомный фильм, рандомайзер, фильмы, по рейтингу, по алфавиту"
       />
-      <Suspense
-        fallback={
-          <>
-            <CinemaIntro />
-            <CinemaFiltersSkeleton />
-            <CinemaListSkeleton />
-          </>
-        }
-      >
-        <div>
-          <CinemaIntro />
-          <HydrationBoundary state={dehydratedState}>
-            <CinemaContent rawParams={params.rawParams} apiParams={params.apiParams} />
-          </HydrationBoundary>
-        </div>
+
+      <CinemaIntro />
+      <CinemaFilters params={params.rawParams} />
+
+      <Suspense fallback={<CinemaListSkeleton />}>
+        <HydrationBoundary state={dehydratedState}>
+          <CinemaContent rawParams={params.rawParams} apiParams={params.apiParams} />
+        </HydrationBoundary>
       </Suspense>
     </>
   );

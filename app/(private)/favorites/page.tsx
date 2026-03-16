@@ -26,30 +26,17 @@ export default async function Favorites() {
         title="Избранные фильмы"
         description="Ваш личный список избранных фильмов. Сохраняйте понравившиеся и смотрите позже."
         keywords="избранное, закладки, сохраненные фильмы"
+        noindex
       />
-      <Suspense
-        fallback={
-          <>
-            <div className={s.sectionHeader}>
-              <Text tag="h1" view="title" weight="bold">
-                Избранное
-              </Text>
-            </div>
-            <CinemaListSkeleton />
-          </>
-        }
-      >
-        <div>
-          <div className={s.sectionHeader}>
-            <Text tag="h1" view="title" weight="bold">
-              Избранное
-            </Text>
-          </div>
-
-          <HydrationBoundary state={dehydratedState}>
-            <FavoritesPage />
-          </HydrationBoundary>
-        </div>
+      <div className={s.sectionHeader}>
+        <Text tag="h1" view="title" weight="bold">
+          Избранное
+        </Text>
+      </div>
+      <Suspense fallback={<CinemaListSkeleton />}>
+        <HydrationBoundary state={dehydratedState}>
+          <FavoritesPage />
+        </HydrationBoundary>
       </Suspense>
     </>
   );
