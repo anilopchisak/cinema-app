@@ -10,10 +10,16 @@ import { authStore } from '@/entities/auth/model/auth.store';
 import { observer } from 'mobx-react-lite';
 
 type Props = {
+  /** Флаг, авторизован ли пользователь */
   isAuthenticated: boolean;
+  /** Опциональный колбэк при клике (для кастомного поведения, например, закрытия меню) */
   onClick?: () => void;
 };
 
+/** Кнопка аутентификации: отображает "Войти" для неавторизованных и "Выйти" для авторизованных.
+ * При клике на "Выйти" вызывает logout из стора и перезагружает страницу.
+ * Обёрнут в observer для реактивности на изменения authStore.
+ */
 const AuthButton = observer(({ isAuthenticated, onClick }: Props) => {
   const onLogout = () => {
     authStore.logout();

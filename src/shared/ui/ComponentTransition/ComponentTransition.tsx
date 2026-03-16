@@ -2,11 +2,19 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ReactNode } from 'react';
 
 type Props = {
+  /** Флаг загрузки: если true, отображается skeleton, иначе children */
   isLoading: boolean;
+  /** Компонент-заглушка (скелетон), показываемый во время загрузки */
   skeleton: ReactNode;
+  /** Основной контент, отображаемый после завершения загрузки */
   children: ReactNode;
 };
 
+/** Компонент для плавного переключения между загрузочным скелетоном и основным контентом.
+ * Использует AnimatePresence с mode="wait", чтобы анимация выхода одного элемента
+ * завершалась до появления следующего. Ключи ('skeleton'/'content') обеспечивают
+ * правильную идентификацию элементов для анимации.
+ */
 export default function ComponentTransition({ isLoading, skeleton, children }: Props) {
   return (
     <AnimatePresence mode="wait">

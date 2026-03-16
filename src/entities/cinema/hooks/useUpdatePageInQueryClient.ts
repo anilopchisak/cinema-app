@@ -1,10 +1,19 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 
+/**
+ * Хук для обновления параметра 'page' в URL без перезагрузки страницы.
+ * Используется для синхронизации номера страницы при бесконечной подгрузке.
+ */
 export const useUpdatePageInQueryClient = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  /**
+   * Функция, устанавливающая номер страницы в query-строке.
+   * При page > 1 добавляет параметр 'page', иначе удаляет его.
+   * Изменение URL происходит через history.replaceState (без перезагрузки).
+   */
   const updatePage = useCallback(
     (page: number) => {
       if (typeof window === 'undefined') return;
@@ -34,4 +43,3 @@ export const useUpdatePageInQueryClient = () => {
 
   return updatePage;
 };
-

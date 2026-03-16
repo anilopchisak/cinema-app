@@ -7,6 +7,8 @@ type Props = {
   children: ReactNode;
 };
 
+/** Компонент-обёртка, добавляющий плавную анимацию появления
+ * (сдвиг вверх + затухание) для дочерних элементов */
 export default function Transition({ children }: Props) {
   return (
     <motion.div

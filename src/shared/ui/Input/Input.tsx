@@ -19,6 +19,7 @@ export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCh
   showErrorMessage?: boolean;
   /** Сообщение об ошибке */
   error?: string;
+  /** Ref для доступа к DOM-элементу input */
   ref?: React.Ref<HTMLInputElement>;
 };
 

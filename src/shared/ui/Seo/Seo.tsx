@@ -3,31 +3,61 @@
 import Head from 'next/head';
 import { usePathname, useSearchParams } from 'next/navigation';
 
+/** Название сайта для формирования заголовков */
 const SITE_NAME = 'CinemaКино';
+
+/** Заголовок по умолчанию */
 const DEFAULT_TITLE = 'Смотрите фильмы онлайн бесплатно';
+
+/** Описание по умолчанию */
 const DEFAULT_DESCRIPTION =
   'Лучшие фильмы в хорошем качестве. Удобный поиск, избранное, личный кабинет.';
+
+/** Ключевые слова по умолчанию */
 const DEFAULT_KEYWORDS = 'кино, фильмы, онлайн, смотреть, бесплатно';
+
+/** Изображение Open Graph по умолчанию */
 const DEFAULT_OG_IMAGE = '/og_image_solid.png';
+
+/** Ширина изображения Open Graph по умолчанию */
 const DEFAULT_OG_IMAGE_WIDTH = 1200;
+
+/** Высота изображения Open Graph по умолчанию */
 const DEFAULT_OG_IMAGE_HEIGHT = 630;
+
+/** MIME-тип изображения Open Graph по умолчанию */
 const DEFAULT_OG_IMAGE_TYPE = 'image/png';
+
+/** Базовый URL сайта (из переменных окружения или localhost) */
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
+/** Свойства компонента Seo */
 type Props = {
+  /** Заголовок страницы (будет дополнен названием сайта) */
   title?: string;
+  /** Мета-описание страницы */
   description?: string;
+  /** Ключевые слова страницы */
   keywords?: string;
+  /** Запретить индексацию страницы (noindex) */
   noindex?: boolean;
+  /** Путь к изображению для Open Graph (по умолчанию /og_image_solid.png) */
   ogImage?: string;
+  /** Ширина изображения Open Graph */
   ogImageWidth?: number;
+  /** Высота изображения Open Graph */
   ogImageHeight?: number;
+  /** MIME-тип изображения Open Graph */
   ogImageType?: string;
+  /** Тип Open Graph (website, article, video.movie и т.д.) */
   ogType?: 'website' | 'article' | 'video.movie' | string;
+  /** Канонический URL (если не передан, строится из pathname) */
   canonical?: string;
+  /** Код верификации Яндекса (для мета-тега yandex-verification) */
   yandexVerification?: string;
 };
 
+/** Компонент для управления SEO-метаданными страницы: заголовок, description, Open Graph, canonical и др. */
 export default function Seo({
   title,
   description,

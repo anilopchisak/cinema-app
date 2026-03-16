@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+/** Схема валидации для формы входа */
 export const loginSchema = z.object({
   login: z
     .string()

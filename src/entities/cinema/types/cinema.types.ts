@@ -1,13 +1,16 @@
 import type { PaginationParams } from '@/shared/api/api.types';
 
+/** Тип фильма с дополнительным полем isFavorite для отображения в избранном */
 export type FilmWithFavorite = Film & { isFavorite?: boolean };
 
+/** Объединённый объект параметров для страницы фильмов,
+ * содержащий как сырые параметры из URL, так и подготовленные для API */
 export interface CinemaParams {
   rawParams: CinemaRawParams;
   apiParams: CinemaApiParams;
 }
 
-// Параметры, которые мы парсим из URL (search params)
+/** Параметры, которые парсятся напрямую из URL (search params) */
 export interface CinemaRawParams {
   search?: string;
   category?: string[];
@@ -21,7 +24,7 @@ export interface CinemaRawParams {
   duration?: string;
 }
 
-// Структура фильтров для API (Strapi)
+/** Структура фильтров для запросов к Strapi API */
 export interface FilmFilters {
   title?: { $containsi?: string };
   category?: { id?: { $in?: string[] } | { $eq?: string } };
@@ -34,6 +37,7 @@ export interface FilmFilters {
   [key: string]: unknown;
 }
 
+/** Параметры запроса для получения фильмов (сортировка, фильтры, пагинация, поля и populate) */
 export interface FilmParams {
   sort?: string;
   filters?: FilmFilters;
@@ -42,9 +46,10 @@ export interface FilmParams {
   populate?: string[];
 }
 
-// Так как computeApiParams возвращает FilmParams, CinemaApiParams является его алиасом
+/** Алиас для FilmParams, используется как результат computeApiParams */
 export type CinemaApiParams = FilmParams;
 
+/** Изображение в галерее фильма */
 export interface GalleryImage {
   id: number;
   documentId: string;
@@ -63,6 +68,7 @@ export interface GalleryImage {
   url: string;
 }
 
+/** Основная модель фильма */
 export interface Film {
   documentId: string;
   title: string;

@@ -7,6 +7,8 @@ import { videoModalStore } from '@/features/video-modal/model/video-modal.store'
 import { observer } from 'mobx-react-lite';
 import s from './RandomVideoButton.module.scss';
 
+/** Кнопка: получает список фильмов
+ * и открывает модальное окно со случайным */
 export const RandomVideoButton = observer(() => {
   const { getRandomFilm, isLoading, isError } = useRandomFilm();
   const { open } = videoModalStore;

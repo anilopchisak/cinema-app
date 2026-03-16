@@ -1,6 +1,12 @@
 import { useAllCinemaState } from '@/entities/cinema/api/hooks/useAllCinemaState';
 import { FilmParams } from '@/entities/cinema/types/cinema.types';
 
+/**
+ * Хук для получения случайного фильма.
+ * Загружает все фильмы (только поля documentId, title, trailerUrl) и предоставляет функцию getRandomFilm,
+ * которая возвращает случайный элемент из загруженного списка.
+ * @returns Объект с данными, функцией получения случайного фильма и состояниями загрузки/ошибки
+ */
 export const useRandomFilm = () => {
   const params: FilmParams = {
     fields: ['documentId', 'title', 'trailerUrl'],

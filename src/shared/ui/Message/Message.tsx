@@ -2,6 +2,8 @@
 
 import { Bounce, ToastContainer } from 'react-toastify';
 
+/** Компонент-обёртка для ToastContainer,
+ * настраивающий глобальные уведомления (позиция, тема, анимация) */
 const Message = () => {
   return (
     <ToastContainer

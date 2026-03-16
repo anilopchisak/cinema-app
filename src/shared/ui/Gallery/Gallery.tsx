@@ -8,15 +8,23 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
 interface GalleryProps {
+  /** Массив изображений для галереи */
   gallery: GalleryImage[];
+  /** Префикс для alt текста (по умолчанию "Кадр из фильма") */
   altPrefix?: string;
+  /** Включить автоматическое перелистывание */
   autoPlay?: boolean;
+  /** Интервал автоматического перелистывания в мс (по умолчанию 4000) */
   autoPlayInterval?: number;
+  /** Дополнительный CSS-класс */
   className?: string;
+  /** Отключить кнопки навигации */
   disableButtons?: boolean;
+  /** Останавливать автовоспроизведение при наведении мыши */
   pauseOnHover?: boolean;
 }
 
+/** Компонент галереи изображений с поддержкой автовоспроизведения и навигации */
 const Gallery = ({
   gallery,
   altPrefix = 'Кадр из фильма',
@@ -30,14 +38,18 @@ const Gallery = ({
   const [isPaused, setIsPaused] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  /** Переключение на следующий слайд */
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev === gallery.length - 1 ? 0 : prev + 1));
   }, [gallery.length]);
 
+  /** Переключение на предыдущий слайд */
   const prevSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev === 0 ? gallery.length - 1 : prev - 1));
   }, [gallery.length]);
 
+  /** Управление автовоспроизведением: устанавливаем
+   *  или очищаем интервал в зависимости от состояния */
   useEffect(() => {
     if (autoPlay && !isPaused && gallery.length > 1) {
       timerRef.current = setInterval(nextSlide, autoPlayInterval);

@@ -25,10 +25,15 @@ type CinemaListProps = {
   queryFavorites?: UseQueryResult<TransformedData<FavoriteFilm>, Error>;
 };
 
+/** Компонент для отображения сетки фильмов
+ * с поддержкой бесконечной подгрузки, избранного и анимаций */
 const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) => {
+  /** Реф для Intersection Observer */
   const observerRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const isAuthenticated = authStore.isAuthenticated;
+
+  /** Хук для обновления текущей страницы в кэше React Query после подгрузки */
   const updatePageInQueryClient = useUpdatePageInQueryClient();
 
   const {
@@ -42,24 +47,30 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
 
   const { data: favorites } = queryFavorites ?? {};
 
+  /** Объединяем фильмы с информацией о том, находятся ли они в избранном */
   const filmsWithFavorite = useFilmsWithFavorites({ films, favorites, isAuthenticated });
 
+  /** Хук для переключения статуса избранного */
   const toggleFavorite = useToggleFavorite({ isAuthenticated });
 
+  /** Обработчик подгрузки следующей страницы с обновлением страницы */
   const handleLoadMore = useCallback(async () => {
     if (isFetchingNextPage || !hasNextPage || !films) return;
 
+    // Вычисляем номер следующей страницы на основе уже загруженных элементов
     const totalFetched = films.items.length;
     const currentPage = Math.ceil(totalFetched / DEFAULT_PAGE_SIZE);
     const nextPage = currentPage + 1;
     try {
       await fetchNextPage?.();
+      // Сохраняем номер страницы
       updatePageInQueryClient(nextPage);
     } catch (err) {
       throw new Error(`Ошибка подгрузки фильмов: ${err}`);
     }
   }, [films, fetchNextPage, isFetchingNextPage, hasNextPage, updatePageInQueryClient]);
 
+  /** Настройка бесконечного скролла на основе Intersection Observer */
   useInfiniteScroll({
     targetRef: observerRef,
     enabled: !isLoading,
@@ -68,6 +79,7 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
     onLoadMore: handleLoadMore,
   });
 
+  /** Переход на страницу детального просмотра фильма */
   const openDetail = (documentId: string) => {
     router.push(routes.cinemaDetails.create(documentId), { scroll: true });
   };

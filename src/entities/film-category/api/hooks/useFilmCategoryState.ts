@@ -7,6 +7,12 @@ import { ResponseData } from '@/shared/api/api.types';
 
 const DEFAULT_PARAMS = {};
 
+/**
+ * Хук для получения бесконечного списка категорий фильмов.
+ * Использует useGetAllInfinite с предустановленным сервисом filmCategoryApi.
+ * @param options - дополнительные опции для React Query (исключая служебные поля, такие как queryKey, queryFn, select и т.д.)
+ * @returns Результат бесконечного запроса (данные, функция подгрузки, состояние загрузки и т.д.)
+ */
 const useFimCategoryState = (
   options?: Omit<
     UseInfiniteQueryOptions<ResponseData<FilmCategory[]>, Error, TransformedData<FilmCategory>>,

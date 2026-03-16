@@ -6,6 +6,7 @@ import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
 import FilterDropdown from '@/shared/ui/FilterDropdown';
 import { useMemo } from 'react';
 
+/** Функция для получения списка годов - опций дропдауна */
 function getYears() {
   const years: Option[] = [];
   for (let i = 2026; i >= 1950; i--) {
@@ -20,9 +21,11 @@ function getYears() {
 const RELEASE_YEAR: Option[] = getYears();
 
 interface CinemaFiltersProps {
+  /** Начальный выбранный год */
   initReleaseYear: CinemaRawParams['sort'] | null;
 }
 
+/** Фильтр по году выпуска */
 const ReleaseYearFilter = ({ initReleaseYear }: CinemaFiltersProps) => {
   const updateFilters = useUpdateFilters();
 

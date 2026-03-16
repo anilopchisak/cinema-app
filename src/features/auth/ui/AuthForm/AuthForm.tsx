@@ -12,16 +12,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, registerSchema } from '../../zod/auth.schema';
 
 type Props = {
+  /** Режим формы: 'login' для входа, 'register' для регистрации */
   mode: 'login' | 'register';
+  /** Колбэк отправки формы с данными */
   onSubmit: (data: LoginFormValues | RegisterFormValues) => void;
+  /** Флаг загрузки (дизейблит кнопку и показывает спиннер) */
   isLoading?: boolean;
+  /** Флаг ошибки сервера (чтобы добавить пробел для отступа под сообщение) */
   isError?: boolean;
+  /** Колбэк при изменении любого поля (используется для сброса ошибки сервера) */
   onFieldChange?: () => void;
 };
 
+/** Форма аутентификации (вход/регистрация) с валидацией через react-hook-form + zod */
 export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldChange }: Props) {
   const isLogin = mode === 'login';
 
+  /** Выбор схемы валидации в зависимости от режима (мемоизация для избежания лишних ререндеров) */
   const schema = useMemo(() => (isLogin ? loginSchema : registerSchema), [isLogin]);
 
   const {
@@ -39,6 +46,7 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
     },
   });
 
+  /** Сброс формы при переключении режима (логин/регистрация) */
   useEffect(() => {
     reset({
       login: '',
@@ -47,6 +55,7 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
     });
   }, [mode, reset]);
 
+  /** Обёртка над переданным onSubmit, чтобы всегда передавать правильную структуру данных */
   const submit = (values: LoginFormValues | RegisterFormValues) => {
     if (isLogin) {
       onSubmit({ login: values.login, password: values.password });

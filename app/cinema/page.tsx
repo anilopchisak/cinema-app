@@ -22,6 +22,8 @@ type Props = {
 export default async function Cinema({ searchParams }: Props) {
   const resolvedSearchParams = await searchParams;
 
+  /** Преобразуем параметры запроса в структуру,
+   * разделяя параметры для API и для UI/путей */
   const params = getCinemaParams(resolvedSearchParams);
 
   const cookieStore = await cookies();
@@ -30,6 +32,8 @@ export default async function Cinema({ searchParams }: Props) {
   let dehydratedState;
 
   if (token) {
+    /** Если пользователь авторизован,
+     * предзагружаем и фильмы, и избранное параллельно */
     const [cinemaState, favoritesState] = await Promise.all([
       prefetchCinema(params.apiParams, params.rawParams.page),
       prefetchFavorites(),
@@ -53,10 +57,11 @@ export default async function Cinema({ searchParams }: Props) {
 
   const noindex = hasFilters || (params?.rawParams?.page ?? 1) > 1;
 
-  // Канонический URL:
-  // - при фильтрах → /cinema (без параметров)
-  // - при чистой пагинации (page > 1) → /cinema?page=N
-  // - для первой страницы без фильтров → /cinema
+  /** Формируем канонический URL:
+   * - при фильтрах → /cinema (без параметров)
+   * - при чистой пагинации (page > 1) → /cinema?page=N
+   * - для первой страницы без фильтров → /cinema
+   */
   let canonicalUrl: string | undefined;
   if (hasFilters) {
     canonicalUrl = '/cinema';

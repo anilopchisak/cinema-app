@@ -14,6 +14,7 @@ type Props = {
   onWatch: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
+/** Мобильная версия страницы с детальной информацией о фильме */
 const CinemaDetailsMobile = ({ film, onWatch }: Props) => {
   const router = useRouter();
 

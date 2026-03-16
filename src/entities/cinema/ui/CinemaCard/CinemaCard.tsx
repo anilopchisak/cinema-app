@@ -11,8 +11,12 @@ import { videoModalStore } from '@/features/video-modal/model/video-modal.store'
 import { observer } from 'mobx-react-lite';
 
 interface CinemaCardProps {
+  /** Данные фильма с информацией о нахождении в избранном */
   film: FilmWithFavorite;
+  /** Колбэк открытия страницы деталей фильма */
   onOpenDetail: (id: string) => void;
+  /** Колбэк переключения состояния избранного
+   * (принимает событие, id и текущий статус) */
   onToggleFavorite: (
     e: React.MouseEvent<HTMLButtonElement>,
     id: string,
@@ -20,13 +24,16 @@ interface CinemaCardProps {
   ) => void;
 }
 
+/** Карточка фильма с постером, мета-информацией, кнопками избранного и просмотра */
 const CinemaCard = observer(({ film, onOpenDetail, onToggleFavorite }: CinemaCardProps) => {
   const { open } = videoModalStore;
 
+  /** Обработчик клика по кнопке избранного, вызывает onToggleFavorite с параметрами фильма */
   const handleToggleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
     onToggleFavorite(e, film.documentId, film.isFavorite);
   };
 
+  /** Обработчик клика по кнопке "Смотреть", открывает видео-модалку с трейлером */
   const handleWatchFilm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     open(film.documentId, film.trailerUrl ?? '', film.title);

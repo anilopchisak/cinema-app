@@ -8,14 +8,23 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 type LinkProps = {
+  /** URL для перехода */
   url: string;
+  /** Содержимое ссылки (может быть текстом или React-элементом) */
   children: React.ReactNode;
+  /** Дополнительный CSS-класс */
   className?: string;
+  /** CSS-класс, применяемый когда ссылка активна (текущий путь совпадает с url) */
   activeClassName?: string;
+  /** Флаг предзагрузки страницы (по умолчанию true) */
   prefetch?: boolean;
+  /** Колбэк при клике на ссылку */
   onClick?: () => void;
 };
 
+/** Компонент навигационной ссылки с автоматическим определением активного состояния.
+ * Если children является строкой или числом, он автоматически оборачивается в компонент Text.
+ */
 const NavigationLink = ({
   url,
   children,

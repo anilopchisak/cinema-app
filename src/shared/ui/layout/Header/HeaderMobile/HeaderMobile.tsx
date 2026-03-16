@@ -6,19 +6,23 @@ import cn from 'classnames';
 import { useEffect, useState } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoCloseOutline } from 'react-icons/io5';
-import Button from '@/shared/ui/Button';
 import AuthButton from '@/features/auth/ui/AuthButton';
 
 type Props = {
+  /** Флаг, авторизован ли пользователь */
   isAuthenticated: boolean;
 };
 
+/** Мобильная версия заголовка с выдвигающимся меню (бургер).
+ * При открытии блокирует прокрутку body.
+ */
 const HeaderMobile = ({ isAuthenticated }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
 
+  /** Блокировка прокрутки при открытом меню */
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -31,6 +35,7 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
     };
   }, [isOpen]);
 
+  /** Закрытие меню после навигации */
   const onNavigate = () => {
     close();
   };

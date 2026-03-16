@@ -14,12 +14,11 @@ type Props = {
   params: CinemaRawParams;
 };
 
-/**
- * Блок фильтров на странице с фильмами.
- */
+/** Блок фильтров на странице с фильмами */
 export default function CinemaFilters({ params }: Props) {
   const resetFilters = useResetFilters();
 
+  /** Фнукция для сброса фильтров */
   const onReset = () => {
     resetFilters();
   };
@@ -35,6 +34,7 @@ export default function CinemaFilters({ params }: Props) {
         <CategoryFilter initCategories={params.category} />
         <ReleaseYearFilter initReleaseYear={params.releaseYear} />
         <SortFilter initSort={params.sort === 'default' ? null : params.sort} />
+
         <Button className={s.button} onClick={onReset} styleType="outline">
           Очистить
         </Button>

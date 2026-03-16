@@ -7,10 +7,14 @@ import s from './FilmInfo.module.scss';
 import Button from '@/shared/ui/Button';
 
 type Props = {
+  /** Данные фильма */
   film: Film;
+  /** Обработчик клика по кнопке "Смотреть" */
   onWatch: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
+/** Компонент с подробной информацией о фильме:
+ * заголовок, рейтинг, мета-данные, описание и кнопка просмотра */
 const FilmInfo = ({ film, onWatch }: Props) => {
   return (
     <div className={s.body}>

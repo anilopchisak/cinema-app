@@ -1,5 +1,5 @@
-import Text from "@/shared/ui/Text";
-import s from "./Footer.module.scss";
+import Text from '@/shared/ui/Text';
+import s from './Footer.module.scss';
 
 export default async function Footer() {
   return (

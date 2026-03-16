@@ -4,10 +4,13 @@ import { useState, useEffect } from 'react';
 import s from './VideoPlayer.module.scss';
 
 type VideoPlayerProps = {
+  /** URL видео для iframe */
   videoUrl: string | null;
+  /** Название видео (для title атрибута) */
   videoTitle: string | null;
 };
 
+/** Компонент для отображения iframe видео с индикатором загрузки (скелетоном) */
 const VideoPlayer = ({ videoUrl, videoTitle }: VideoPlayerProps) => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {

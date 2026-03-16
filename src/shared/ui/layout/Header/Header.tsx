@@ -11,9 +11,16 @@ import { useEffect, useState } from 'react';
 import AuthButton from '@/features/auth/ui/AuthButton';
 
 type Props = {
+  /** Флаг, авторизован ли пользователь */
   isAuthenticated: boolean;
 };
 
+/** Основной заголовок сайта (десктопная версия).
+ * При переходе на мобильное разрешение (max-width: 767) заменяется на HeaderMobile.
+ *
+ * Использует useMediaQuery с гидратацией (isMounted),
+ * чтобы избежать несоответствия серверного/клиентского рендера.
+ */
 const Header = ({ isAuthenticated }: Props) => {
   const mediaIsMobile = useMediaQuery({ maxWidth: 767 });
 

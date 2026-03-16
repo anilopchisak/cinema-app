@@ -5,8 +5,13 @@ import { useEffect, useState } from 'react';
 import s from './ScrollToTopButton.module.scss';
 import cn from 'classnames';
 
+/** Порог прокрутки (в пикселях), после которого кнопка становится видимой */
 const SCROLL_THRESHOLD = 300;
 
+/** Кнопка для плавной прокрутки страницы вверх.
+ * Появляется, когда пользователь прокрутил страницу вниз больше чем SCROLL_THRESHOLD.
+ * При клике плавно прокручивает страницу в начало.
+ */
 const ScrollToTopButton = () => {
   const [isVisible, setIsVisible] = useState(false);
 

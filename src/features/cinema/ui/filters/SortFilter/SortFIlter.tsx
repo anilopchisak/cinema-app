@@ -7,6 +7,7 @@ import FilterDropdown from '@/shared/ui/FilterDropdown';
 import { useMemo } from 'react';
 
 interface CinemaFiltersProps {
+  /** Начальное значение сортировки */
   initSort: CinemaRawParams['sort'] | null;
 }
 
@@ -20,6 +21,7 @@ const SORT: Option[] = [
   { key: 'rating:desc', value: 'По рейтингу (от высокого к низкому)' },
 ];
 
+/** Дропдаун сортировки */
 const SortFilter = ({ initSort }: CinemaFiltersProps) => {
   const updateFilters = useUpdateFilters();
 

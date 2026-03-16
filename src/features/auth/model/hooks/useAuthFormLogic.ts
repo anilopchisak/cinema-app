@@ -10,6 +10,12 @@ import {
 import { ApiError } from '@/shared/api/api.types';
 import { message } from '@/shared/ui/Message/message';
 
+/**
+ * Хук, управляющий логикой формы аутентификации (вход/регистрация).
+ * Обрабатывает отправку данных, состояния загрузки и ошибки.
+ * @param mode - режим формы: 'login' или 'register'
+ * @returns Объект с состоянием формы и обработчиками
+ */
 export const useAuthFormLogic = (mode: 'login' | 'register') => {
   const [error, setError] = useState<string>('');
   const isLogin = mode === 'login';
@@ -25,6 +31,8 @@ export const useAuthFormLogic = (mode: 'login' | 'register') => {
     isSuccess: isSuccessRegister,
   } = useRegister();
 
+  /** Возвращает сообщение об ошибке на основе статуса HTTP
+   * или дефолтное для текущего режима */
   const findError = (status?: number) => {
     if (status && ERROR_MESSAGE[status]) {
       return ERROR_MESSAGE[status];
@@ -32,6 +40,7 @@ export const useAuthFormLogic = (mode: 'login' | 'register') => {
     return isLogin ? DEFAULT_LOGIN_ERROR : DEFAULT_REGISTER_ERROR;
   };
 
+  /** Обработчик отправки формы: вызывает соответствующий мутационный хук */
   const handleSubmit = async (data: LoginFormValues | RegisterFormValues) => {
     setError('');
 
@@ -53,6 +62,7 @@ export const useAuthFormLogic = (mode: 'login' | 'register') => {
     }
   };
 
+  /** Сбрасывает локальную ошибку */
   const clearError = () => setError('');
 
   return {

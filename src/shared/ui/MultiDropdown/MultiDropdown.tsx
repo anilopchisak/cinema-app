@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Input from "../Input";
-import cn from "classnames";
-import ArrowDownIcon from "../icons/ArrowDownIcon/ArrowDownIcon";
-import Text from "../Text";
-import s from "./MultiDropdown.module.scss";
-import Loader from "../Loader";
-import useInfiniteScroll from "@/shared/hooks/useInfiniteScroll";
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Input from '../Input';
+import cn from 'classnames';
+import ArrowDownIcon from '../icons/ArrowDownIcon/ArrowDownIcon';
+import Text from '../Text';
+import s from './MultiDropdown.module.scss';
+import Loader from '../Loader';
+import useInfiniteScroll from '@/shared/hooks/useInfiniteScroll';
 
 export type Option = {
   /** Ключ варианта, используется для отправки на бек/использования в коде */
@@ -39,6 +39,7 @@ export type MultiDropdownProps = {
   hasNextPage?: boolean;
   /** Идет ли загрузка следующей страницы в данный момент */
   isFetchingNextPage?: boolean;
+  /** Идет ли загрузка в данный момент */
   isLoading?: boolean;
 };
 
@@ -59,14 +60,14 @@ export default function MultiDropdown({
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const optionsRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [filter, setFilter] = useState<string>("");
+  const [filter, setFilter] = useState<string>('');
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
   const observerTarget = useRef<HTMLDivElement | null>(null);
 
   const open = () => {
     setIsOpened(true);
-    setFilter("");
+    setFilter('');
     onOpen?.();
   };
 
@@ -77,10 +78,10 @@ export default function MultiDropdown({
       }
     };
 
-    window.addEventListener("click", handleClick);
+    window.addEventListener('click', handleClick);
 
     return () => {
-      window.removeEventListener("click", handleClick);
+      window.removeEventListener('click', handleClick);
     };
   }, []);
 
@@ -92,7 +93,7 @@ export default function MultiDropdown({
     isFetching: isFetchingNextPage,
     onLoadMore: () => onLoadMore?.(),
     threshold: 0.1,
-    rootMargin: "100px 0px",
+    rootMargin: '100px 0px',
   });
 
   const title = useMemo(() => getTitle(value), [getTitle, value]);
@@ -101,14 +102,12 @@ export default function MultiDropdown({
 
   const filteredOptions = useMemo(() => {
     const searchStr = filter.toLocaleLowerCase();
-    return options.filter(
-      (option) => option.value.toLocaleLowerCase().indexOf(searchStr) === 0,
-    );
+    return options.filter((option) => option.value.toLocaleLowerCase().indexOf(searchStr) === 0);
   }, [filter, options]);
 
-  const selectedKeysSet = useMemo<Set<Option["key"]>>(
+  const selectedKeysSet = useMemo<Set<Option['key']>>(
     () => new Set(value.map((option) => option.key)),
-    [value],
+    [value]
   );
 
   const onSelect = useCallback(
@@ -130,23 +129,20 @@ export default function MultiDropdown({
 
       inputRef.current?.focus();
     },
-    [disabled, onChange, value, selectedKeysSet, isMultiple],
+    [disabled, onChange, value, selectedKeysSet, isMultiple]
   );
 
   const opened = isOpened && !disabled;
 
   return (
-    <div
-      ref={wrapperRef}
-      className={cn(s.multiDropdown, disabled && s.disabled, className)}
-    >
+    <div ref={wrapperRef} className={cn(s.multiDropdown, disabled && s.disabled, className)}>
       <Input
         onClick={open}
         ref={inputRef}
         disabled={disabled}
         placeholder={title}
         className={s.field}
-        value={opened ? filter : isEmpty ? "" : title}
+        value={opened ? filter : isEmpty ? '' : title}
         onChange={setFilter}
         afterSlot={<ArrowDownIcon color="secondary" />}
       />
@@ -155,29 +151,18 @@ export default function MultiDropdown({
           {isLoading && !isFetchingNextPage && <Loader />}
           {filteredOptions.map((option) => (
             <button
-              className={cn(
-                s.option,
-                selectedKeysSet.has(option.key) && s.selected,
-              )}
+              className={cn(s.option, selectedKeysSet.has(option.key) && s.selected)}
               key={option.key}
               onClick={() => onSelect(option)}
             >
-              <Text
-                view="p-16"
-                color={
-                  (selectedKeysSet.has(option.key) && "accent") || "primary"
-                }
-              >
+              <Text view="p-16" color={(selectedKeysSet.has(option.key) && 'accent') || 'primary'}>
                 {option.value}
               </Text>
             </button>
           ))}
 
           {hasNextPage && (
-            <div
-              ref={observerTarget}
-              style={{ padding: "8px", textAlign: "center" }}
-            >
+            <div ref={observerTarget} style={{ padding: '8px', textAlign: 'center' }}>
               {isFetchingNextPage && <Loader />}
             </div>
           )}

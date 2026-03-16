@@ -7,14 +7,21 @@ import Text from '../Text';
 import VideoPlayer from '../VideoPlayer';
 
 type ModalProps = {
+  /** Флаг, открыто ли модальное окно */
   isOpen: boolean;
+  /** Колбэк закрытия модального окна */
   onClose: () => void;
+  /** URL видео для плеера */
   videoUrl: string;
+  /** Название фильма (отображается в ссылке) */
   filmTitle: string;
+  /** Ссылка на страницу фильма */
   filmUrl: string;
+  /** Колбэк, вызываемый перед переходом на страницу фильма (например, для закрытия модалки) */
   beforeNavigate: () => void;
 };
 
+/** Модальное окно для просмотра трейлера фильма с возможностью перейти на страницу фильма */
 const VideoModal = ({
   isOpen,
   onClose,

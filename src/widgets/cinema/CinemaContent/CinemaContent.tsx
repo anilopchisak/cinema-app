@@ -11,10 +11,14 @@ import CinemaListSkeleton from '../CinemaList/skeleton';
 import ComponentTransition from '@/shared/ui/ComponentTransition';
 
 type Props = {
+  /** Необработанные параметры из URL (для UI и передачи в дочерние компоненты) */
   rawParams: ReturnType<typeof getCinemaParams>['rawParams'];
+  /** Параметры, преобразованные для API-запросов */
   apiParams: ReturnType<typeof getCinemaParams>['apiParams'];
 };
 
+/** Основной контент страницы фильмов
+ * с состоянием запросов и восстановлением скролла */
 const CinemaContent = observer(({ rawParams, apiParams }: Props) => {
   const isAuthenticated = authStore.isAuthenticated;
 

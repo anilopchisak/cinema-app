@@ -1,6 +1,11 @@
 import { CinemaRawParams } from '../types/cinema.types';
 import { computeApiParams } from './computeApiParams';
 
+/**
+ * Преобразует searchParams из URL в структурированные параметры для UI (rawParams) и для API (apiParams).
+ * @param searchParams - объект параметров запроса из Next.js (может содержать строки или массивы)
+ * @returns Объект с rawParams (для UI/путей) и apiParams (для API-запросов)
+ */
 export const getCinemaParams = (searchParams: { [key: string]: string | string[] | undefined }) => {
   const search = typeof searchParams.search === 'string' ? searchParams.search : '';
 
@@ -21,6 +26,7 @@ export const getCinemaParams = (searchParams: { [key: string]: string | string[]
 
   const page = parseInt((searchParams.page as string) || '1', 10);
 
+  /** Параметры для использования в UI и построения канонических ссылок */
   const rawParams: CinemaRawParams = {
     search,
     sort,
@@ -33,6 +39,7 @@ export const getCinemaParams = (searchParams: { [key: string]: string | string[]
     duration: duration,
   };
 
+  /** Параметры, подготовленные для API-запросов (фильтрация, сортировка) */
   const apiParams = computeApiParams({
     search,
     sort,

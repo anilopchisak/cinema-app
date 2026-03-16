@@ -8,6 +8,7 @@ import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
 import FilterDropdown from '@/shared/ui/FilterDropdown';
 
 interface CinemaFiltersProps {
+  /** Начальные выбранные категории */
   initCategories: CinemaRawParams['category'];
 }
 

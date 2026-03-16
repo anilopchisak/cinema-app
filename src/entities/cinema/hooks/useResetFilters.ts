@@ -3,6 +3,7 @@
 import { useCallback } from 'react';
 import { useUpdateQuery } from './useUpdateQueryString';
 
+/** Хук для сброса всех фильтров в qs к значениям по умолчанию */
 export const useResetFilters = () => {
   const updateQuery = useUpdateQuery();
 

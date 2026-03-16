@@ -6,9 +6,15 @@ import { videoModalStore } from '../model/video-modal.store';
 import VideoModal from '@/shared/ui/VideoModal';
 import { routes } from '@/shared/config/routes';
 
+/** Провайдер для отображения модального окна с трейлером фильма.
+ * Следит за состоянием стора videoModalStore и рендерит VideoModal при необходимости.
+ * Блокирует прокрутку body, когда модалка открыта.
+ */
 const VideoModalProvider = observer(() => {
   const { isOpen, videoUrl, close, filmTitle, filmId } = videoModalStore;
 
+  /** Управление overflow body: при открытии модалки
+   * запрещаем прокрутку, при закрытии восстанавливаем */
   useEffect(() => {
     if (!isOpen) {
       return;
@@ -22,6 +28,7 @@ const VideoModalProvider = observer(() => {
     };
   }, [isOpen]);
 
+  /** Функция, вызываемая перед переходом на страницу фильма (закрывает модалку) */
   const openDetails = () => {
     close();
   };
