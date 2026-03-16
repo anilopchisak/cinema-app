@@ -5,7 +5,8 @@ import { LoginFormValues, RegisterFormValues } from '@/features/auth/types/auth-
 import {
   DEFAULT_LOGIN_ERROR,
   DEFAULT_REGISTER_ERROR,
-  ERROR_MESSAGE,
+  ERROR_MESSAGE_LOGIN,
+  ERROR_MESSAGE_REGISTER,
 } from '@/shared/consts/api.consts';
 import { ApiError } from '@/shared/api/api.types';
 import { message } from '@/shared/ui/Message/message';
@@ -34,10 +35,17 @@ export const useAuthFormLogic = (mode: 'login' | 'register') => {
   /** Возвращает сообщение об ошибке на основе статуса HTTP
    * или дефолтное для текущего режима */
   const findError = (status?: number) => {
-    if (status && ERROR_MESSAGE[status]) {
-      return ERROR_MESSAGE[status];
+    if (!isLogin) {
+      if (status && ERROR_MESSAGE_REGISTER[status]) {
+        return ERROR_MESSAGE_REGISTER[status];
+      }
+      return DEFAULT_REGISTER_ERROR;
+    } else {
+      if (status && ERROR_MESSAGE_LOGIN[status]) {
+        return ERROR_MESSAGE_LOGIN[status];
+      }
+      return DEFAULT_LOGIN_ERROR;
     }
-    return isLogin ? DEFAULT_LOGIN_ERROR : DEFAULT_REGISTER_ERROR;
   };
 
   /** Обработчик отправки формы: вызывает соответствующий мутационный хук */
