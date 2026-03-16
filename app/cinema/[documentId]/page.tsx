@@ -1,22 +1,23 @@
 import CinemaDetailsPage from '@/_pages/CinemaDetailsPage/CinemaDetailsPage';
-import { prefetchFilm } from '@/entities/cinema/api/queries/prefetch-film';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { getFilm } from '@/entities/cinema/api/queries/getFilm';
+import Seo from '@/shared/ui/Seo';
+import { notFound } from 'next/navigation';
 
 type Props = {
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: { documentId: string };
 };
 
-export default async function CinemaDetails({ searchParams }: Props) {
-  const resolvedSearchParams = await searchParams;
-  const documentId = resolvedSearchParams.documentId as string;
-  const dehydratedState = await prefetchFilm(documentId);
+export default async function CinemaDetails({ params }: Props) {
+  const resolvedParams = await params;
+  const documentId = resolvedParams.documentId;
+
+  const film = await getFilm(documentId);
+  if (!film) notFound();
 
   return (
     <>
-      {/* <Seo title={film.title} description={film.description} keywords={film.title} /> */}
-      <HydrationBoundary state={dehydratedState}>
-        <CinemaDetailsPage />
-      </HydrationBoundary>
+      <Seo title={film.data.title} description={film.data.description} keywords={film.data.title} />
+      <CinemaDetailsPage film={film.data} />
     </>
   );
 }

@@ -2,15 +2,16 @@
 
 import ArrowRightIcon from '@/shared/ui/icons/ArrowRightIcon/ArrowRightIcon';
 import Text from '@/shared/ui/Text';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import s from './CinemaDetailsPage.module.scss';
 import CinemaDetailsSkeleton from './skeleton';
-import useFilmState from '@/entities/cinema/api/hooks/useFilmState';
 import FilmInfo from '@/widgets/cinema-details/FilmInfo';
 import { useMediaQuery } from 'react-responsive';
 import { videoModalStore } from '@/features/video-modal/model/video-modal.store';
 import Transition from '@/shared/ui/Transition';
 import dynamic from 'next/dynamic';
+import { Film } from '@/entities/cinema/types/cinema.types';
+import { observer } from 'mobx-react-lite';
 
 const Gallery = dynamic(() => import('@/shared/ui/Gallery'), {
   ssr: false,
@@ -19,18 +20,13 @@ const Gallery = dynamic(() => import('@/shared/ui/Gallery'), {
 
 const CinemaDetailsMobile = dynamic(() => import('./mobile'), { ssr: false });
 
-type CinemaDetailsParams = {
-  documentId: string;
+type Props = {
+  film: Film;
 };
 
-const CinemaDetailsPage = () => {
+const CinemaDetailsPage = observer(({ film }: Props) => {
   const router = useRouter();
-  const params = useParams<CinemaDetailsParams>();
   const { open } = videoModalStore;
-
-  const documentId = params.documentId;
-
-  const { data: film, isLoading, isError } = useFilmState(documentId);
 
   const handleWatchFilm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -38,10 +34,6 @@ const CinemaDetailsPage = () => {
   };
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
-
-  if (isLoading) return <CinemaDetailsSkeleton />;
-
-  if (isError || !film) return <Text>Фильм не найден</Text>;
 
   if (isMobile) {
     return <CinemaDetailsMobile film={film} onWatch={handleWatchFilm} />;
@@ -76,6 +68,6 @@ const CinemaDetailsPage = () => {
       </div>
     </>
   );
-};
+});
 
 export default CinemaDetailsPage;
