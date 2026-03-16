@@ -44,6 +44,14 @@ const FilterDropdown = ({
   /** Локальное состояние выбранных опций */
   const [selected, setSelected] = useState<Option[]>(initialSelected);
 
+  /**
+   * Синхронизируем локальный стейт с входными параметрами.
+   * Важно для сценариев, когда фильтры меняются извне (например, кнопка "Очистить").
+   */
+  useEffect(() => {
+    setSelected(initialSelected);
+  }, [initialSelected]);
+
   /** Формирует заголовок дропдауна на основе выбранных элементов */
   const getDropdownTitle = (selected: Option[]) => {
     if (!selected.length) return placeholder;

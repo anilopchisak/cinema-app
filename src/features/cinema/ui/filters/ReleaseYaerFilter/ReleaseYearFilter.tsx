@@ -22,7 +22,7 @@ const RELEASE_YEAR: Option[] = getYears();
 
 interface CinemaFiltersProps {
   /** Начальный выбранный год */
-  initReleaseYear: CinemaRawParams['sort'] | null;
+  initReleaseYear: CinemaRawParams['releaseYear'] | null;
 }
 
 /** Фильтр по году выпуска */

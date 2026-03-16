@@ -31,6 +31,11 @@ const Search = ({ initSearch }: SearchProps) => {
     };
   }, [debouncedUpdate]);
 
+  useEffect(() => {
+    debouncedUpdate.cancel();
+    setSearch(initSearch ?? '');
+  }, [debouncedUpdate, initSearch]);
+
   const handleChange = (newValue: string) => {
     setSearch(newValue);
     debouncedUpdate(newValue);
