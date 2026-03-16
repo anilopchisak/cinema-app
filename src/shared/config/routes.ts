@@ -1,30 +1,26 @@
 export const routes = {
   root: {
-    mask: "/",
-    create: () => "/",
+    mask: '/',
+    create: () => '/',
   },
   cinema: {
-    mask: "/cinema",
-    create: () => "/cinema",
+    mask: '/cinema',
+    create: () => '/cinema',
   },
   cinemaDetails: {
-    mask: "cinema/:documentId",
+    mask: 'cinema/:documentId',
     create: (documentId: string) => `/cinema/${documentId}`,
   },
   login: {
-    mask: "login",
-    create: () => "/login",
+    mask: 'login',
+    create: () => '/login',
   },
   register: {
-    mask: "register",
-    create: () => "/register",
+    mask: 'register',
+    create: () => '/register',
   },
   favorites: {
-    mask: "favorites",
-    create: () => "/favorites",
-  },
-  profile: {
-    mask: "profile",
-    create: () => "/profile",
+    mask: 'favorites',
+    create: () => '/favorites',
   },
 };
