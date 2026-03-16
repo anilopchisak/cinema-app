@@ -2,11 +2,12 @@ import NavigationLink from '@/shared/ui/NavigationLink';
 import s from './HeaderMobile.module.scss';
 import { routes } from '@/shared/config/routes';
 import Image from 'next/image';
-import RandomVideoButton from '@/features/random-video/ui';
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoCloseOutline } from 'react-icons/io5';
+import Button from '@/shared/ui/Button';
+import AuthButton from '@/features/auth/ui/AuthButton';
 
 type Props = {
   isAuthenticated: boolean;
@@ -37,7 +38,6 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
   return (
     <>
       <header className={s.header}>
-        <RandomVideoButton />
         <button
           className={s.burgerButton}
           onClick={open}
@@ -49,6 +49,10 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
       </header>
 
       <div className={cn(s.overlay, { [s.open]: isOpen })} aria-hidden={!isOpen}>
+        <button className={s.close} onClick={close} aria-label="Закрыть меню">
+          <IoCloseOutline className={s.icon} />
+        </button>
+
         <div className={s.content}>
           <NavigationLink url={routes.cinema.create()} className={s.logoLink} onClick={onNavigate}>
             <Image
@@ -83,21 +87,8 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
               </NavigationLink>
             )}
 
-            <NavigationLink
-              onClick={onNavigate}
-              url={isAuthenticated ? routes.profile.create() : routes.login.create()}
-              className={s.iconLink}
-              activeClassName={s.iconLinkActive}
-            >
-              {isAuthenticated ? 'Профиль' : 'Войти'}
-            </NavigationLink>
+            <AuthButton isAuthenticated={isAuthenticated} onClick={onNavigate} />
           </nav>
-
-          <div className={s.content}>
-            <button className={s.close} onClick={close} aria-label="Закрыть меню">
-              <IoCloseOutline className={s.icon} />
-            </button>
-          </div>
         </div>
       </div>
     </>

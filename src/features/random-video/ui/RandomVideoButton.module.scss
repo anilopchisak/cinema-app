@@ -2,5 +2,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
+}
+
+.button {
+  width: 100%;
+  @media (min-width: $breakpoint-lg) {
+    max-width: 230px;
+  }
 }

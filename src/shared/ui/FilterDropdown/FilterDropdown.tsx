@@ -41,7 +41,7 @@ const FilterDropdown = ({
     () =>
       debounce((value: Option[]) => {
         onChangeFilter(value);
-      }, 700),
+      }, 400),
     [onChangeFilter]
   );
 

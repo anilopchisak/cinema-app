@@ -1,11 +1,10 @@
 'use client';
 
 import Input from '@/shared/ui/Input';
-import s from './Search.module.scss';
-import Button from '@/shared/ui/Button';
-import { useState, type KeyboardEvent } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
+import { debounce } from 'lodash';
 
 type SearchProps = {
   /** Начальное значение при загрузке страницы */
@@ -18,32 +17,26 @@ const Search = ({ initSearch }: SearchProps) => {
 
   const updateFilters = useUpdateFilters();
 
-  const onSearch = () => {
-    updateFilters({ search });
-  };
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      onSearch();
-    }
-  };
-
-  return (
-    <div className={s.searchRow}>
-      <div className={s.inputWrapper}>
-        <Input
-          value={search}
-          onChange={setSearch}
-          placeholder="Искать фильмы"
-          onKeyDown={handleKeyDown}
-        />
-      </div>
-      <Button className={s.searchButton} onClick={() => onSearch()}>
-        Найти
-      </Button>
-    </div>
+  const debouncedUpdate = useMemo(
+    () =>
+      debounce((value: string) => {
+        updateFilters({ search: value });
+      }, 300),
+    [updateFilters]
   );
+
+  useEffect(() => {
+    return () => {
+      debouncedUpdate.cancel();
+    };
+  }, [debouncedUpdate]);
+
+  const handleChange = (newValue: string) => {
+    setSearch(newValue);
+    debouncedUpdate(newValue);
+  };
+
+  return <Input value={search} onChange={handleChange} placeholder="Искать фильмы" />;
 };
 
 export default Search;

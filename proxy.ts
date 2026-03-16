@@ -5,7 +5,7 @@ export function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  const isPrivatePage = pathname.startsWith('/favorites') || pathname.startsWith('/profile');
+  const isPrivatePage = pathname.startsWith('/favorites');
   const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/register');
 
   // если пользователь не авторизован и пытается попасть на приватную страницу,
@@ -17,12 +17,12 @@ export function proxy(request: NextRequest) {
   // если пользователь авторизован и пытается попасть на страницу логина или регистрации,
   // редиректим его на страницу профиля
   if (authToken && isAuthPage) {
-    return NextResponse.redirect(new URL('/profile', request.url));
+    return NextResponse.redirect(new URL('/favorites', request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/favorites/:path*', '/profile/:path*', '/login', '/register'],
+  matcher: ['/favorites/:path*', '/login', '/register'],
 };

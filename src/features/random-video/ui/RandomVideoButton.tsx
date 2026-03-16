@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite';
 import s from './RandomVideoButton.module.scss';
 
 export const RandomVideoButton = observer(() => {
-  const { data, getRandomFilm, isLoading, isError } = useRandomFilm();
+  const { getRandomFilm, isLoading, isError } = useRandomFilm();
   const { open } = videoModalStore;
 
   const onClick = () => {
@@ -19,7 +19,13 @@ export const RandomVideoButton = observer(() => {
   };
 
   return (
-    <Button styleType="outline" onClick={onClick} disabled={isLoading} loading={isLoading}>
+    <Button
+      styleType="outline-secondary"
+      onClick={onClick}
+      disabled={isLoading || isError}
+      loading={isLoading}
+      className={s.button}
+    >
       <div className={s.content}>
         <RandomIcon />
         <span>Не хочу выбирать</span>

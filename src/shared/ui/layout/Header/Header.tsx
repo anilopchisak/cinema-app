@@ -1,15 +1,14 @@
 'use client';
 
 import BookmarkIcon from '@/shared/ui/icons/BookmarkIcon/BookmarkIcon';
-import UserIcon from '@/shared/ui/icons/UserIcon/UserIcon';
 import NavigationLink from '@/shared/ui/NavigationLink';
 import s from './Header.module.scss';
 import { routes } from '@/shared/config/routes';
 import Image from 'next/image';
-import RandomVideoButton from '@/features/random-video/ui/RandomVideoButton';
 import { useMediaQuery } from 'react-responsive';
 import HeaderMobile from './HeaderMobile';
 import { useEffect, useState } from 'react';
+import AuthButton from '@/features/auth/ui/AuthButton';
 
 type Props = {
   isAuthenticated: boolean;
@@ -54,10 +53,6 @@ const Header = ({ isAuthenticated }: Props) => {
           </NavigationLink>
         </nav>
 
-        <div>
-          <RandomVideoButton />
-        </div>
-
         <div className={s.actions}>
           {isAuthenticated && (
             <NavigationLink
@@ -69,13 +64,7 @@ const Header = ({ isAuthenticated }: Props) => {
             </NavigationLink>
           )}
 
-          <NavigationLink
-            url={isAuthenticated ? routes.profile.create() : routes.login.create()}
-            className={s.iconLink}
-            activeClassName={s.iconLinkActive}
-          >
-            <UserIcon />
-          </NavigationLink>
+          <AuthButton isAuthenticated={isAuthenticated} />
         </div>
       </div>
     </header>
