@@ -4,9 +4,10 @@ import { useMediaQuery } from 'react-responsive';
 import sOriginal from '../CinemaDetailsPage.module.scss';
 import sMobile from '../mobile/CinemaDetailsMobile.module.scss';
 import s from './CinemaDetailsSkeleton.module.scss';
+import { breakpoints } from '@/shared/consts/breakpoints.consts';
 
 const CinemaDetailsSkeleton = () => {
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isMobile = useMediaQuery({ maxWidth: breakpoints.tablet });
   const FilmInfoSkeleton = (
     <div className={s.filmInfo}>
       <div className={s.titleRow}>

@@ -18,11 +18,6 @@ type Props = {
 export default function CinemaFilters({ params }: Props) {
   const resetFilters = useResetFilters();
 
-  /** Фнукция для сброса фильтров */
-  const onReset = () => {
-    resetFilters();
-  };
-
   return (
     <div className={s.container}>
       <div className={s.filters}>
@@ -35,7 +30,7 @@ export default function CinemaFilters({ params }: Props) {
         <ReleaseYearFilter initReleaseYear={params.releaseYear} />
         <SortFilter initSort={params.sort === 'default' ? null : params.sort} />
 
-        <Button className={s.button} onClick={onReset} styleType="outline">
+        <Button className={s.button} onClick={resetFilters} styleType="outline">
           Очистить
         </Button>
       </div>

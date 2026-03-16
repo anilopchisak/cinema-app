@@ -12,6 +12,7 @@ import Transition from '@/shared/ui/Transition';
 import dynamic from 'next/dynamic';
 import { Film } from '@/entities/cinema/types/cinema.types';
 import { observer } from 'mobx-react-lite';
+import { breakpoints } from '@/shared/consts/breakpoints.consts';
 
 const Gallery = dynamic(() => import('@/shared/ui/Gallery'), {
   ssr: false,
@@ -37,7 +38,7 @@ const CinemaDetailsPage = observer(({ film }: Props) => {
   };
 
   /** Определение мобильного устройства по ширине экрана */
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isMobile = useMediaQuery({ maxWidth: breakpoints.tablet });
 
   /** Для мобильных устройств рендерим отдельную версию */
   if (isMobile) {

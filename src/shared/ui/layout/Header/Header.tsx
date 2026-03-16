@@ -9,6 +9,7 @@ import { useMediaQuery } from 'react-responsive';
 import HeaderMobile from './HeaderMobile';
 import { useEffect, useState } from 'react';
 import AuthButton from '@/features/auth/ui/AuthButton';
+import { breakpoints } from '@/shared/consts/breakpoints.consts';
 
 type Props = {
   /** Флаг, авторизован ли пользователь */
@@ -22,7 +23,7 @@ type Props = {
  * чтобы избежать несоответствия серверного/клиентского рендера.
  */
 const Header = ({ isAuthenticated }: Props) => {
-  const mediaIsMobile = useMediaQuery({ maxWidth: 767 });
+  const mediaIsMobile = useMediaQuery({ maxWidth: breakpoints.tablet });
 
   const [isMounted, setIsMounted] = useState(false);
   const isMobile = isMounted ? mediaIsMobile : false;

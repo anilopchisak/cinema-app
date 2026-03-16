@@ -5,6 +5,7 @@ import { formatMinsToHours } from '@/shared/lib/formatMinsToHours';
 import Text from '@/shared/ui/Text';
 import s from './FilmInfo.module.scss';
 import Button from '@/shared/ui/Button';
+import { useMemo } from 'react';
 
 type Props = {
   /** Данные фильма */
@@ -16,6 +17,17 @@ type Props = {
 /** Компонент с подробной информацией о фильме:
  * заголовок, рейтинг, мета-данные, описание и кнопка просмотра */
 const FilmInfo = ({ film, onWatch }: Props) => {
+  const metaItems = useMemo(
+    () =>
+      [
+        String(film.releaseYear),
+        film.category?.title ?? '',
+        film.ageLimit ? `${film.ageLimit}+` : '',
+        film.duration ? formatMinsToHours(film.duration) : '',
+      ].filter(Boolean),
+    [film]
+  );
+
   return (
     <div className={s.body}>
       <div className={s.title}>
@@ -27,12 +39,7 @@ const FilmInfo = ({ film, onWatch }: Props) => {
       </div>
 
       <FilmMeta
-        items={[
-          String(film.releaseYear),
-          film.category?.title ?? '',
-          film.ageLimit ? `${film.ageLimit}+` : '',
-          film.duration ? formatMinsToHours(film.duration) : '',
-        ].filter(Boolean)}
+        items={metaItems}
         textProps={{
           view: 'p-20',
         }}
