@@ -8,6 +8,13 @@ interface FavoriteState {
   isAuthenticated: boolean;
 }
 
+/**
+ * Хук для получения списка избранных фильмов текущего пользователя.
+ * Использует useGetAll с предустановленным сервисом favoritesApi.
+ * Запрос выполняется только при isAuthenticated = true.
+ * @param params - объект с флагом isAuthenticated
+ * @returns Результат запроса (данные, состояние загрузки, ошибка и т.д.)
+ */
 const useFavoritesState = ({ isAuthenticated }: FavoriteState) => {
   const result = useGetAll<FavoriteFilm, FilmParams>({
     queryKey: [FAVORITES_ENDPOINTS.base],

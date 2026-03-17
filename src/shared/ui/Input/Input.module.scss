@@ -1,4 +1,8 @@
-@use '@/shared/styles/variables' as *;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
 .input {
   --text: #{$input-text};
@@ -54,4 +58,32 @@
     --border: #{$input-border-disabled};
     cursor: not-allowed;
   }
+
+  &.error {
+    --border: #ff3b30;
+    box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.15);
+  }
+}
+
+.errorMessage {
+  display: block;
+  min-height: 20px;
+  padding-left: 12px;
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 20px;
+  color: #ff3b30;
+  font-weight: 400;
+
+  opacity: 0;
+  transform: translateY(-4px);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.errorVisible {
+  opacity: 1;
+  transform: translateY(0);
 }

@@ -1,0 +1,24 @@
+.mobilePage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: $text-primary;
+}
+
+.icon {
+  transform: rotate(180deg);
+}
+
+.filmInfoContainer {
+  padding: 0 16px;
+  width: 100%;
+}

@@ -1,22 +1,24 @@
 'use client';
 
 import { authStore } from '@/entities/auth/model/auth.store';
-import { Suspense } from 'react';
-import CinemaListSkeleton from '../CinemaList/skeleton';
 import CinemaList from '../CinemaList/CinemaList';
 import useCinemaState from '@/entities/cinema/api/hooks/useCinemaState';
 import useFavoritesState from '@/entities/favorites/api/hooks/useFavoritesState';
-import useSyncCinemaPage from '@/entities/cinema/hooks/useSyncCinemaPage';
 import useScrollRestoration from '@/shared/hooks/useScrollRestoration';
-import CinemaFilters from '../CinemaFilters';
 import { observer } from 'mobx-react-lite';
 import { getCinemaParams } from '@/entities/cinema/lib/getCinemaParams';
+import CinemaListSkeleton from '../CinemaList/skeleton';
+import ComponentTransition from '@/shared/ui/ComponentTransition';
 
 type Props = {
+  /** Необработанные параметры из URL (для UI и передачи в дочерние компоненты) */
   rawParams: ReturnType<typeof getCinemaParams>['rawParams'];
+  /** Параметры, преобразованные для API-запросов */
   apiParams: ReturnType<typeof getCinemaParams>['apiParams'];
 };
 
+/** Основной контент страницы фильмов
+ * с состоянием запросов и восстановлением скролла */
 const CinemaContent = observer(({ rawParams, apiParams }: Props) => {
   const isAuthenticated = authStore.isAuthenticated;
 
@@ -31,15 +33,14 @@ const CinemaContent = observer(({ rawParams, apiParams }: Props) => {
     isReadyToRestore,
   });
 
-  /** Синхронизация страницы с URL */
-  useSyncCinemaPage({ data: query.data, currentPage: rawParams.page ?? 1 });
-
   return (
     <>
-      <CinemaFilters params={rawParams} />
-      <Suspense fallback={<CinemaListSkeleton />}>
+      <ComponentTransition
+        isLoading={query.isLoading && !query.isFetchingNextPage}
+        skeleton={<CinemaListSkeleton />}
+      >
         <CinemaList queryFilms={query} queryFavorites={queryFavorites} />
-      </Suspense>
+      </ComponentTransition>
     </>
   );
 });

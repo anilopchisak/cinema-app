@@ -3,6 +3,12 @@ import type { RegisterPayload } from '@/entities/auth/api/auth-service/auth-serv
 import authService from '@/entities/auth/api/auth-service';
 import { authStore } from '@/entities/auth/model/auth.store';
 
+/**
+ * Хук для выполнения регистрации нового пользователя.
+ * Использует мутацию React Query для вызова authService.register.
+ * При успехе сохраняет JWT в сторе и инвалидирует запросы пользователя.
+ * @returns Объект мутации (mutateAsync, isLoading, isSuccess и т.д.)
+ */
 export const useRegister = () => {
   const queryClient = useQueryClient();
 
@@ -11,9 +17,6 @@ export const useRegister = () => {
     onSuccess: (data) => {
       authStore.login(data.jwt);
       queryClient.invalidateQueries({ queryKey: ['user'] });
-    },
-    onError: (error) => {
-      throw new Error(`Ошибка регистрации: ${error}`);
     },
   });
 };

@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import './globals.css';
 import MainLayout from '@/shared/ui/layout/MainLayout';
+import { Providers } from './providers';
 import { Suspense } from 'react';
-import QueryProvider from './query-provider';
-import { StoreProvider } from './store-provider';
+import { getServerTranslations } from '@/shared/i18next/server';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -31,21 +31,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { t, locale } = await getServerTranslations();
   return (
-    <html lang="ru">
+    <html lang={locale}>
       <body className={roboto.variable}>
-        <MainLayout>
-          <QueryProvider>
-            <StoreProvider>
-              <Suspense fallback={<div>Загрузка...</div>}>{children}</Suspense>
-            </StoreProvider>
-          </QueryProvider>
-        </MainLayout>
+        <Providers>
+          <MainLayout>
+            <Suspense fallback={<div>{t('states.loading')}</div>}>{children}</Suspense>
+          </MainLayout>
+        </Providers>
       </body>
     </html>
   );

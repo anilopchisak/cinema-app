@@ -1,31 +1,25 @@
-@use '@/shared/styles/variables' as *;
-
 .backButton {
-  width: 160px;
-  height: 32px;
-  border-radius: $border-radius;
-  margin-bottom: 32px;
+  width: 120px;
+  height: 24px;
+  border-radius: 4px;
   @include skeleton;
 }
 
-.video {
-  position: relative;
+.gallerySkeleton {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 16px;
-  overflow: hidden;
+  height: 100%;
   @include skeleton;
-
-  .videoLoader {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 }
 
-.title {
+.filmInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 390px;
+}
+
+.titleRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,37 +28,50 @@
 
 .title {
   width: 70%;
-  height: 32px;
+  height: 36px;
   border-radius: 8px;
   @include skeleton;
 }
 
 .rating {
-  width: 72px;
+  width: 60px;
   height: 32px;
-  border-radius: $border-radius;
+  border-radius: 6px;
   @include skeleton;
 }
 
 .meta {
-  width: 60%;
+  width: 50%;
   height: 20px;
-  border-radius: 8px;
+  border-radius: 4px;
   @include skeleton;
 }
 
-.description {
+.descriptionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.descriptionLine {
   width: 100%;
-  height: 16px;
-  border-radius: 8px;
+  height: 14px;
+  border-radius: 4px;
   @include skeleton;
 
-  &:nth-child(3) {
+  &:nth-child(2) {
     width: 90%;
   }
 
-  &:nth-child(4) {
-    width: 80%;
+  &:nth-child(3) {
+    width: 60%;
   }
 }
 
+.watchButton {
+  width: 180px;
+  height: 48px;
+  border-radius: 8px;
+  margin-top: 10px;
+  @include skeleton;
+}

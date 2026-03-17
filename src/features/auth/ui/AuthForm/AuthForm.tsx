@@ -2,31 +2,45 @@
 
 import Button from '@/shared/ui/Button';
 import Input from '@/shared/ui/Input';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import s from './AuthForm.module.scss';
-import type { LoginFormData, RegisterFormData } from '@/features/auth/auth-form.types';
+import type { LoginFormValues, RegisterFormValues } from '@/features/auth/types/auth-form.types';
 import Link from 'next/link';
 import { routes } from '@/shared/config/routes';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema, registerSchema } from '../../zod/auth.schema';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
+  /** Режим формы: 'login' для входа, 'register' для регистрации */
   mode: 'login' | 'register';
-  onLogin: (data: LoginFormData) => void;
-  onRegister: (data: RegisterFormData) => void;
+  /** Колбэк отправки формы с данными */
+  onSubmit: (data: LoginFormValues | RegisterFormValues) => void;
+  /** Флаг загрузки (дизейблит кнопку и показывает спиннер) */
   isLoading?: boolean;
+  /** Флаг ошибки сервера (чтобы добавить пробел для отступа под сообщение) */
+  isError?: boolean;
+  /** Колбэк при изменении любого поля (используется для сброса ошибки сервера) */
+  onFieldChange?: () => void;
 };
 
-type FormValues = RegisterFormData;
-
-export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props) {
+/** Форма аутентификации (вход/регистрация) с валидацией через react-hook-form + zod */
+export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldChange }: Props) {
   const isLogin = mode === 'login';
+  const { t } = useTranslation('common');
+
+  /** Выбор схемы валидации в зависимости от режима (мемоизация для избежания лишних ререндеров) */
+  const schema = useMemo(() => (isLogin ? loginSchema : registerSchema), [isLogin]);
 
   const {
     control,
     handleSubmit,
     reset,
     formState: { isSubmitting },
-  } = useForm<FormValues>({
+  } = useForm<LoginFormValues | RegisterFormValues>({
+    resolver: zodResolver(schema),
+    mode: 'onBlur',
     defaultValues: {
       login: '',
       email: '',
@@ -34,6 +48,7 @@ export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props
     },
   });
 
+  /** Сброс формы при переключении режима (логин/регистрация) */
   useEffect(() => {
     reset({
       login: '',
@@ -42,27 +57,33 @@ export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props
     });
   }, [mode, reset]);
 
-  const onSubmit = (values: FormValues) => {
+  /** Обёртка над переданным onSubmit, чтобы всегда передавать правильную структуру данных */
+  const submit = (values: LoginFormValues | RegisterFormValues) => {
     if (isLogin) {
-      const { login, password } = values;
-      onLogin({ login, password });
+      onSubmit({ login: values.login, password: values.password });
     } else {
-      onRegister(values);
+      onSubmit(values as RegisterFormValues);
     }
   };
 
   return (
-    <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
+    <form className={s.form} onSubmit={handleSubmit(submit)}>
       <Controller
         control={control}
         name="login"
-        rules={{ required: true }}
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <Input
-            value={field.value || ''}
-            onChange={field.onChange}
-            placeholder="Логин"
             autoFocus
+            value={field.value || ''}
+            onChange={(v) => {
+              field.onChange(v);
+              onFieldChange?.();
+            }}
+            placeholder={t('auth.loginLabel')}
+            showErrorMessage={true}
+            error={
+              fieldState.error?.message ? t(fieldState.error.message) : isError ? ' ' : undefined
+            }
             onBlur={field.onBlur}
             name={field.name}
             ref={field.ref}
@@ -74,12 +95,18 @@ export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props
         <Controller
           control={control}
           name="email"
-          rules={{ required: true }}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Input
               value={field.value || ''}
-              onChange={field.onChange}
-              placeholder="Эл. почта"
+              onChange={(v) => {
+                field.onChange(v);
+                onFieldChange?.();
+              }}
+              placeholder={t('auth.emailLabel')}
+              showErrorMessage={true}
+              error={
+                fieldState.error?.message ? t(fieldState.error.message) : isError ? ' ' : undefined
+              }
               onBlur={field.onBlur}
               name={field.name}
               ref={field.ref}
@@ -91,13 +118,19 @@ export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props
       <Controller
         control={control}
         name="password"
-        rules={{ required: true }}
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <Input
             value={field.value || ''}
-            onChange={field.onChange}
-            placeholder="Пароль"
+            onChange={(v) => {
+              field.onChange(v);
+              onFieldChange?.();
+            }}
+            placeholder={t('auth.passwordLabel')}
             type="password"
+            showErrorMessage={true}
+            error={
+              fieldState.error?.message ? t(fieldState.error.message) : isError ? ' ' : undefined
+            }
             onBlur={field.onBlur}
             name={field.name}
             ref={field.ref}
@@ -112,7 +145,7 @@ export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props
           disabled={isLoading || isSubmitting}
           loading={isLoading || isSubmitting}
         >
-          {isLogin ? 'Войти' : 'Зарегистрироваться'}
+          {isLogin ? t('auth.login') : t('auth.registerAction')}
         </Button>
 
         <Link
@@ -120,7 +153,7 @@ export default function AuthForm({ mode, onLogin, onRegister, isLoading }: Props
           className={s.button}
         >
           <Button styleType="outline" className={s.button}>
-            {isLogin ? 'Нет аккаунта? Регистрация' : 'Есть аккаунт? Войти'}
+            {isLogin ? t('auth.noAccount') : t('auth.haveAccount')}
           </Button>
         </Link>
       </div>

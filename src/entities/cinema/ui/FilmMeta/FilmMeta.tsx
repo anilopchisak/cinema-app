@@ -5,9 +5,13 @@ import React from 'react';
 import s from './FilmMeta.module.scss';
 
 interface FilmMetaProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Массив строк, которые будут отображены через разделитель */
   items: string[];
+  /** Разделитель между элементами (по умолчанию '•') */
   separator?: string;
+  /** Отступ между элементами в пикселях (по умолчанию 12) */
   gap?: number;
+  /** Дополнительные пропсы для компонента Text, применяемые ко всем элементам */
   textProps?: Partial<TextProps>;
 }
 
@@ -17,13 +21,8 @@ const defaultTextProps: Partial<TextProps> = {
   tag: 'span',
 };
 
-const FilmMeta = ({
-  items,
-  separator = '•',
-  gap = 12,
-  textProps,
-  className,
-}: FilmMetaProps) => {
+/** Компонент для отображения мета-информации с разделителями */
+const FilmMeta = ({ items, separator = '•', gap = 12, textProps, className }: FilmMetaProps) => {
   const mergedTextProps = { ...defaultTextProps, ...textProps };
 
   return (

@@ -1,13 +1,11 @@
-"use client";
+'use client';
 
-import cn from "classnames";
-import React from "react";
-import s from "./Input.module.scss";
+import cn from 'classnames';
+import React from 'react';
+import s from './Input.module.scss';
+import { useTranslation } from 'react-i18next';
 
-export type InputProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "onChange" | "value"
-> & {
+export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> & {
   /** Значение поля */
   value: string;
   /** Callback, вызываемый при вводе данных в поле */
@@ -18,6 +16,11 @@ export type InputProps = Omit<
   disabled?: boolean;
   /** Заглушка для поля ввода */
   placeholder: string;
+  /** Флаг - показывать ли блок с сообщением об ошибке */
+  showErrorMessage?: boolean;
+  /** Сообщение об ошибке */
+  error?: string;
+  /** Ref для доступа к DOM-элементу input */
   ref?: React.Ref<HTMLInputElement>;
 };
 
@@ -28,27 +31,39 @@ export default function Input({
   afterSlot,
   disabled,
   placeholder,
+  showErrorMessage = false,
+  error,
   ref,
   ...rest
 }: InputProps) {
+  const { t } = useTranslation('common');
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };
 
   return (
-    <label className={cn(s.input, disabled && s.disabled, className)}>
-      <input
-        ref={ref}
-        type="text"
-        value={value}
-        onChange={handleChange}
-        placeholder={placeholder}
-        className={s.field}
-        disabled={disabled}
-        {...rest}
-      />
+    <div className={cn(s.wrapper, className)}>
+      <label className={cn(s.input, disabled && s.disabled, error && s.error, className)}>
+        <input
+          ref={ref}
+          type="text"
+          value={value}
+          onChange={handleChange}
+          placeholder={placeholder}
+          className={s.field}
+          disabled={disabled}
+          {...rest}
+        />
 
-      {afterSlot && <div className={s.after}>{afterSlot}</div>}
-    </label>
+        {afterSlot && <div className={s.after}>{afterSlot}</div>}
+      </label>
+
+      {showErrorMessage && (
+        <span className={cn(s.errorMessage, error && s.errorVisible)}>
+          {error || t('errors.fieldErrorDefault')}
+        </span>
+      )}
+    </div>
   );
 }

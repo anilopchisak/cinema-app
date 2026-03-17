@@ -1,11 +1,11 @@
 'use client';
 
 import Input from '@/shared/ui/Input';
-import s from './Search.module.scss';
-import Button from '@/shared/ui/Button';
-import { useState, type KeyboardEvent } from 'react';
-import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
+import { useEffect, useMemo, useState } from 'react';
 import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
+import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
+import { debounce } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 type SearchProps = {
   /** Начальное значение при загрузке страницы */
@@ -15,35 +15,35 @@ type SearchProps = {
 /** Поисковая строка */
 const Search = ({ initSearch }: SearchProps) => {
   const [search, setSearch] = useState(initSearch ?? '');
+  const { t } = useTranslation('common');
 
-  const updateQuery = useUpdateQuery();
+  const updateFilters = useUpdateFilters();
 
-  const onSearch = () => {
-    updateQuery({ search });
-  };
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      onSearch();
-    }
-  };
-
-  return (
-    <div className={s.searchRow}>
-      <div className={s.inputWrapper}>
-        <Input
-          value={search}
-          onChange={setSearch}
-          placeholder="Искать фильмы"
-          onKeyDown={handleKeyDown}
-        />
-      </div>
-      <Button className={s.searchButton} onClick={() => onSearch()}>
-        Найти
-      </Button>
-    </div>
+  const debouncedUpdate = useMemo(
+    () =>
+      debounce((value: string) => {
+        updateFilters({ search: value });
+      }, 300),
+    [updateFilters]
   );
+
+  useEffect(() => {
+    return () => {
+      debouncedUpdate.cancel();
+    };
+  }, [debouncedUpdate]);
+
+  useEffect(() => {
+    debouncedUpdate.cancel();
+    setSearch(initSearch ?? '');
+  }, [debouncedUpdate, initSearch]);
+
+  const handleChange = (newValue: string) => {
+    setSearch(newValue);
+    debouncedUpdate(newValue);
+  };
+
+  return <Input value={search} onChange={handleChange} placeholder={t('search.placeholder')} />;
 };
 
 export default Search;

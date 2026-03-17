@@ -1,69 +1,85 @@
 'use client';
 
-import FilmMeta from '@/entities/cinema/ui/FilmMeta/FilmMeta';
-import FilmStat from '@/entities/cinema/ui/FilmStat';
-import VideoPlayer from '@/features/cinema/ui/VideoPlayer';
-import { formatMinsToHours } from '@/shared/lib/formatMinsToHours';
 import ArrowRightIcon from '@/shared/ui/icons/ArrowRightIcon/ArrowRightIcon';
 import Text from '@/shared/ui/Text';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import s from './CinemaDetailsPage.module.scss';
 import CinemaDetailsSkeleton from './skeleton';
-import useFilmState from '@/entities/cinema/api/hooks/useFilmState';
+import FilmInfo from '@/widgets/cinema-details/FilmInfo';
+import { useMediaQuery } from 'react-responsive';
+import { videoModalStore } from '@/features/video-modal/model/video-modal.store';
+import Transition from '@/shared/ui/Transition';
+import dynamic from 'next/dynamic';
+import { Film } from '@/entities/cinema/types/cinema.types';
+import { breakpoints } from '@/shared/consts/breakpoints.consts';
+import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
 
-type CinemaDetailsParams = {
-  documentId: string;
+const Gallery = dynamic(() => import('@/shared/ui/Gallery'), {
+  ssr: false,
+  loading: () => <CinemaDetailsSkeleton />,
+});
+
+const CinemaDetailsMobile = dynamic(() => import('./mobile'), { ssr: false });
+
+type Props = {
+  /** Данные фильма */
+  film: Film;
 };
 
-const CinemaDetailsPage = () => {
+/** Страница деталей фильма с адаптивным отображением (десктоп/мобильный) */
+const CinemaDetailsPage = ({ film }: Props) => {
   const router = useRouter();
-  const params = useParams<CinemaDetailsParams>();
+  const { open } = videoModalStore;
+  const { t } = useTranslation('common');
 
-  const documentId = params.documentId;
+  /** Открытие модалки с трейлером при клике на кнопку "Смотреть" */
+  const handleWatchFilm = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (film) open(film.documentId, film.trailerUrl ?? '', film.title);
+  };
 
-  const { data: film, isLoading, isError } = useFilmState(documentId);
+  /** Определение мобильного устройства по ширине экрана */
+  const isMobile = useMediaQuery({ maxWidth: breakpoints.tablet });
+  const [isMounted, setIsMounted] = useState(false);
 
-  if (isLoading) return <CinemaDetailsSkeleton />;
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-  if (isError || !film) return <Text>Фильм не найден</Text>;
+  /** Для мобильных устройств рендерим отдельную версию */
+  if (isMounted && isMobile) {
+    return <CinemaDetailsMobile film={film} onWatch={handleWatchFilm} />;
+  }
 
   return (
-    <div className={s.detailsPage}>
-      <button onClick={() => router.back()} className={s.backButton}>
-        <ArrowRightIcon className={s.icon} />
-        <Text view="button">Назад</Text>
-      </button>
-
-      <div className={s.film}>
-        {film?.trailerUrl && <VideoPlayer videoUrl={film.trailerUrl} />}
-
-        <div className={s.body}>
-          <div className={s.title}>
-            <Text view="p-24" tag="h1">
-              {film.title}
-            </Text>
-
-            {film.rating && <FilmStat rating={film.rating} />}
-          </div>
-
-          <FilmMeta
-            items={[
-              String(film.releaseYear),
-              film.category?.title ?? '',
-              film.ageLimit ? `${film.ageLimit}+` : '',
-              film.duration ? formatMinsToHours(film.duration) : '',
-            ].filter(Boolean)}
-            textProps={{
-              view: 'p-20',
-            }}
-          />
-
-          <Text color="secondary" view="p-20">
-            {film.description}
-          </Text>
+    <>
+      <div className={s.detailsPage}>
+        <div>
+          <button onClick={() => router.back()} className={s.backButton}>
+            <ArrowRightIcon className={s.icon} />
+            <Text view="button">{t('buttons.back')}</Text>
+          </button>
         </div>
+
+        <Transition>
+          <div className={s.hero}>
+            <Gallery
+              gallery={film.gallery ?? []}
+              autoPlay={true}
+              autoPlayInterval={3000}
+              altPrefix={t('gallery.altPrefix')}
+              disableButtons={true}
+              pauseOnHover={false}
+            />
+            <div className={s.overlay} />
+            <div className={s.filmInfoWrapper}>
+              <FilmInfo film={film} onWatch={handleWatchFilm} />
+            </div>
+          </div>
+        </Transition>
       </div>
-    </div>
+    </>
   );
 };
 

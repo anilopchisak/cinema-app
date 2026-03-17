@@ -4,6 +4,11 @@ import favoritesApi from '@/entities/favorites/api/favorites.api';
 import { ResponseData } from '@/shared/api/api.types';
 import { FavoriteFilm } from '@/entities/favorites/types/favorites.types';
 
+/**
+ * Предзагружает список избранного на сервере.
+ * Используется для гидратации состояния на клиенте.
+ * @returns Dehydrated state для передачи в HydrationBoundary
+ */
 export async function prefetchFavorites() {
   const queryClient = new QueryClient();
   const queryKey = [FAVORITES_ENDPOINTS.base];

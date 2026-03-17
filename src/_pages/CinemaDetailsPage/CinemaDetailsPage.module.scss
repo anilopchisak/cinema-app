@@ -1,44 +1,61 @@
 .detailsPage {
-  .backButton {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    margin-bottom: 32px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: $text-primary;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3rem;
+}
 
-    .icon {
-      transform: rotate(180deg);
-    }
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: $text-primary;
+}
+
+.icon {
+  transform: rotate(180deg);
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.95) 20%, rgba(0, 0, 0, 0) 100%);
+  pointer-events: none;
+  z-index: 2;
+
+  @media (min-width: $breakpoint-lg) {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.95) 20%, rgba(0, 0, 0, 0) 100%);
   }
+}
 
-  .film {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
+.filmInfoWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 40px;
+  z-index: 3;
+  pointer-events: none;
 
-    @media (min-width: $breakpoint-lg) {
-      flex-direction: row;
-      gap: 48px;
-    }
-
-    .body {
-      max-width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-
-      @media (min-width: $breakpoint-lg) {
-        max-width: 390px;
-      }
-
-      .title {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-    }
+  > * {
+    pointer-events: auto;
+    max-width: 390px;
   }
 }

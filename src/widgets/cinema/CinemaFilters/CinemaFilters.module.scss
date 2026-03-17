@@ -8,4 +8,17 @@
 .filters {
   display: flex;
   gap: 1rem;
+  flex-direction: row;
+
+  @media (max-width: $breakpoint-lg) {
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+.button {
+  width: 100%;
+  @media (min-width: $breakpoint-lg) {
+    width: 125px;
+  }
 }

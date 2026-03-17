@@ -5,22 +5,37 @@ import SortFilter from '@/features/cinema/ui/filters/SortFilter';
 import Search from '@/features/cinema/ui/Search';
 import s from './CinemaFilters.module.scss';
 import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
+import ReleaseYearFilter from '@/features/cinema/ui/filters/ReleaseYaerFilter/ReleaseYearFilter';
+import Button from '@/shared/ui/Button';
+import { useResetFilters } from '@/entities/cinema/hooks/useResetFilters';
+import RandomVideoButton from '@/features/random-video/ui';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   params: CinemaRawParams;
 };
 
-/**
- * Блок фильтров на странице с фильмами.
- */
+/** Блок фильтров на странице с фильмами */
 export default function CinemaFilters({ params }: Props) {
+  const resetFilters = useResetFilters();
+  const { t } = useTranslation('common');
+
   return (
     <div className={s.container}>
-      <Search initSearch={params.search} />
+      <div className={s.filters}>
+        <Search initSearch={params.search} />
+        <RandomVideoButton />
+      </div>
+
       <div className={s.filters}>
         <CategoryFilter initCategories={params.category} />
+        <ReleaseYearFilter initReleaseYear={params.releaseYear} />
+        <SortFilter initSort={params.sort === 'default' ? null : params.sort} />
+
+        <Button className={s.button} onClick={resetFilters} styleType="outline">
+          {t('buttons.clear')}
+        </Button>
       </div>
-      <SortFilter initSort={params.sort === 'default' ? null : params.sort} />
     </div>
   );
 }

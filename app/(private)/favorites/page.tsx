@@ -6,6 +6,10 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import s from '@/widgets/cinema/CinemaList/CinemaList.module.scss';
+import { Suspense } from 'react';
+import CinemaListSkeleton from '@/widgets/cinema/CinemaList/skeleton';
+import Seo from '@/shared/ui/Seo';
+import { getServerTranslations } from '@/shared/i18next/server';
 
 export default async function Favorites() {
   const cookieStore = await cookies();
@@ -17,17 +21,26 @@ export default async function Favorites() {
 
   const dehydratedState = await prefetchFavorites();
 
+  const { t } = await getServerTranslations();
+
   return (
-    <div>
+    <>
+      <Seo
+        title="Избранные фильмы"
+        description="Ваш личный список избранных фильмов. Сохраняйте понравившиеся и смотрите позже."
+        keywords="избранное, закладки, сохраненные фильмы"
+        noindex
+      />
       <div className={s.sectionHeader}>
         <Text tag="h1" view="title" weight="bold">
-          Избранное
+          {t('nav.favorites')}
         </Text>
       </div>
-
-      <HydrationBoundary state={dehydratedState}>
-        <FavoritesPage />
-      </HydrationBoundary>
-    </div>
+      <Suspense fallback={<CinemaListSkeleton />}>
+        <HydrationBoundary state={dehydratedState}>
+          <FavoritesPage />
+        </HydrationBoundary>
+      </Suspense>
+    </>
   );
 }

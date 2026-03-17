@@ -1,11 +1,11 @@
-import Loader from "@/shared/ui/Loader";
-import Text from "@/shared/ui/Text";
-import cn from "classnames";
-import React from "react";
-import s from "./Button.module.scss";
+import Loader from '@/shared/ui/Loader';
+import Text from '@/shared/ui/Text';
+import cn from 'classnames';
+import React from 'react';
+import s from './Button.module.scss';
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  styleType?: "primary" | "outline" | "outline-secondary";
+  styleType?: 'primary' | 'outline' | 'outline-secondary';
   /** Состояние загрузки */
   loading?: boolean;
   /** Текст кнопки */
@@ -16,7 +16,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export default function Button({
   loading,
-  styleType = "primary",
+  styleType = 'primary',
   children,
   className,
   disabled = false,
@@ -25,15 +25,20 @@ export default function Button({
   const buttonClasses = cn(
     className,
     s.button,
-    styleType !== "primary" && s[styleType],
+    styleType !== 'primary' && s[styleType],
     disabled && s.disabled,
-    loading && s.loading,
+    loading && s.loading
   );
 
   return (
     <button className={buttonClasses} disabled={disabled || loading} {...props}>
       {loading && <Loader size="s" className={s.loader} />}
-      <Text tag="span" view="button" className={s.text}>
+      <Text
+        tag="span"
+        view="button"
+        color={styleType === 'outline' ? 'accent' : 'primary'}
+        className={s.text}
+      >
         {children}
       </Text>
     </button>

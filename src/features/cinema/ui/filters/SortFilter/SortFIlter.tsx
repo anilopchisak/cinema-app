@@ -1,65 +1,54 @@
 'use client';
 
-import MultiDropdown, { type Option } from '@/shared/ui/MultiDropdown';
-import s from '../Filter.module.scss';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { debounce } from 'lodash';
-import { useUpdateQuery } from '@/entities/cinema/hooks/useUpdateQueryString';
+import { type Option } from '@/shared/ui/MultiDropdown';
 import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
+import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
+import FilterDropdown from '@/shared/ui/FilterDropdown';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface CinemaFiltersProps {
+  /** Начальное значение сортировки */
   initSort: CinemaRawParams['sort'] | null;
 }
 
-const SORT: Option[] = [
-  { key: 'default', value: 'По умолчанию' },
-  { key: 'title:asc', value: 'По названию А -> Я' },
-  { key: 'title:desc', value: 'По названию Я -> А' },
-];
-
+/** Дропдаун сортировки */
 const SortFilter = ({ initSort }: CinemaFiltersProps) => {
-  const [selected, setSelected] = useState<Option[]>([
-    SORT.find((option) => option.key === initSort) || SORT[0],
-  ]);
+  const updateFilters = useUpdateFilters();
+  const { t } = useTranslation('common');
 
-  const getDropdownTitle = (selected: Option[]) => {
-    if (selected.length === 0) return 'Сортировка';
-    return selected.map((item) => item.value).join(', ');
+  const SORT: Option[] = useMemo(
+    () => [
+      { key: 'title:asc', value: t('sort.titleAsc') },
+      { key: 'title:desc', value: t('sort.titleDesc') },
+      { key: 'rating:asc', value: t('sort.ratingAsc') },
+      { key: 'rating:desc', value: t('sort.ratingDesc') },
+    ],
+    [t]
+  );
+
+  const initialSelected = useMemo(() => {
+    if (!initSort) return [];
+
+    const option = SORT.find((o) => o.key === initSort);
+
+    return option ? [option] : [];
+  }, [initSort]);
+
+  const handleChange = (selected: Option[]) => {
+    const sortKey = selected[0]?.key ?? 'default';
+
+    updateFilters({
+      sort: sortKey,
+    });
   };
 
-  const updateQuery = useUpdateQuery();
-
-  const onSortChange = useCallback(
-    (sort: string) => {
-      updateQuery({ sort });
-    },
-    [updateQuery]
-  );
-
-  const debouncedUpdate = useMemo(
-    () =>
-      debounce((value: Option[]) => {
-        onSortChange(value[0].key);
-      }, 700),
-    [onSortChange]
-  );
-
-  /** Обновление параметров */
-  useEffect(() => {
-    debouncedUpdate(selected);
-    return () => {
-      debouncedUpdate.cancel();
-    };
-  }, [selected, debouncedUpdate]);
-
   return (
-    <MultiDropdown
-      className={s.filter}
+    <FilterDropdown
       options={SORT}
-      value={selected}
-      onChange={setSelected}
-      getTitle={getDropdownTitle}
-      isMultiple={false}
+      initialSelected={initialSelected}
+      placeholder={t('filters.sort')}
+      onChangeFilter={handleChange}
     />
   );
 };
