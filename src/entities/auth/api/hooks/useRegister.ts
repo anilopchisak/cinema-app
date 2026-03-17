@@ -18,8 +18,5 @@ export const useRegister = () => {
       authStore.login(data.jwt);
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
-    onError: (error) => {
-      throw new Error(`${error}`);
-    },
   });
 };

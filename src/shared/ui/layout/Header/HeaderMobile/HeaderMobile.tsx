@@ -1,12 +1,16 @@
+'use client';
+
 import NavigationLink from '@/shared/ui/NavigationLink';
 import s from './HeaderMobile.module.scss';
 import { routes } from '@/shared/config/routes';
 import Image from 'next/image';
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoCloseOutline } from 'react-icons/io5';
 import AuthButton from '@/features/auth/ui/AuthButton';
+import LocaleDropdown from '@/features/change-locale/LocaleDropdown';
 
 type Props = {
   /** Флаг, авторизован ли пользователь */
@@ -17,10 +21,23 @@ type Props = {
  * При открытии блокирует прокрутку body.
  */
 const HeaderMobile = ({ isAuthenticated }: Props) => {
+  const { t } = useTranslation('common');
   const [isOpen, setIsOpen] = useState(false);
+  const burgerButtonRef = useRef<HTMLButtonElement | null>(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
 
   const open = () => setIsOpen(true);
-  const close = () => setIsOpen(false);
+  const close = () => {
+    // Prevent aria-hidden/inert issues by removing focus from menu elements before hiding.
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
+    setIsOpen(false);
+
+    // Return focus back to the burger button for accessibility.
+    requestAnimationFrame(() => burgerButtonRef.current?.focus());
+  };
 
   /** Блокировка прокрутки при открытом меню */
   useEffect(() => {
@@ -35,6 +52,18 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
     };
   }, [isOpen]);
 
+  // Make the overlay unfocusable when closed (prevents tabbing into hidden content).
+  useEffect(() => {
+    const el = overlayRef.current;
+    if (!el) return;
+
+    if (isOpen) {
+      el.removeAttribute('inert');
+    } else {
+      el.setAttribute('inert', '');
+    }
+  }, [isOpen]);
+
   /** Закрытие меню после навигации */
   const onNavigate = () => {
     close();
@@ -46,15 +75,21 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
         <button
           className={s.burgerButton}
           onClick={open}
-          aria-label="Открыть меню"
+          ref={burgerButtonRef}
+          aria-label={t('a11y.openMenu')}
           aria-expanded={isOpen}
         >
           <RxHamburgerMenu className={s.burger} />
         </button>
       </header>
 
-      <div className={cn(s.overlay, { [s.open]: isOpen })} aria-hidden={!isOpen}>
-        <button className={s.close} onClick={close} aria-label="Закрыть меню">
+      <div
+        ref={overlayRef}
+        className={cn(s.overlay, { [s.open]: isOpen })}
+        role="dialog"
+        aria-modal={isOpen}
+      >
+        <button className={s.close} onClick={close} aria-label={t('a11y.closeMenu')}>
           <IoCloseOutline className={s.icon} />
         </button>
 
@@ -63,7 +98,7 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
             <Image
               className={s.logo}
               src="/logo.png"
-              alt="Логотип"
+              alt={t('ui.logoAlt')}
               width={250}
               height={150}
               priority
@@ -78,7 +113,7 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
               className={s.tabLink}
               activeClassName={s.tabLinkActive}
             >
-              Фильмы
+              {t('nav.films')}
             </NavigationLink>
 
             {isAuthenticated && (
@@ -88,12 +123,15 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
                 className={s.iconLink}
                 activeClassName={s.iconLinkActive}
               >
-                Избранное
+                {t('nav.favorites')}
               </NavigationLink>
             )}
-
-            <AuthButton isAuthenticated={isAuthenticated} onClick={onNavigate} />
           </nav>
+
+          <div className={s.nav}>
+            <AuthButton isAuthenticated={isAuthenticated} onClick={onNavigate} />
+            <LocaleDropdown />
+          </div>
         </div>
       </div>
     </>

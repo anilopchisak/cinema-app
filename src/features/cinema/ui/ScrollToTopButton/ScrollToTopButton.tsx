@@ -4,6 +4,7 @@ import ArrowDownIcon from '@/shared/ui/icons/ArrowDownIcon/ArrowDownIcon';
 import { useEffect, useState } from 'react';
 import s from './ScrollToTopButton.module.scss';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 /** Порог прокрутки (в пикселях), после которого кнопка становится видимой */
 const SCROLL_THRESHOLD = 300;
@@ -13,6 +14,7 @@ const SCROLL_THRESHOLD = 300;
  * При клике плавно прокручивает страницу в начало.
  */
 const ScrollToTopButton = () => {
+  const { t } = useTranslation('common');
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -37,8 +39,8 @@ const ScrollToTopButton = () => {
     <button
       className={cn(s.button, { [s.active]: isVisible })}
       onClick={scrollToTop}
-      aria-label="Прокрутить вверх"
-      title="Наверх"
+      aria-label={t('a11y.scrollToTop')}
+      title={t('a11y.toTop')}
     >
       <ArrowDownIcon className={s.icon} />
     </button>

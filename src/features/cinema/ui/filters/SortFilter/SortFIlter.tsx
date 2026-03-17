@@ -5,25 +5,27 @@ import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
 import FilterDropdown from '@/shared/ui/FilterDropdown';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface CinemaFiltersProps {
   /** Начальное значение сортировки */
   initSort: CinemaRawParams['sort'] | null;
 }
 
-const SORT: Option[] = [
-  // Название
-  { key: 'title:asc', value: 'По названию (А → Я)' },
-  { key: 'title:desc', value: 'По названию (Я → А)' },
-
-  // Рейтинг
-  { key: 'rating:asc', value: 'По рейтингу (от низкого к высокому)' },
-  { key: 'rating:desc', value: 'По рейтингу (от высокого к низкому)' },
-];
-
 /** Дропдаун сортировки */
 const SortFilter = ({ initSort }: CinemaFiltersProps) => {
   const updateFilters = useUpdateFilters();
+  const { t } = useTranslation('common');
+
+  const SORT: Option[] = useMemo(
+    () => [
+      { key: 'title:asc', value: t('sort.titleAsc') },
+      { key: 'title:desc', value: t('sort.titleDesc') },
+      { key: 'rating:asc', value: t('sort.ratingAsc') },
+      { key: 'rating:desc', value: t('sort.ratingDesc') },
+    ],
+    [t]
+  );
 
   const initialSelected = useMemo(() => {
     if (!initSort) return [];
@@ -45,7 +47,7 @@ const SortFilter = ({ initSort }: CinemaFiltersProps) => {
     <FilterDropdown
       options={SORT}
       initialSelected={initialSelected}
-      placeholder="Сортировка"
+      placeholder={t('filters.sort')}
       onChangeFilter={handleChange}
     />
   );

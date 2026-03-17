@@ -4,25 +4,27 @@ import s from './NotFoundPage.module.scss';
 import { routes } from '@/shared/config/routes';
 import Link from 'next/link';
 import Seo from '@/shared/ui/Seo';
+import { getServerTranslations } from '@/shared/i18next/server';
 
-export default function NotFound() {
+export default async function NotFound() {
+  const { t } = await getServerTranslations();
   return (
     <>
       <Seo
-        title="Страница не найдена"
-        description="К сожалению, запрашиваемая страница не существует. Вернитесь на главную."
+        title={t('pages.notFoundTitle')}
+        description={t('pages.notFoundDescription')}
         noindex
       />
       <div className={s.notFoundPage}>
         <div className={s.message}>
           <Text color="primary" view="title">
-            404 - Страница не найдена :(
+            {t('pages.notFoundHeading')}
           </Text>
         </div>
 
         <div className={s.actions}>
           <Link href={routes.cinema.create()}>
-            <Button>Вернуться на главную</Button>
+            <Button>{t('buttons.goHome')}</Button>
           </Link>
         </div>
       </div>

@@ -4,11 +4,12 @@ import { getCinemaParams } from '@/entities/cinema/lib/getCinemaParams';
 import CinemaIntro from '@/widgets/cinema/CinemaIntro';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { cookies } from 'next/headers';
-import { Suspense } from 'react';
 import CinemaListSkeleton from '@/widgets/cinema/CinemaList/skeleton';
 import Seo from '@/shared/ui/Seo';
 import CinemaFilters from '@/widgets/cinema/CinemaFilters';
 import dynamic from 'next/dynamic';
+// import CinemaContent from '@/widgets/cinema/CinemaContent/CinemaContent';
+import { Suspense } from 'react';
 
 const CinemaContent = dynamic(() => import('@/widgets/cinema/CinemaContent/CinemaContent'), {
   ssr: true,
@@ -84,11 +85,11 @@ export default async function Cinema({ searchParams }: Props) {
       <CinemaIntro />
       <CinemaFilters params={params.rawParams} />
 
-      <Suspense fallback={<CinemaListSkeleton />}>
-        <HydrationBoundary state={dehydratedState}>
+      <HydrationBoundary state={dehydratedState}>
+        <Suspense fallback={<CinemaListSkeleton />}>
           <CinemaContent rawParams={params.rawParams} apiParams={params.apiParams} />
-        </HydrationBoundary>
-      </Suspense>
+        </Suspense>
+      </HydrationBoundary>
     </>
   );
 }

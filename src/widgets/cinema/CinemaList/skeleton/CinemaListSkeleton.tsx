@@ -1,13 +1,17 @@
+'use client';
+
 import Text from '@/shared/ui/Text';
 import s from '../CinemaList.module.scss';
 import CardSekeleton from '@/shared/ui/Card/skeleton';
+import { useTranslation } from 'react-i18next';
 
 const CinemaListSkeleton = () => {
+  const { t } = useTranslation('common');
   return (
     <>
       <div className={s.sectionHeader}>
         <Text tag="h2" weight="bold">
-          Все фильмы
+          {t('cinema.allMovies')}
         </Text>
       </div>
       <div className={s.filmsGrid}>

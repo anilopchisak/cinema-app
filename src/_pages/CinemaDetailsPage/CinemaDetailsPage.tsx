@@ -11,8 +11,9 @@ import { videoModalStore } from '@/features/video-modal/model/video-modal.store'
 import Transition from '@/shared/ui/Transition';
 import dynamic from 'next/dynamic';
 import { Film } from '@/entities/cinema/types/cinema.types';
-import { observer } from 'mobx-react-lite';
 import { breakpoints } from '@/shared/consts/breakpoints.consts';
+import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
 
 const Gallery = dynamic(() => import('@/shared/ui/Gallery'), {
   ssr: false,
@@ -27,9 +28,10 @@ type Props = {
 };
 
 /** Страница деталей фильма с адаптивным отображением (десктоп/мобильный) */
-const CinemaDetailsPage = observer(({ film }: Props) => {
+const CinemaDetailsPage = ({ film }: Props) => {
   const router = useRouter();
   const { open } = videoModalStore;
+  const { t } = useTranslation('common');
 
   /** Открытие модалки с трейлером при клике на кнопку "Смотреть" */
   const handleWatchFilm = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,9 +41,14 @@ const CinemaDetailsPage = observer(({ film }: Props) => {
 
   /** Определение мобильного устройства по ширине экрана */
   const isMobile = useMediaQuery({ maxWidth: breakpoints.tablet });
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   /** Для мобильных устройств рендерим отдельную версию */
-  if (isMobile) {
+  if (isMounted && isMobile) {
     return <CinemaDetailsMobile film={film} onWatch={handleWatchFilm} />;
   }
 
@@ -51,7 +58,7 @@ const CinemaDetailsPage = observer(({ film }: Props) => {
         <div>
           <button onClick={() => router.back()} className={s.backButton}>
             <ArrowRightIcon className={s.icon} />
-            <Text view="button">Назад</Text>
+            <Text view="button">{t('buttons.back')}</Text>
           </button>
         </div>
 
@@ -61,7 +68,7 @@ const CinemaDetailsPage = observer(({ film }: Props) => {
               gallery={film.gallery ?? []}
               autoPlay={true}
               autoPlayInterval={3000}
-              altPrefix="Кадр из фильма"
+              altPrefix={t('gallery.altPrefix')}
               disableButtons={true}
               pauseOnHover={false}
             />
@@ -74,6 +81,6 @@ const CinemaDetailsPage = observer(({ film }: Props) => {
       </div>
     </>
   );
-});
+};
 
 export default CinemaDetailsPage;

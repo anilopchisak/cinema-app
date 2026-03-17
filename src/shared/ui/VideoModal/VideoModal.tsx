@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ArrowRightIcon from '../icons/ArrowRightIcon/ArrowRightIcon';
 import Text from '../Text';
 import VideoPlayer from '../VideoPlayer';
+import { useTranslation } from 'react-i18next';
 
 type ModalProps = {
   /** Флаг, открыто ли модальное окно */
@@ -30,6 +31,7 @@ const VideoModal = ({
   filmUrl,
   beforeNavigate,
 }: ModalProps) => {
+  const { t } = useTranslation('common');
   if (!isOpen) return null;
 
   return (
@@ -41,7 +43,7 @@ const VideoModal = ({
             onClose();
           }}
           className={s.backButton}
-          aria-label="Назад"
+          aria-label={t('a11y.back')}
         >
           <ArrowRightIcon className={s.icon} />
         </button>

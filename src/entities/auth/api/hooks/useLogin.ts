@@ -19,8 +19,5 @@ export const useLogin = () => {
       // Инвалидируем запросы, связанные с пользователем, чтобы обновить данные
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
-    onError: (error) => {
-      throw new Error(`${error}`);
-    },
   });
 };

@@ -11,9 +11,11 @@ import { useMemo } from 'react';
 import CinemaListSkeleton from '@/widgets/cinema/CinemaList/skeleton';
 import { favoritesMapper } from '@/entities/favorites/lib/favorites.mapper';
 import Transition from '@/shared/ui/Transition';
+import { useTranslation } from 'react-i18next';
 
 /** Компонент для отображения списка избранных фильмов */
 const FavoritesContent = () => {
+  const { t } = useTranslation('common');
   const router = useRouter();
 
   /** Запрос списка избранного */
@@ -31,14 +33,14 @@ const FavoritesContent = () => {
   };
 
   if (isError) return <Text color="accent">{String(isError)}</Text>;
-  if (!isLoading && favorites?.length === 0) return <Text>Добавьте фильмы в избранное!</Text>;
+  if (!isLoading && favorites?.length === 0) return <Text>{t('favorites.empty')}</Text>;
   if (isLoading) return <CinemaListSkeleton />;
 
   return (
     <>
       <div className={s.sectionHeader}>
         <Text tag="h2" weight="bold">
-          Все фильмы
+          {t('cinema.allMovies')}
         </Text>
 
         <Text color="accent">{favorites?.length ?? '0'}</Text>

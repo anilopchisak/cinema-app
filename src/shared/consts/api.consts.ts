@@ -1,11 +1,11 @@
 export const DEFAULT_PAGE_SIZE = 9;
 
 export const ERROR_MESSAGE_LOGIN: Record<number, string> = {
-  400: 'Неверный логин или пароль.',
+  400: 'errors.invalidLoginOrPassword',
 };
 export const ERROR_MESSAGE_REGISTER: Record<number, string> = {
-  400: 'Пользователь уже существует.',
+  400: 'errors.userAlreadyExists',
 };
 
-export const DEFAULT_LOGIN_ERROR = 'Ошибка авторизации. Попробуйте позже.';
-export const DEFAULT_REGISTER_ERROR = 'Ошибка регистрации. Попробуйте позже.';
+export const DEFAULT_LOGIN_ERROR = 'errors.loginDefault';
+export const DEFAULT_REGISTER_ERROR = 'errors.registerDefault';

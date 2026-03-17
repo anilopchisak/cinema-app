@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { CinemaRawParams } from '@/entities/cinema/types/cinema.types';
 import { useUpdateFilters } from '@/entities/cinema/hooks/useUpdateFilters';
 import { debounce } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 type SearchProps = {
   /** Начальное значение при загрузке страницы */
@@ -14,6 +15,7 @@ type SearchProps = {
 /** Поисковая строка */
 const Search = ({ initSearch }: SearchProps) => {
   const [search, setSearch] = useState(initSearch ?? '');
+  const { t } = useTranslation('common');
 
   const updateFilters = useUpdateFilters();
 
@@ -41,7 +43,7 @@ const Search = ({ initSearch }: SearchProps) => {
     debouncedUpdate(newValue);
   };
 
-  return <Input value={search} onChange={handleChange} placeholder="Искать фильмы" />;
+  return <Input value={search} onChange={handleChange} placeholder={t('search.placeholder')} />;
 };
 
 export default Search;

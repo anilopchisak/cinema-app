@@ -5,9 +5,15 @@ import sOriginal from '../CinemaDetailsPage.module.scss';
 import sMobile from '../mobile/CinemaDetailsMobile.module.scss';
 import s from './CinemaDetailsSkeleton.module.scss';
 import { breakpoints } from '@/shared/consts/breakpoints.consts';
+import { useEffect, useState } from 'react';
 
 const CinemaDetailsSkeleton = () => {
   const isMobile = useMediaQuery({ maxWidth: breakpoints.tablet });
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const FilmInfoSkeleton = (
     <div className={s.filmInfo}>
       <div className={s.titleRow}>
@@ -24,7 +30,7 @@ const CinemaDetailsSkeleton = () => {
     </div>
   );
 
-  if (isMobile) {
+  if (isMounted && isMobile) {
     return (
       <div className={sMobile.mobilePage}>
         <div className={s.backButton} />

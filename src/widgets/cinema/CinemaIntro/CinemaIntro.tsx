@@ -1,20 +1,24 @@
+'use client';
+
 import Text from '@/shared/ui/Text';
 import s from './CinemaIntro.module.scss';
+import { useTranslation } from 'react-i18next';
 
 /** Заголовок страницы CinemaPage */
 const CinemaIntro = () => {
+  const { t } = useTranslation('common');
   return (
     <div className={s.intro}>
       <Text view="title" color="primary" className={s.title}>
-        Cinema
+        {t('intro.title')}
       </Text>
 
       <div className={s.description}>
         <Text view="p-20" color="secondary">
-          Подборка для вечера уже здесь: фильмы, сериалы и новинки.
+          {t('intro.line1')}
         </Text>
         <Text view="p-20" color="secondary">
-          Найди что посмотреть — за пару секунд.
+          {t('intro.line2')}
         </Text>
       </div>
     </div>

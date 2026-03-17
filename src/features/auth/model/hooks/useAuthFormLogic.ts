@@ -9,7 +9,8 @@ import {
   ERROR_MESSAGE_REGISTER,
 } from '@/shared/consts/api.consts';
 import { ApiError } from '@/shared/api/api.types';
-import { message } from '@/shared/ui/Message/message';
+import { message } from '@/shared/ui/Message';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Хук, управляющий логикой формы аутентификации (вход/регистрация).
@@ -20,6 +21,7 @@ import { message } from '@/shared/ui/Message/message';
 export const useAuthFormLogic = (mode: 'login' | 'register') => {
   const [error, setError] = useState<string>('');
   const isLogin = mode === 'login';
+  const { t } = useTranslation('common');
 
   const {
     mutateAsync: loginUser,
@@ -37,14 +39,14 @@ export const useAuthFormLogic = (mode: 'login' | 'register') => {
   const findError = (status?: number) => {
     if (!isLogin) {
       if (status && ERROR_MESSAGE_REGISTER[status]) {
-        return ERROR_MESSAGE_REGISTER[status];
+        return t(ERROR_MESSAGE_REGISTER[status]);
       }
-      return DEFAULT_REGISTER_ERROR;
+      return t(DEFAULT_REGISTER_ERROR);
     } else {
       if (status && ERROR_MESSAGE_LOGIN[status]) {
-        return ERROR_MESSAGE_LOGIN[status];
+        return t(ERROR_MESSAGE_LOGIN[status]);
       }
-      return DEFAULT_LOGIN_ERROR;
+      return t(DEFAULT_LOGIN_ERROR);
     }
   };
 
