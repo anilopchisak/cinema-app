@@ -8,7 +8,6 @@ import FilmMeta from '@/entities/cinema/ui/FilmMeta';
 import FilmStat from '@/entities/cinema/ui/FilmStat';
 import s from './CinemaCard.module.scss';
 import { videoModalStore } from '@/features/video-modal/model/video-modal.store';
-import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 
 interface CinemaCardProps {
@@ -26,7 +25,7 @@ interface CinemaCardProps {
 }
 
 /** Карточка фильма с постером, мета-информацией, кнопками избранного и просмотра */
-const CinemaCard = observer(({ film, onOpenDetail, onToggleFavorite }: CinemaCardProps) => {
+const CinemaCard = ({ film, onOpenDetail, onToggleFavorite }: CinemaCardProps) => {
   const { t } = useTranslation('common');
   const { open } = videoModalStore;
 
@@ -76,6 +75,6 @@ const CinemaCard = observer(({ film, onOpenDetail, onToggleFavorite }: CinemaCar
       }
     />
   );
-});
+};
 
 export default CinemaCard;

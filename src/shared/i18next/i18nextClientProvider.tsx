@@ -14,6 +14,7 @@ export default function I18nClientProvider({
   const [i18nInstance] = useState(() => createI18nClientInstance(locale));
 
   useEffect(() => {
+    // запуск инициализации без ожидания завершения, потому что реакт все равно перерисует компоненты после подгрузки
     void i18nInstance.changeLanguage(locale);
   }, [i18nInstance, locale]);
 

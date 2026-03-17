@@ -39,12 +39,6 @@ const FavoritesContent = () => {
   return (
     <>
       <div className={s.sectionHeader}>
-        <Text tag="h1" view="title" weight="bold">
-          {t('nav.favorites')}
-        </Text>
-      </div>
-
-      <div className={s.sectionHeader}>
         <Text tag="h2" weight="bold">
           {t('cinema.allMovies')}
         </Text>

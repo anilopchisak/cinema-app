@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Cinema"
+    "name": "CinemaКино"
   },
   "nav": {
     "films": "Movies",
@@ -81,7 +81,7 @@
     "dontWantToChoose": "Pick for me"
   },
   "intro": {
-    "title": "Cinema",
+    "title": "CinemaКино",
     "line1": "Your evening picks are here: movies, series, and new releases.",
     "line2": "Find something to watch in seconds."
   },
@@ -94,7 +94,7 @@
     "enterEmail": "Enter your email"
   },
   "favorites": {
-    "addToFavorites": "Add to favorites",
+    "addToFavorites": "Like",
     "inFavorites": "In favorites",
     "empty": "Add some movies to favorites!"
   },

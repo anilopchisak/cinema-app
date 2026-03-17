@@ -12,6 +12,24 @@
   height: 100%;
 }
 
+.desktopOnly {
+  display: contents;
+}
+
+.mobileOnly {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: contents;
+  }
+}
+
 .content {
   display: flex;
   flex-direction: row;

@@ -1,5 +1,6 @@
 'use client';
 
+import '@/shared/mobx/staticRendering';
 import QueryProvider from './query-provider';
 import { StoreProvider } from './store-provider';
 import Message from '@/shared/ui/Message';

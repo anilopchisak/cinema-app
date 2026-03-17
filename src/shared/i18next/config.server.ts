@@ -1,4 +1,8 @@
 import 'server-only';
+// гарантирует, что этот файл никогда не попадёт в клиентский бандл.
+// Если по ошибке импортировать его в клиентском компоненте,
+// сборка упадёт с ошибкой. Это важная защита от случайного
+// использования серверного кода (с fs) на клиенте.
 
 import { createInstance } from 'i18next';
 import resourcesToBackend from 'i18next-resources-to-backend';
@@ -16,6 +20,8 @@ export const createI18nServerInstance = async (language: string) => {
     })
   );
 
+  // на сервере необходимо дождаться завершения инициализации, в отличие от клиента
+  // если не дождаться инициализации, переводы могут отсутствовать.
   await instance.init({
     lng: language,
     fallbackLng: 'ru',
