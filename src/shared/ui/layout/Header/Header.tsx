@@ -65,7 +65,7 @@ const Header = ({ isAuthenticated }: Props) => {
           <Image
             className={s.logo}
             src="/logo.png"
-            alt="Логотип"
+            alt={t('ui.logoAlt')}
             width={100}
             height={50}
             priority
@@ -98,7 +98,7 @@ const Header = ({ isAuthenticated }: Props) => {
             options={languageOptions}
             value={selectedLanguage}
             onChange={handleChangeLanguage}
-            getTitle={(value) => value[0]?.value ?? 'Язык'}
+            getTitle={(value) => value[0]?.value ?? t('ui.language')}
             isMultiple={false}
           />
 

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import ArrowRightIcon from '../icons/ArrowRightIcon/ArrowRightIcon';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 interface GalleryProps {
   /** Массив изображений для галереи */
@@ -34,9 +35,12 @@ const Gallery = ({
   disableButtons = false,
   pauseOnHover = true,
 }: GalleryProps) => {
+  const { t } = useTranslation('common');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const computedAltPrefix = altPrefix === 'Кадр из фильма' ? t('gallery.altPrefix') : altPrefix;
 
   /** Переключение на следующий слайд */
   const nextSlide = useCallback(() => {
@@ -79,7 +83,7 @@ const Gallery = ({
           >
             <Image
               src={img.formats.large?.url || img.url}
-              alt={img.alternativeText || `${altPrefix} ${index + 1}`}
+              alt={img.alternativeText || `${computedAltPrefix} ${index + 1}`}
               fill
               priority={index === 0}
               className={s.image}
@@ -92,14 +96,18 @@ const Gallery = ({
           <button
             className={`${s.navBtn} ${s.prev}`}
             onClick={prevSlide}
-            aria-label="Previous slide"
+            aria-label={t('a11y.previousSlide')}
           >
             <ArrowRightIcon className={s.iconPrev} />
           </button>
         )}
 
         {!disableButtons && (
-          <button className={`${s.navBtn} ${s.next}`} onClick={nextSlide} aria-label="Next slide">
+          <button
+            className={`${s.navBtn} ${s.next}`}
+            onClick={nextSlide}
+            aria-label={t('a11y.nextSlide')}
+          >
             <ArrowRightIcon className={s.iconNext} />
           </button>
         )}

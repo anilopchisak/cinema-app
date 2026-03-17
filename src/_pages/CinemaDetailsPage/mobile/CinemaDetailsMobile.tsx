@@ -8,6 +8,7 @@ import ArrowRightIcon from '@/shared/ui/icons/ArrowRightIcon/ArrowRightIcon';
 import { useRouter } from 'next/navigation';
 import s from './CinemaDetailsMobile.module.scss';
 import Transition from '@/shared/ui/Transition';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   film: Film;
@@ -17,12 +18,13 @@ type Props = {
 /** Мобильная версия страницы с детальной информацией о фильме */
 const CinemaDetailsMobile = ({ film, onWatch }: Props) => {
   const router = useRouter();
+  const { t } = useTranslation('common');
 
   return (
     <div className={s.mobilePage}>
       <button onClick={() => router.back()} className={s.backButton}>
         <ArrowRightIcon className={s.icon} />
-        <Text view="button">Назад</Text>
+        <Text view="button">{t('buttons.back')}</Text>
       </button>
 
       <Transition>
@@ -31,7 +33,7 @@ const CinemaDetailsMobile = ({ film, onWatch }: Props) => {
             gallery={film.gallery ?? []}
             autoPlay={true}
             autoPlayInterval={3000}
-            altPrefix="Кадр из фильма"
+            altPrefix={t('gallery.altPrefix')}
             disableButtons={true}
             pauseOnHover={false}
           />

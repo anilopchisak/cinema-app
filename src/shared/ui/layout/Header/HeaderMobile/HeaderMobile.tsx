@@ -48,7 +48,7 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
         <button
           className={s.burgerButton}
           onClick={open}
-          aria-label="Открыть меню"
+          aria-label={t('a11y.openMenu')}
           aria-expanded={isOpen}
         >
           <RxHamburgerMenu className={s.burger} />
@@ -56,7 +56,7 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
       </header>
 
       <div className={cn(s.overlay, { [s.open]: isOpen })} aria-hidden={!isOpen}>
-        <button className={s.close} onClick={close} aria-label="Закрыть меню">
+        <button className={s.close} onClick={close} aria-label={t('a11y.closeMenu')}>
           <IoCloseOutline className={s.icon} />
         </button>
 
@@ -65,7 +65,7 @@ const HeaderMobile = ({ isAuthenticated }: Props) => {
             <Image
               className={s.logo}
               src="/logo.png"
-              alt="Логотип"
+              alt={t('ui.logoAlt')}
               width={250}
               height={150}
               priority

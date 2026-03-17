@@ -79,9 +79,11 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
               field.onChange(v);
               onFieldChange?.();
             }}
-            placeholder={t('auth.login')}
+            placeholder={t('auth.loginLabel')}
             showErrorMessage={true}
-            error={fieldState.error?.message || (isError ? ' ' : undefined)}
+            error={
+              fieldState.error?.message ? t(fieldState.error.message) : isError ? ' ' : undefined
+            }
             onBlur={field.onBlur}
             name={field.name}
             ref={field.ref}
@@ -100,9 +102,11 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
                 field.onChange(v);
                 onFieldChange?.();
               }}
-              placeholder="Email"
+              placeholder={t('auth.emailLabel')}
               showErrorMessage={true}
-              error={fieldState.error?.message || (isError ? ' ' : undefined)}
+              error={
+                fieldState.error?.message ? t(fieldState.error.message) : isError ? ' ' : undefined
+              }
               onBlur={field.onBlur}
               name={field.name}
               ref={field.ref}
@@ -121,10 +125,12 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
               field.onChange(v);
               onFieldChange?.();
             }}
-            placeholder="Password"
+            placeholder={t('auth.passwordLabel')}
             type="password"
             showErrorMessage={true}
-            error={fieldState.error?.message || (isError ? ' ' : undefined)}
+            error={
+              fieldState.error?.message ? t(fieldState.error.message) : isError ? ' ' : undefined
+            }
             onBlur={field.onBlur}
             name={field.name}
             ref={field.ref}
@@ -139,7 +145,7 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
           disabled={isLoading || isSubmitting}
           loading={isLoading || isSubmitting}
         >
-          {isLogin ? t('auth.login') : t('auth.register')}
+          {isLogin ? t('auth.login') : t('auth.registerAction')}
         </Button>
 
         <Link
@@ -147,7 +153,7 @@ export default function AuthForm({ mode, onSubmit, isLoading, isError, onFieldCh
           className={s.button}
         >
           <Button styleType="outline" className={s.button}>
-            {isLogin ? 'Нет аккаунта? Регистрация' : 'Есть аккаунт? Войти'}
+            {isLogin ? t('auth.noAccount') : t('auth.haveAccount')}
           </Button>
         </Link>
       </div>

@@ -7,7 +7,7 @@ export async function getServerTranslations(namespace = 'common') {
   const cookieStore = await cookies();
   const locale = cookieStore.get('NEXT_LOCALE')?.value || defaultLocale;
 
-  const i18nInstance = createI18nServerInstance(locale);
+  const i18nInstance = await createI18nServerInstance(locale);
   await i18nInstance.loadNamespaces(namespace);
 
   return {

@@ -10,14 +10,25 @@
     "login": "Войти",
     "logout": "Выйти",
     "register": "Регистрация",
-    "successLogin": "Успешный вход"
+    "successLogin": "Успешный вход",
+    "loginLabel": "Логин",
+    "emailLabel": "Эл. почта",
+    "passwordLabel": "Пароль",
+    "registerAction": "Зарегистрироваться",
+    "noAccount": "Нет аккаунта? Регистрация",
+    "haveAccount": "Есть аккаунт? Войти"
   },
   "buttons": {
     "clear": "Очистить",
     "close": "Закрыть",
     "save": "Сохранить",
     "cancel": "Отмена",
-    "loadMore": "Загрузить ещё"
+    "loadMore": "Загрузить ещё",
+    "watch": "Смотреть",
+    "tryAgain": "Попробовать снова",
+    "reloadPage": "Обновить страницу",
+    "back": "Назад",
+    "goHome": "Вернуться на главную"
   },
   "search": {
     "placeholder": "Искать фильмы"
@@ -41,6 +52,66 @@
     "removed": "Удалено!",
     "errorGeneric": "Произошла ошибка. Попробуйте позже.",
     "loginToFavorite": "Войдите в аккаунт, чтобы добавить в избранное"
+  },
+  "errors": {
+    "invalidLoginOrPassword": "Неверный логин или пароль.",
+    "userAlreadyExists": "Пользователь уже существует.",
+    "loginDefault": "Ошибка авторизации. Попробуйте позже.",
+    "registerDefault": "Ошибка регистрации. Попробуйте позже.",
+    "fieldErrorDefault": "Ошибка"
+  },
+  "a11y": {
+    "openMenu": "Открыть меню",
+    "closeMenu": "Закрыть меню",
+    "back": "Назад",
+    "scrollToTop": "Прокрутить вверх",
+    "toTop": "Наверх",
+    "previousSlide": "Предыдущий слайд",
+    "nextSlide": "Следующий слайд"
+  },
+  "ui": {
+    "logoAlt": "Логотип",
+    "language": "Язык"
+  },
+  "cinema": {
+    "allMovies": "Все фильмы",
+    "moviesNotFound": "Фильмы не найдены :("
+  },
+  "random": {
+    "dontWantToChoose": "Не хочу выбирать"
+  },
+  "intro": {
+    "title": "Cinema",
+    "line1": "Подборка для вечера уже здесь: фильмы, сериалы и новинки.",
+    "line2": "Найди что посмотреть — за пару секунд."
+  },
+  "validation": {
+    "enterLogin": "Введите логин",
+    "loginMin": "Логин должен содержать минимум 3 символа",
+    "enterPassword": "Введите пароль",
+    "passwordMin": "Пароль должен содержать минимум 6 символов",
+    "invalidEmail": "Неверный формат электронной почты",
+    "enterEmail": "Введите эл. почту"
+  },
+  "favorites": {
+    "addToFavorites": "В избранное",
+    "inFavorites": "В избранном",
+    "empty": "Добавьте фильмы в избранное!"
+  },
+  "pages": {
+    "notFoundTitle": "Страница не найдена",
+    "notFoundDescription": "К сожалению, запрашиваемая страница не существует. Вернитесь на главную.",
+    "notFoundHeading": "404 - Страница не найдена :(",
+    "errorTitle": "Ошибка",
+    "errorDescription": "Произошла ошибка при загрузке страницы. Попробуйте позже.",
+    "errorHeading": "Упс! Что-то пошло не так",
+    "errorTextPrefix": "Текст ошибки:"
+  },
+  "footer": {
+    "copyright": "© Касич Полина - 2026"
+  },
+  "gallery": {
+    "altPrefix": "Кадр из фильма"
   },
   "states": {
     "loading": "Загрузка...",

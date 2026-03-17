@@ -3,6 +3,7 @@
 import cn from 'classnames';
 import React from 'react';
 import s from './Input.module.scss';
+import { useTranslation } from 'react-i18next';
 
 export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> & {
   /** Значение поля */
@@ -35,6 +36,8 @@ export default function Input({
   ref,
   ...rest
 }: InputProps) {
+  const { t } = useTranslation('common');
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };
@@ -57,7 +60,9 @@ export default function Input({
       </label>
 
       {showErrorMessage && (
-        <span className={cn(s.errorMessage, error && s.errorVisible)}>{error || 'Ошибка'}</span>
+        <span className={cn(s.errorMessage, error && s.errorVisible)}>
+          {error || t('errors.fieldErrorDefault')}
+        </span>
       )}
     </div>
   );

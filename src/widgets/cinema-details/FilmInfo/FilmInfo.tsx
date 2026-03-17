@@ -1,3 +1,5 @@
+'use client';
+
 import { Film } from '@/entities/cinema/types/cinema.types';
 import FilmMeta from '@/entities/cinema/ui/FilmMeta';
 import FilmStat from '@/entities/cinema/ui/FilmStat';
@@ -6,6 +8,7 @@ import Text from '@/shared/ui/Text';
 import s from './FilmInfo.module.scss';
 import Button from '@/shared/ui/Button';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   /** Данные фильма */
@@ -17,6 +20,7 @@ type Props = {
 /** Компонент с подробной информацией о фильме:
  * заголовок, рейтинг, мета-данные, описание и кнопка просмотра */
 const FilmInfo = ({ film, onWatch }: Props) => {
+  const { t } = useTranslation('common');
   const metaItems = useMemo(
     () =>
       [
@@ -50,7 +54,7 @@ const FilmInfo = ({ film, onWatch }: Props) => {
       </Text>
 
       <Button className={s.button} onClick={onWatch}>
-        Смотреть
+        {t('buttons.watch')}
       </Button>
     </div>
   );

@@ -19,6 +19,7 @@ import { useRouter } from 'next/navigation';
 import { DEFAULT_PAGE_SIZE } from '@/shared/consts/api.consts';
 import { motion } from 'framer-motion';
 import { useUpdatePageInQueryClient } from '@/entities/cinema/hooks/useUpdatePageInQueryClient';
+import { useTranslation } from 'react-i18next';
 
 type CinemaListProps = {
   queryFilms: UseInfiniteQueryResult<TransformedData<Film>>;
@@ -28,6 +29,7 @@ type CinemaListProps = {
 /** Компонент для отображения сетки фильмов
  * с поддержкой бесконечной подгрузки, избранного и анимаций */
 const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) => {
+  const { t } = useTranslation('common');
   /** Реф для Intersection Observer */
   const observerRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
@@ -66,7 +68,7 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
       // Сохраняем номер страницы
       updatePageInQueryClient(nextPage);
     } catch (err) {
-      throw new Error(`Ошибка подгрузки фильмов: ${err}`);
+      throw new Error(`${t('toast.errorGeneric')}: ${err}`);
     }
   }, [films, fetchNextPage, isFetchingNextPage, hasNextPage, updatePageInQueryClient]);
 
@@ -88,14 +90,14 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
     <>
       <div className={s.sectionHeader}>
         <Text tag="h2" weight="bold">
-          Все фильмы
+          {t('cinema.allMovies')}
         </Text>
         <Text color="accent">{films?.pagination?.total ?? '0'}</Text>
       </div>
 
       {(isError || !films?.items) && <Text color="accent">{isError}</Text>}
 
-      {films?.pagination?.total === 0 && <Text>Фильмы не найдены :(</Text>}
+      {films?.pagination?.total === 0 && <Text>{t('cinema.moviesNotFound')}</Text>}
       <div className={s.filmsGrid}>
         {filmsWithFavorite &&
           filmsWithFavorite.map((item) => (

@@ -13,6 +13,7 @@ import dynamic from 'next/dynamic';
 import { Film } from '@/entities/cinema/types/cinema.types';
 import { observer } from 'mobx-react-lite';
 import { breakpoints } from '@/shared/consts/breakpoints.consts';
+import { useTranslation } from 'react-i18next';
 
 const Gallery = dynamic(() => import('@/shared/ui/Gallery'), {
   ssr: false,
@@ -30,6 +31,7 @@ type Props = {
 const CinemaDetailsPage = observer(({ film }: Props) => {
   const router = useRouter();
   const { open } = videoModalStore;
+  const { t } = useTranslation('common');
 
   /** Открытие модалки с трейлером при клике на кнопку "Смотреть" */
   const handleWatchFilm = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -51,7 +53,7 @@ const CinemaDetailsPage = observer(({ film }: Props) => {
         <div>
           <button onClick={() => router.back()} className={s.backButton}>
             <ArrowRightIcon className={s.icon} />
-            <Text view="button">Назад</Text>
+            <Text view="button">{t('buttons.back')}</Text>
           </button>
         </div>
 
@@ -61,7 +63,7 @@ const CinemaDetailsPage = observer(({ film }: Props) => {
               gallery={film.gallery ?? []}
               autoPlay={true}
               autoPlayInterval={3000}
-              altPrefix="Кадр из фильма"
+              altPrefix={t('gallery.altPrefix')}
               disableButtons={true}
               pauseOnHover={false}
             />

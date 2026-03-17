@@ -10,14 +10,25 @@
     "login": "Sign in",
     "logout": "Sign out",
     "register": "Sign up",
-    "successLogin": "Signed in successfully"
+    "successLogin": "Signed in successfully",
+    "loginLabel": "Username",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "registerAction": "Create account",
+    "noAccount": "No account? Sign up",
+    "haveAccount": "Already have an account? Sign in"
   },
   "buttons": {
     "clear": "Clear",
     "close": "Close",
     "save": "Save",
     "cancel": "Cancel",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "watch": "Watch",
+    "tryAgain": "Try again",
+    "reloadPage": "Reload page",
+    "back": "Back",
+    "goHome": "Back to home"
   },
   "search": {
     "placeholder": "Search movies"
@@ -41,6 +52,66 @@
     "removed": "Removed!",
     "errorGeneric": "Something went wrong. Please try again later.",
     "loginToFavorite": "Sign in to add to favorites"
+  },
+  "errors": {
+    "invalidLoginOrPassword": "Invalid username or password.",
+    "userAlreadyExists": "User already exists.",
+    "loginDefault": "Sign in failed. Please try again later.",
+    "registerDefault": "Sign up failed. Please try again later.",
+    "fieldErrorDefault": "Error"
+  },
+  "a11y": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "back": "Back",
+    "scrollToTop": "Scroll to top",
+    "toTop": "To top",
+    "previousSlide": "Previous slide",
+    "nextSlide": "Next slide"
+  },
+  "ui": {
+    "logoAlt": "Logo",
+    "language": "Language"
+  },
+  "cinema": {
+    "allMovies": "All movies",
+    "moviesNotFound": "No movies found :("
+  },
+  "random": {
+    "dontWantToChoose": "Pick for me"
+  },
+  "intro": {
+    "title": "Cinema",
+    "line1": "Your evening picks are here: movies, series, and new releases.",
+    "line2": "Find something to watch in seconds."
+  },
+  "validation": {
+    "enterLogin": "Enter your username",
+    "loginMin": "Username must be at least 3 characters",
+    "enterPassword": "Enter your password",
+    "passwordMin": "Password must be at least 6 characters",
+    "invalidEmail": "Invalid email address",
+    "enterEmail": "Enter your email"
+  },
+  "favorites": {
+    "addToFavorites": "Add to favorites",
+    "inFavorites": "In favorites",
+    "empty": "Add some movies to favorites!"
+  },
+  "pages": {
+    "notFoundTitle": "Page not found",
+    "notFoundDescription": "The page you are looking for doesn't exist. Go back to the home page.",
+    "notFoundHeading": "404 - Page not found :(",
+    "errorTitle": "Error",
+    "errorDescription": "An error occurred while loading the page. Please try again later.",
+    "errorHeading": "Oops! Something went wrong",
+    "errorTextPrefix": "Error text:"
+  },
+  "footer": {
+    "copyright": "© Polina Kasich — 2026"
+  },
+  "gallery": {
+    "altPrefix": "Movie still"
   },
   "states": {
     "loading": "Loading...",

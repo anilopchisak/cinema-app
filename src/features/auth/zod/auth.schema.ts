@@ -4,16 +4,16 @@ import { z } from 'zod';
 export const loginSchema = z.object({
   login: z
     .string()
-    .min(1, { message: 'Введите логин' })
-    .min(3, { message: 'Логин должен содержать минимум 3 символа' }),
+    .min(1, { message: 'validation.enterLogin' })
+    .min(3, { message: 'validation.loginMin' }),
   password: z
     .string()
-    .min(1, { message: 'Введите пароль' })
-    .min(6, { message: 'Пароль должен содержать минимум 6 символов' }),
+    .min(1, { message: 'validation.enterPassword' })
+    .min(6, { message: 'validation.passwordMin' }),
 });
 
 export const registerSchema = loginSchema.extend({
   email: z
-    .email({ message: 'Неверный формат электронной почты' })
-    .min(1, { message: 'Введите эл. почту' }),
+    .email({ message: 'validation.invalidEmail' })
+    .min(1, { message: 'validation.enterEmail' }),
 });

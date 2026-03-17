@@ -9,6 +9,7 @@ import FilmStat from '@/entities/cinema/ui/FilmStat';
 import s from './CinemaCard.module.scss';
 import { videoModalStore } from '@/features/video-modal/model/video-modal.store';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 
 interface CinemaCardProps {
   /** Данные фильма с информацией о нахождении в избранном */
@@ -26,6 +27,7 @@ interface CinemaCardProps {
 
 /** Карточка фильма с постером, мета-информацией, кнопками избранного и просмотра */
 const CinemaCard = observer(({ film, onOpenDetail, onToggleFavorite }: CinemaCardProps) => {
+  const { t } = useTranslation('common');
   const { open } = videoModalStore;
 
   /** Обработчик клика по кнопке избранного, вызывает onToggleFavorite с параметрами фильма */
@@ -60,9 +62,9 @@ const CinemaCard = observer(({ film, onOpenDetail, onToggleFavorite }: CinemaCar
             onClick={handleToggleFavorite}
             styleType={film.isFavorite ? 'outline' : 'outline-secondary'}
           >
-            {film.isFavorite ? 'В избранном' : 'В избранное'}
+            {film.isFavorite ? t('favorites.inFavorites') : t('favorites.addToFavorites')}
           </Button>
-          <Button onClick={handleWatchFilm}>Смотреть</Button>
+          <Button onClick={handleWatchFilm}>{t('buttons.watch')}</Button>
         </div>
       }
       onClick={() => onOpenDetail(film.documentId)}
