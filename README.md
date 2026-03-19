@@ -3,7 +3,7 @@
 **CinemaКино** — современный веб-сервис для поиска, фильтрации и просмотра фильмов.
 
 🌐 **Демо**:
-[cinema-app-gold.vercel.app](https://cinema-164g75fqn-anilopchisaks-projects.vercel.app/cinema)  
+[cinema-app-gold.vercel.app](https://cinema-guvb1gv3t-anilopchisaks-projects.vercel.app)  
 📦 **Версия на чистом React (Strapi)**:
 [github.com/anilopchisak/cinema-strapi](https://github.com/anilopchisak/cinema-strapi)
 
