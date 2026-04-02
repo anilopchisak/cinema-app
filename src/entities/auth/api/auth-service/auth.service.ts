@@ -17,7 +17,6 @@ const authService = {
         ...getAuthHeaders(),
       },
       body: JSON.stringify(payload),
-      cache: 'no-store',
     });
 
     const data = await response.json();
@@ -46,7 +45,6 @@ const authService = {
         ...getAuthHeaders(),
       },
       body: JSON.stringify(payload),
-      cache: 'no-store',
     });
 
     const data = await response.json();
