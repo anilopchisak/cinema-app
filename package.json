@@ -36,6 +36,11 @@
     "sass": "^1.97.3",
     "zod": "^4.3.6"
   },
+  "browserslist": [
+    ">0.3%",
+    "not ie 11",
+    "not dead"
+  ],
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/js-cookie": "^3.0.6",

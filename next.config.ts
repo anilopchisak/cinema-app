@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
         hostname: 'front-school.minio.ktsdev.ru',
       },
     ],
+    formats: ['image/avif', 'image/webp'],
   },
 };
 

@@ -85,7 +85,6 @@ const Gallery = ({
               src={img.formats.large?.url || img.url}
               alt={img.alternativeText || `${computedAltPrefix} ${index + 1}`}
               fill
-              priority={index === 0}
               className={s.image}
               sizes="(max-width: 1200px) 100vw, 1200px"
             />

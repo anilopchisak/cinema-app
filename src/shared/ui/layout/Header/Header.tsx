@@ -42,7 +42,6 @@ const Header = ({ isAuthenticated }: Props) => {
                 width={100}
                 height={50}
                 priority
-                unoptimized
               />
             </NavigationLink>
 
