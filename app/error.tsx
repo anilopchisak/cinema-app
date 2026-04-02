@@ -1,6 +1,5 @@
 'use client';
 
-import Seo from '@/shared/ui/Seo';
 import Button from '@/shared/ui/Button';
 import Text from '@/shared/ui/Text';
 import s from './ErrorPage.module.scss';
@@ -16,11 +15,6 @@ export default function Error({ error, reset }: Props) {
 
   return (
     <>
-      <Seo
-        title={`${t('pages.errorTitle')} ${error || 'на сервере'}`}
-        description={t('pages.errorDescription')}
-        noindex
-      />
       <div className={s.errorPage}>
         <div className={s.message}>
           <Text color="primary" view="title" tag="h2">

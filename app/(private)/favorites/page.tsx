@@ -8,8 +8,17 @@ import { redirect } from 'next/navigation';
 import s from '@/widgets/cinema/CinemaList/CinemaList.module.scss';
 import { Suspense } from 'react';
 import CinemaListSkeleton from '@/widgets/cinema/CinemaList/skeleton';
-import Seo from '@/shared/ui/Seo';
 import { getServerTranslations } from '@/shared/i18next/server';
+import type { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Избранные фильмы | CinemaКино',
+    description: 'Ваш личный список избранных фильмов. Сохраняйте понравившиеся и смотрите позже.',
+    keywords: 'избранное, закладки, сохраненные фильмы',
+    robots: 'noindex',
+  };
+}
 
 export default async function Favorites() {
   const cookieStore = await cookies();
@@ -25,12 +34,6 @@ export default async function Favorites() {
 
   return (
     <>
-      <Seo
-        title="Избранные фильмы"
-        description="Ваш личный список избранных фильмов. Сохраняйте понравившиеся и смотрите позже."
-        keywords="избранное, закладки, сохраненные фильмы"
-        noindex
-      />
       <div className={s.sectionHeader}>
         <Text tag="h1" view="title" weight="bold">
           {t('nav.favorites')}
