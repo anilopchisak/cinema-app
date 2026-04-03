@@ -85,18 +85,6 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
     router.push(routes.cinemaDetails.create(documentId), { scroll: true });
   };
 
-  // Performance monitoring
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     performance.mark('cinema-list-render-end');
-  //     performance.measure(
-  //       'cinema-list-render-time',
-  //       'cinema-list-render-start',
-  //       'cinema-list-render-end'
-  //     );
-  //   }
-  // });
-
   return (
     <>
       <div className={s.sectionHeader}>
