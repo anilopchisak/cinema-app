@@ -23,6 +23,8 @@ export type CardProps = {
   actionSlot?: React.ReactNode;
   /** Слот для мета-информации (рейтинг и т.д.) */
   metaSlot?: React.ReactNode;
+  /** Приоритет загрузки изображения для LCP */
+  priority?: boolean;
 };
 
 const Card = ({
@@ -35,6 +37,7 @@ const Card = ({
   onClick,
   actionSlot,
   metaSlot,
+  priority = false,
 }: CardProps) => {
   return (
     <div className={cn(s.card, className)} onClick={onClick}>
@@ -45,6 +48,7 @@ const Card = ({
           alt={`${title}_img`}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority={priority}
         />
       </div>
 

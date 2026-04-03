@@ -22,10 +22,17 @@ interface CinemaCardProps {
     id: string,
     isFavorite?: boolean
   ) => void;
+  /** Приоритет загрузки изображения */
+  priority?: boolean;
 }
 
 /** Карточка фильма с постером, мета-информацией, кнопками избранного и просмотра */
-const CinemaCard = ({ film, onOpenDetail, onToggleFavorite }: CinemaCardProps) => {
+const CinemaCard = ({
+  film,
+  onOpenDetail,
+  onToggleFavorite,
+  priority = false,
+}: CinemaCardProps) => {
   const { t } = useTranslation('common');
   const { open } = videoModalStore;
 
@@ -73,6 +80,7 @@ const CinemaCard = ({ film, onOpenDetail, onToggleFavorite }: CinemaCardProps) =
           {film.duration && <FilmStat className={s.duration} duration={film.duration} />}
         </>
       }
+      priority={priority}
     />
   );
 };

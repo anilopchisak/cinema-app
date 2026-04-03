@@ -3,7 +3,7 @@
 import type { UseInfiniteQueryResult, UseQueryResult } from '@tanstack/react-query';
 import s from './CinemaList.module.scss';
 import Text from '@/shared/ui/Text';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import { routes } from '@/shared/config/routes';
 import Loader from '@/shared/ui/Loader';
 import type { Film } from '@/entities/cinema/types/cinema.types';
@@ -17,7 +17,6 @@ import useFilmsWithFavorites from '@/entities/cinema/model/useFilmsWithFavorites
 import useToggleFavorite from '@/features/favorites/hooks/useToggleFavorite';
 import { useRouter } from 'next/navigation';
 import { DEFAULT_PAGE_SIZE } from '@/shared/consts/api.consts';
-import { motion } from 'framer-motion';
 import { useUpdatePageInQueryClient } from '@/entities/cinema/hooks/useUpdatePageInQueryClient';
 import { useTranslation } from 'react-i18next';
 
@@ -86,6 +85,18 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
     router.push(routes.cinemaDetails.create(documentId), { scroll: true });
   };
 
+  // Performance monitoring
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     performance.mark('cinema-list-render-end');
+  //     performance.measure(
+  //       'cinema-list-render-time',
+  //       'cinema-list-render-start',
+  //       'cinema-list-render-end'
+  //     );
+  //   }
+  // });
+
   return (
     <>
       <div className={s.sectionHeader}>
@@ -100,20 +111,15 @@ const CinemaList = observer(({ queryFilms, queryFavorites }: CinemaListProps) =>
       {films?.pagination?.total === 0 && <Text>{t('cinema.moviesNotFound')}</Text>}
       <div className={s.filmsGrid}>
         {filmsWithFavorite &&
-          filmsWithFavorite.map((item) => (
-            <motion.div
-              key={item.documentId}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
-            >
+          filmsWithFavorite.map((item, index) => (
+            <div key={item.documentId} className={s.cardWrapper}>
               <CinemaCard
-                key={item.documentId}
                 film={item}
                 onOpenDetail={openDetail}
                 onToggleFavorite={toggleFavorite}
+                priority={index < 3} // Priority for first 3 images for LCP
               />
-            </motion.div>
+            </div>
           ))}
       </div>
 

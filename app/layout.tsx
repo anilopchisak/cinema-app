@@ -39,6 +39,15 @@ export default async function RootLayout({
   const { t, locale } = await getServerTranslations();
   return (
     <html lang={locale}>
+      <head>
+        <link
+          rel="preload"
+          href="/fonts/roboto.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className={roboto.variable}>
         <Providers>
           <MainLayout>
