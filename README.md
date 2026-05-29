@@ -43,8 +43,6 @@
 - **Стилизация**:
   - [Sass (SCSS)](https://sass-lang.com/) — модульные стили
   - [classnames](https://github.com/JedWatson/classnames) — условное объединение классов
-- **Анимации**:
-  - [Framer Motion 12](https://www.framer.com/motion/)
 - **UI-кит**:
   - [react-icons](https://react-icons.github.io/react-icons/) — иконки
   - [react-toastify](https://fkhadra.github.io/react-toastify/) — уведомления
